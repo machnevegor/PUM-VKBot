@@ -9,159 +9,153 @@
 # 3-arseny.karimov@gmail.com
 # 4-mihailmarkov2004@gmail.com
 
-import vk_api
-import random
-import time
-import json
+# import main modules
+import vk_api as vk_api
+from vk_api.bot_longpoll import VkBotLongPoll, VkBotEventType
+import json as json
+from random import randint as randint
+# import other modules
+from configurationFile import BotConfig as BotConfig
+from workWithExcelFile import ExcelSearcher as ExcelSearcher
 
-token = '0ecle18741fd31e68fdd900a050g1bf5ee52b104f480e47297934c931eb81137689fe71a473f80e6a2345'
+# system arrays
+id_array = []
+buttons_back = ["здравствуй", "привет", "хай", "куку", "ку", "салам", "саламалейкум", "здарова", "дыдова", "начать",
+                "главное меню", "меню", "плитки", "клавиатура", "назад", "hello", "hey", "hi", "qq", "q", "start",
+                "main menu", "menu", "tiles", "keyboard", "back"]
+# auxiliary arrays
+ru_greetings_bot = ["Здравствуй", "Привет", "Хай", "Ку", "Салам", "Здарова", "Дыдова"]
+eng_greetings_bot = ["Hello", "Hey", "Hi", "Qq", "Q"]
 
-vk = vk_api.VkApi(token=token)
 
-vk._auth_token()
-
-
-def get_button(label, color, payload=''):
+# major fuctions
+def get_button(label, color, payload=""):
     return {
         "action": {
-            'type': 'text',
-            'payload': json.dumps(payload),
-            'label': label
-
+            "type": "text",
+            "payload": json.dumps(payload),
+            "label": label
         },
-        'color': color
-
+        "color": color
     }
 
 
-# Main menu
-keyboard = {
-    'one_time': False,
-    'buttons': [
-        [
-            get_button(label='Погода', color='positive'),
-            get_button(label='Уроки', color='primary')
-        ]
+def write_msg(id, message, keyboard=None, sticker_id=None):
+    vk.method("messages.send", {"peer_id": id, "sticker_id": sticker_id, "message": message, "keyboard": keyboard,
+                                "random_id": randint(1, 100000000)})
+
+
+def writeinconv(id, message, sticker_id=None):
+    vk.method("messages.send", {"peer_id": id, "sticker_id": sticker_id, "message": message, "sticker_id": sticker_id,
+                                "random_id": randint(1, 100000000)})
+
+
+# keyboards settings
+main_keyboard = {
+    "one_time": False,
+    "buttons": [
+        [get_button(label="Учебники", color="positive"),
+         get_button(label="Расписание", color="positive")]
     ]
 }
-keyboard1 = {
-    'one_time': False,
-    'buttons': [
 
-        [get_button(label='Понедельник', color='positive'),
-         get_button(label='Вторник', color='primary')],
-        [get_button(label='Среда', color='primary'),
-         get_button(label='Четверг', color='positive')],
-        [get_button(label='Пятница', color='positive'),
-         get_button(label='Суббота', color='primary')],
-        [get_button(label='Назад', color='secondary')]
-
+schedules_keyboard = {
+    "one_time": False,
+    "buttons": [
+        [get_button(label="Звонков", color="primary"),
+         get_button(label="Уроков", color="positive")],
     ]
 }
-keyboard = json.dumps(keyboard, ensure_ascii=False).encode('utf-8')
-keyboard = str(keyboard.decode('utf-8'))
-keyboard1 = json.dumps(keyboard1, ensure_ascii=False).encode('utf-8')
-keyboard1 = str(keyboard1.decode('utf-8'))
-while True:
-    owm = pyowm.OWM('5c1e4eb39849b5315ae8376ba2a8a44e')
-    obs = owm.weather_manager().weather_at_place('Moscow')
-    w = obs.weather
-    temp = w.temperature('celsius')['temp']
-    status = w.status
 
-    try:
+lessons_keyboard = {
+    "one_time": False,
+    "buttons": [
+        [get_button(label="Понедельник", color="positive"),
+         get_button(label="Вторник", color="positive"),
+         get_button(label="Среда", color="positive")],
+        [get_button(label="Четверг", color="positive"),
+         get_button(label="Пятница", color="positive"),
+         get_button(label="Суббота", color="positive")],
+        [get_button(label="Назад", color="secondary")],
+    ]
+}
 
-        messages = vk.method('messages.getConversations', {'offset': 0, 'count': 20, 'filter': 'unanswered'})
-        if messages['count'] >= 1:
-            id = messages['items'][0]['last_message']['from_id']
-            body = messages['items'][0]['last_message']['text']
+# vk connect
+vk = vk_api.VkApi(token=BotConfig.BotToken)
+vk._auth_token()
+vk.get_api()
 
-            if body.lower() == 'привет' or body.lower() == 'назад':
-                vk.method('messages.send', {'peer_id': id, 'message': 'Дарова, епта, че надо', 'keyboard': keyboard,
-                                            'random_id': random.randint(1, 231321321)})
-            elif body.lower() == 'уроки':
-                vk.method('messages.send', {'peer_id': id, 'message': 'ну выбирай, хуль', 'keyboard': keyboard1,
-                                            'random_id': random.randint(1, 231321321)})
-            elif body.lower() == 'понедельник':
-                vk.method('messages.send', {'peer_id': id, 'sticker_id': 89, 'random_id': random.randint(1, 231321321)})
-                vk.method('messages.send', {'peer_id': id, 'message': '''
-				🌚\n1-2: Английский, каб303
-				🌝\n3-4: Информатика, каб501
-				🌚\n5-6: Геометрия, каб403
-				🌝\n7-8: Физика, каб308 ''', 'random_id': random.randint(1, 231321321)})
-            elif body.lower() == 'вторник':
-                vk.method('messages.send', {'peer_id': id, 'message': 'У тебя все хорошо? Может к врачу сгоняешь?',
-                                            'random_id': random.randint(1, 2312312321)})
-            elif body.lower() == 'нет' or body.lower() == 'да' or 'схожу' in body.lower() or 'пойду' in body.lower():
-                vk.method('messages.send',
-                          {'peer_id': id, 'message': 'Ну вот и пиздуй', 'random_id': random.randint(1, 2312312321)})
-            elif body.lower() == 'среда':
-                vk.method('messages.send', {'peer_id': id, 'message': '''
-				1-2: Литература, каб203
-				🛠⚙🛠⚙🎵
-				3: Химия, каб 208
-				🆘u
-				4-5: Алгебра, каб403
-				ya 🆘y
-				6-7: Геометрия, каб204
-				🇺🇦🇺🇦❤🇷🇺🇷🇺
-				8: ♿ Физра ♿
-				''', 'random_id': random.randint(1, 2312312321)})
-            elif body.lower() == 'четверг':
-                vk.method('messages.send', {'peer_id': id, 'message': '''
-				1: ♿Физра♿
-				2: 🔞Английский🔞, каб203
-				3-4:⚠Информатика⚠,\n каб501
-				5: ♂ Окно ♂
-				6: ❇Биология❇\n 	каб407
-				7-8: ✅Алгебра✅\n 	каб403\n🅿❗🆘 for 🆓
-				''', 'random_id': random.randint(1, 2312312321)})
-            elif body.lower() == 'пятница':
-                vk.method('messages.send', {'peer_id': id, 'message': '''
-				1-2: 🤤CHILL🤤
-				3-4: 🗿Русский язык🗿\n каб405
-				5-6: 🆓История🆓\n каб204
-			7:🤡Обществознание🤡\n каб204
-				''', 'random_id': random.randint(1, 2312312321)})
-            elif body.lower() == 'суббота':
-                vk.method('messages.send',
-                          {'peer_id': id, 'sticker_id': 163, 'random_id': random.randint(1, 2147483647)})
-                vk.method('messages.send', {'peer_id': id, 'message': '''
-				1. ♿Физра♿
-				2. ♂ Окно ♂
-				3. 📵ОБЖ📵\n каб 404
-				4-5: ♂ Окно ♂
-				6-7: 🌝Физика🌚\n каб308
-				''', 'random_id': random.randint(1, 2147483647)})
-            elif body.lower() == 'погода':
-                vk.method('messages.send', {'peer_id': id,
-                                            'message': 'Ну щас тут значт ♂' + str(status) + '♂, а также ' + str(
-                                                round(temp)) + '°C', 'random_id': random.randint(1, 2147483647)})
-            elif body.lower() == 'создатель':
-                vk.method('messages.send', {'peer_id': id, 'message': '@id222338543 (♂хто я♂)',
-                                            'random_id': random.randint(1, 2147483647)})
-            elif body.lower() == 'звонки':
-                vk.method('messages.send', {'peer_id': id, 'message': '''
-				1. 9:00 - 9:45
-				2. 9:50 - 10:35
-				3. 10:45 - 11:30
-				4. 11:50 - 12:35
-				5. 12:45 - 13:30
-				6. 13:40 - 14:25
-				7. 14:45 - 15:30
-				8. 15:40 - 16:25
-				9. 16:30 - 17:15
-				10. 17:20 - 18:05''', 'random_id': random.randint(1, 2147483647)})
+# json
+main_keyboard = json.dumps(main_keyboard, ensure_ascii=False).encode("utf-8")
+main_keyboard = str(main_keyboard.decode("utf-8"))
+schedules_keyboard = json.dumps(schedules_keyboard, ensure_ascii=False).encode("utf-8")
+schedules_keyboard = str(schedules_keyboard.decode("utf-8"))
+lessons_keyboard = json.dumps(lessons_keyboard, ensure_ascii=False).encode("utf-8")
+lessons_keyboard = str(lessons_keyboard.decode("utf-8"))
 
+# response logic
+for event in longpoll.listen():
+    # processing a new message
+    if event.type == VkBotEventType.MESSAGE_NEW:
+        # if the request is from in private messages
+        if event.object.peer_id == event.object.from_id:
+            # if this user is not already in the database
+            if event.object.peer_id not in id_array:
+                id_array.append(event.object.peer_id)
+            # if the back buttons are pressed
+            if event.object.text.lower() in buttons_back:
+                # greetings and jump to main menu
+                if event.object.text.lower() in ru_greetings_bot:
+                    response_randomizer = randint(0, len(VariationPhrases.ru_greetings_bot) - 1)
+                    response_word = VariationPhrases.ru_greetings_bot[response_randomizer]
+                    get_user_name = vk.method("users.get", {"user_ids": event.object.peer_id})[0]["first_name"]
+                    write_msg(event.object.peer_id, f"{response_word}, {str(get_user_name)}!", keyboard=main_keyboard)
+                elif event.object.text.lower() in ["hello", "hey", "hi", "qq", "q"]:
+                    response_randomizer = randint(0, len(VariationPhrases.eng_greetings_bot) - 1)
+                    response_word = VariationPhrases.eng_greetings_bot[response_randomizer]
+                    get_user_name = vk.method("users.get", {"user_ids": event.object.peer_id})[0]["first_name"]
+                    write_msg(event.object.peer_id, f"{response_word}, {str(get_user_name)}!", keyboard=main_keyboard)
+                # only jump to main menu
+                else:
+                    write_msg(event.object.peer_id, "Главное меню👌", keyboard=main_keyboard)
+            # processing tile clicks
+            elif event.object.text.lower() == "расписание":
+                write_msg(event.object.peer_id, 'Ок, только выбери какое🖖', keyboard=schedules_keyboard)
+            elif event.object.text.lower() == "звонков":
+                write_msg(event.object.peer_id,
+                          "Расписание звонков:\n1. 9:00 - 9:45\n2. 9:50 - 10:35\n3. 10:45 - 11:30\n4. 11:50 - 12:35\n5. 12:45 - 13:30\n6. 13:40 - 14:25\n7. 14:45 - 15:30\n8. 15:40 - 16:25\n9. 16:30 - 17:15\n10. 17:20 - 18:05")
+            elif event.object.text.lower() == "уроков":
+                write_msg(event.object.peer_id, 'Такс, выбери день🗓', keyboard=lessons_keyboard)
+            elif event.object.text.lower() == "понедельник":
+                ExcelSearcher.selective_data_search(excel_source="excelDatabase/10class/10_3class.xlsx",
+                                                    columns=["A", "B"],
+                                                    start_data="Понедельник", end_data="None")
+                write_msg(event.object.peer_id, ExcelSearcher.output_day_schedule, keyboard=main_keyboard)
+            elif event.object.text.lower() == "вторник":
+                write_msg(event.object.peer_id, "Кхм, у 10 классов сегодня технопарк, поэтому смотри сам🕶",
+                          keyboard=main_keyboard)
+            elif event.object.text.lower() == "среда":
+                ExcelSearcher.selective_data_search(excel_source="excelDatabase/10class/10_3class.xlsx",
+                                                    columns=["A", "B"],
+                                                    start_data="Среда", end_data="None")
+                write_msg(event.object.peer_id, ExcelSearcher.output_day_schedule, keyboard=main_keyboard)
+            elif event.object.text.lower() == "четверг":
+                ExcelSearcher.selective_data_search(excel_source="excelDatabase/10class/10_3class.xlsx",
+                                                    columns=["A", "B"],
+                                                    start_data="Четверг", end_data="None")
+                write_msg(event.object.peer_id, ExcelSearcher.output_day_schedule, keyboard=main_keyboard)
+            elif event.object.text.lower() == "пятница":
+                ExcelSearcher.selective_data_search(excel_source="excelDatabase/10class/10_3class.xlsx",
+                                                    columns=["A", "B"],
+                                                    start_data="Пятница", end_data="None")
+                write_msg(event.object.peer_id, ExcelSearcher.output_day_schedule, keyboard=main_keyboard)
+            elif event.object.text.lower() == "суббота":
+                ExcelSearcher.selective_data_search(excel_source="excelDatabase/10class/10_3class.xlsx",
+                                                    columns=["A", "B"],
+                                                    start_data="Суббота", end_data="None")
+                write_msg(event.object.peer_id, ExcelSearcher.output_day_schedule, keyboard=main_keyboard)
             else:
-
-                vk.method('messages.send',
-                          {'peer_id': id, 'message': 'соси', 'random_id': random.randint(1, 2147483647)})
-
-
-
-    except Exception as E:
-        time.sleep(0.5)
+                write_msg(event.object.peer_id, "Ты точно команду написал:/", keyboard=main_keyboard)
 
 # Authors of the project:
 # 1-MachnevEgor_https://vk.com/machnev_egor
