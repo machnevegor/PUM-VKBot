@@ -10,6 +10,7 @@
 @: 4-mihailmarkov2004@gmail.com
 
 pip install vk_api
+pip install openpyxl
 
 @: Authors of the project:
 @: 1-MachnevEgor_https://vk.com/machnev_egor
