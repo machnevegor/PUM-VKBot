@@ -9,7 +9,7 @@
 @: 3-arseny.karimov@gmail.com
 @: 4-mihailmarkov2004@gmail.com
 
-pip install vk_api
+pip install vk-api
 pip install openpyxl
 
 @: Authors of the project:
