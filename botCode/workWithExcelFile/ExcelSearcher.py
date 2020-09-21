@@ -42,11 +42,14 @@ def selective_data_search(excel_source, columns, start_data, end_data):
                     break
                 # writing the necessary information to separate arrays
                 lessons_output_data_array.append(lessons_data_array[quantity_recording_data + quantity_checks + 1])
-                cabinets_output_data_array.append(cabinets_data_array[quantity_recording_data + quantity_checks + 1])
+                if cabinets_data_array[quantity_recording_data + quantity_checks + 1] == "None":
+                    cabinets_output_data_array.append("Узнавать у классного руководителя")
+                else:
+                    cabinets_output_data_array.append(cabinets_data_array[quantity_recording_data + quantity_checks + 1])
     # the preparation of a reply
     for quantity_transfers in range(len(lessons_output_data_array)):
         output_day_schedule.append(
-            f"{lessons_output_data_array[quantity_transfers]}({cabinets_output_data_array[quantity_transfers]})")
+            f"{quantity_transfers + 1}. {lessons_output_data_array[quantity_transfers]}({cabinets_output_data_array[quantity_transfers]})")
     output_day_schedule = "\n".join(output_day_schedule)
 
 # Authors of the project:
