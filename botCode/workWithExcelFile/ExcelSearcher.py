@@ -27,7 +27,7 @@ def selective_data_search(excel_source, columns, extra_cells, start_data, end_da
         output_day_schedule = "Расписание не найдено - попробуй заново😳"
     else:
         # sending data to the terminal
-        print(f"Schedule source: {excel_source}({columns}, {start_data}, {end_data})")
+        print(f"Schedule source: {excel_source}({columns}, {extra_cells}, {start_data}, {end_data})")
         # open excel file
         excel_document = openpyxl.load_workbook(excel_source)
         # days - import data from a graph and transfer it to a separate array

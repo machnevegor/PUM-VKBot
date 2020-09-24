@@ -17,18 +17,19 @@ from random import randint as randint
 import datetime as datetime
 # import other modules
 from configurationFile import BotConfig as BotConfig
+from dataProcessing import SourcesProtection
 from workWithExcelFile import ExcelSearcher as ExcelSearcher
 
 # system arrays
 groups_id_array = ["187254286"]
 users_id_array = []
 # excel source variable
-source_protection = bool(False)
+sources_protection = []
 excel_source = ""
 columns = []
 # information about developers
 about_bot = [
-    "Данного бота по фану запили рандомные челики из ПУМа. Этот бот отличается от всех других тем, что импортирует всю информацию из базы данных школы, а не тупо по написанным строкам разработчиков. Бот продуман, но не идеален, поэтому все вопросы можете задавать в личку создателям, которых вы можете найти через информацию о сообществе, к которому прикреплён бот. Также хочется напомнить, что у нас есть discord сервер для разработчиков, на котором вы сможете найти себе команду для проекта, узнать что-то новое или присоединится к чье-то идеи: https://discord.gg/EmJKG5x😊"]
+    "Данного бота по фану запилили рандомные челики из ПУМа. Этот бот отличается от всех других тем, что импортирует всю информацию из базы данных школы, а не тупо по написанным строкам разработчиков. Бот продуман, но не идеален, поэтому все вопросы можете задавать в беседу, прикреплённую к сообществу бота. Также хочется напомнить, что у нас есть discord сервер для разработчиков, на котором вы сможете найти себе команду для проекта, узнать что-то новое или присоединится к чье-то идеи:\nhttps://discord.gg/EmJKG5x😊"]
 # array for keyboard
 buttons_back = ["здравствуй", "привет", "хай", "куку", "ку", "салам", "саламалейкум", "здарова", "дыдова", "начать",
                 "главное меню", "меню", "плитки", "клавиатура", "назад", "hello", "hey", "hi", "qq", "q", "start",
@@ -192,12 +193,6 @@ longpoll = VkBotLongPoll(vk, group_id=groups_id_array)
 for event in longpoll.listen():
     # processing a new message
     if event.type == VkBotEventType.MESSAGE_NEW:
-        # path protection
-        if source_protection == False:
-            excel_source = ""
-            columns = []
-        elif source_protection == True:
-            source_protection = False
         # sending data to the terminal
         print(datetime.datetime.today())
         print(f"Message from-->https://vk.com/id{event.object.peer_id}")
@@ -255,104 +250,128 @@ for event in longpoll.listen():
                 write_msg(event.object.peer_id, "А какой из🙄", keyboard=eleven_class_keyboard)
             # 8 - assembling source
             elif event.object.text.lower() == "8-1":
-                source_protection = True
-                excel_source = "excelDatabase/8class/8class.xlsx"
-                columns = ["A", "B", "D"]
+                sources_protection.append(f"{event.object.peer_id}")
+                sources_protection.append("excelDatabase/8class/8class.xlsx")
+                sources_protection.append(["A", "B", "D"])
                 write_msg(event.object.peer_id, "Отлично, теперь выбери день недели🗓",
                           keyboard=choosing_day_of_week_keyboard)
             elif event.object.text.lower() == "8-2":
-                source_protection = True
-                excel_source = "excelDatabase/8class/8class.xlsx"
-                columns = ["A", "F", "H"]
+                sources_protection.append(f"{event.object.peer_id}")
+                sources_protection.append("excelDatabase/8class/8class.xlsx")
+                sources_protection.append(["A", "F", "H"])
                 write_msg(event.object.peer_id, "Отлично, теперь выбери день недели🗓",
                           keyboard=choosing_day_of_week_keyboard)
             # 9 - assembling source
             elif event.object.text.lower() == "9-1":
-                source_protection = True
-                excel_source = "excelDatabase/9class/9class.xlsx"
-                columns = ["A", "B", "D"]
+                sources_protection.append(f"{event.object.peer_id}")
+                sources_protection.append("excelDatabase/9class/9class.xlsx")
+                sources_protection.append(["A", "B", "D"])
                 write_msg(event.object.peer_id, "Отлично, теперь выбери день недели🗓",
                           keyboard=choosing_day_of_week_keyboard)
             elif event.object.text.lower() == "9-2":
-                source_protection = True
-                excel_source = "excelDatabase/9class/9class.xlsx"
-                columns = ["A", "F", "H"]
+                sources_protection.append(f"{event.object.peer_id}")
+                sources_protection.append("excelDatabase/9class/9class.xlsx")
+                sources_protection.append(["A", "F", "H"])
                 write_msg(event.object.peer_id, "Отлично, теперь выбери день недели🗓",
                           keyboard=choosing_day_of_week_keyboard)
             elif event.object.text.lower() == "9-3":
-                source_protection = True
-                excel_source = "excelDatabase/9class/9class.xlsx"
-                columns = ["A", "J", "L"]
+                sources_protection.append(f"{event.object.peer_id}")
+                sources_protection.append("excelDatabase/9class/9class.xlsx")
+                sources_protection.append(["A", "J", "L"])
                 write_msg(event.object.peer_id, "Отлично, теперь выбери день недели🗓",
                           keyboard=choosing_day_of_week_keyboard)
             # 10 - assembling source
             elif event.object.text.lower() == "10-1":
-                source_protection = True
-                excel_source = "excelDatabase/10class/10class.xlsx"
-                columns = ["A", "B", "D"]
+                sources_protection.append(f"{event.object.peer_id}")
+                sources_protection.append("excelDatabase/10class/10class.xlsx")
+                sources_protection.append(["A", "B", "D"])
                 write_msg(event.object.peer_id, "Отлично, теперь выбери день недели🗓",
                           keyboard=choosing_day_of_week_keyboard)
             elif event.object.text.lower() == "10-2":
-                source_protection = True
-                excel_source = "excelDatabase/10class/10class.xlsx"
-                columns = ["A", "F", "H"]
+                sources_protection.append(f"{event.object.peer_id}")
+                sources_protection.append("excelDatabase/10class/10class.xlsx")
+                sources_protection.append(["A", "F", "H"])
                 write_msg(event.object.peer_id, "Отлично, теперь выбери день недели🗓",
                           keyboard=choosing_day_of_week_keyboard)
             elif event.object.text.lower() == "10-3":
-                source_protection = True
-                excel_source = "excelDatabase/10class/10class.xlsx"
-                columns = ["A", "J", "L"]
+                sources_protection.append(f"{event.object.peer_id}")
+                sources_protection.append("excelDatabase/10class/10class.xlsx")
+                sources_protection.append(["A", "J", "L"])
                 write_msg(event.object.peer_id, "Отлично, теперь выбери день недели🗓",
                           keyboard=choosing_day_of_week_keyboard)
             # 11 - assembling source
             elif event.object.text.lower() == "11-1":
-                source_protection = True
-                excel_source = "excelDatabase/11class/11class.xlsx"
-                columns = ["A", "B", "D"]
+                sources_protection.append(f"{event.object.peer_id}")
+                sources_protection.append("excelDatabase/11class/11class.xlsx")
+                sources_protection.append(["A", "B", "D"])
                 write_msg(event.object.peer_id, "Отлично, теперь выбери день недели🗓",
                           keyboard=choosing_day_of_week_keyboard)
             elif event.object.text.lower() == "11-2":
-                source_protection = True
-                excel_source = "excelDatabase/11class/11class.xlsx"
-                columns = ["A", "F", "H"]
+                sources_protection.append(f"{event.object.peer_id}")
+                sources_protection.append("excelDatabase/11class/11class.xlsx")
+                sources_protection.append(["A", "F", "H"])
                 write_msg(event.object.peer_id, "Отлично, теперь выбери день недели🗓",
                           keyboard=choosing_day_of_week_keyboard)
             elif event.object.text.lower() == "11-3":
-                source_protection = True
-                excel_source = "excelDatabase/11class/11class.xlsx"
-                columns = ["A", "J", "L"]
+                sources_protection.append(f"{event.object.peer_id}")
+                sources_protection.append("excelDatabase/11class/11class.xlsx")
+                sources_protection.append(["A", "J", "L"])
                 write_msg(event.object.peer_id, "Отлично, теперь выбери день недели🗓",
                           keyboard=choosing_day_of_week_keyboard)
             elif event.object.text.lower() == "11-4":
-                source_protection = True
-                excel_source = "excelDatabase/11class/11class.xlsx"
-                columns = ["A", "N", "P"]
+                sources_protection.append(f"{event.object.peer_id}")
+                sources_protection.append("excelDatabase/11class/11class.xlsx")
+                sources_protection.append(["A", "N", "P"])
                 write_msg(event.object.peer_id, "Отлично, теперь выбери день недели🗓",
                           keyboard=choosing_day_of_week_keyboard)
             # choosing day of week keyboard
             elif (event.object.text.lower() == "понедельник"):
-                ExcelSearcher.selective_data_search(excel_source=excel_source, columns=columns,
-                                                    extra_cells=1, start_data="Понедельник", end_data="None")
+                SourcesProtection.analizing_sources_protection(sources_protection=sources_protection,
+                                                               user_id=f"{event.object.peer_id}", limit_users_data=100)
+                sources_protection = SourcesProtection.new_sources_protection
+                ExcelSearcher.selective_data_search(excel_source=SourcesProtection.source_for_user,
+                                                    columns=SourcesProtection.columns_for_user, extra_cells=1,
+                                                    start_data="Понедельник", end_data="None")
                 write_msg(event.object.peer_id, ExcelSearcher.output_day_schedule, keyboard=main_keyboard)
             elif (event.object.text.lower() == "вторник"):
-                ExcelSearcher.selective_data_search(excel_source=excel_source, columns=columns,
-                                                    extra_cells=1, start_data="Вторник", end_data="None")
+                SourcesProtection.analizing_sources_protection(sources_protection=sources_protection,
+                                                               user_id=f"{event.object.peer_id}", limit_users_data=100)
+                sources_protection = SourcesProtection.new_sources_protection
+                ExcelSearcher.selective_data_search(excel_source=SourcesProtection.source_for_user,
+                                                    columns=SourcesProtection.columns_for_user, extra_cells=1,
+                                                    start_data="Вторник", end_data="None")
                 write_msg(event.object.peer_id, ExcelSearcher.output_day_schedule, keyboard=main_keyboard)
             elif (event.object.text.lower() == "среда"):
-                ExcelSearcher.selective_data_search(excel_source=excel_source, columns=columns,
-                                                    extra_cells=1, start_data="Среда", end_data="None")
+                SourcesProtection.analizing_sources_protection(sources_protection=sources_protection,
+                                                               user_id=f"{event.object.peer_id}", limit_users_data=100)
+                sources_protection = SourcesProtection.new_sources_protection
+                ExcelSearcher.selective_data_search(excel_source=SourcesProtection.source_for_user,
+                                                    columns=SourcesProtection.columns_for_user, extra_cells=1,
+                                                    start_data="Среда", end_data="None")
                 write_msg(event.object.peer_id, ExcelSearcher.output_day_schedule, keyboard=main_keyboard)
             elif (event.object.text.lower() == "четверг"):
-                ExcelSearcher.selective_data_search(excel_source=excel_source, columns=columns,
-                                                    extra_cells=1, start_data="Четверг", end_data="None")
+                SourcesProtection.analizing_sources_protection(sources_protection=sources_protection,
+                                                               user_id=f"{event.object.peer_id}", limit_users_data=100)
+                sources_protection = SourcesProtection.new_sources_protection
+                ExcelSearcher.selective_data_search(excel_source=SourcesProtection.source_for_user,
+                                                    columns=SourcesProtection.columns_for_user, extra_cells=1,
+                                                    start_data="Четверг", end_data="None")
                 write_msg(event.object.peer_id, ExcelSearcher.output_day_schedule, keyboard=main_keyboard)
             elif (event.object.text.lower() == "пятница"):
-                ExcelSearcher.selective_data_search(excel_source=excel_source, columns=columns,
-                                                    extra_cells=1, start_data="Пятница", end_data="None")
+                SourcesProtection.analizing_sources_protection(sources_protection=sources_protection,
+                                                               user_id=f"{event.object.peer_id}", limit_users_data=100)
+                sources_protection = SourcesProtection.new_sources_protection
+                ExcelSearcher.selective_data_search(excel_source=SourcesProtection.source_for_user,
+                                                    columns=SourcesProtection.columns_for_user, extra_cells=1,
+                                                    start_data="Пятница", end_data="None")
                 write_msg(event.object.peer_id, ExcelSearcher.output_day_schedule, keyboard=main_keyboard)
             elif (event.object.text.lower() == "суббота"):
-                ExcelSearcher.selective_data_search(excel_source=excel_source, columns=columns,
-                                                    extra_cells=1, start_data="Суббота", end_data="None")
+                SourcesProtection.analizing_sources_protection(sources_protection=sources_protection,
+                                                               user_id=f"{event.object.peer_id}", limit_users_data=100)
+                sources_protection = SourcesProtection.new_sources_protection
+                ExcelSearcher.selective_data_search(excel_source=SourcesProtection.source_for_user,
+                                                    columns=SourcesProtection.columns_for_user, extra_cells=1,
+                                                    start_data="Суббота", end_data="None")
                 write_msg(event.object.peer_id, ExcelSearcher.output_day_schedule, keyboard=main_keyboard)
             else:
                 write_msg(event.object.peer_id, "Это точно команда:/", keyboard=main_keyboard)
