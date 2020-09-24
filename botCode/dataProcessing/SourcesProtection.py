@@ -36,6 +36,8 @@ def analizing_sources_protection(sources_protection, user_id, limit_users_data):
                         quantity_transfers != quantity_checks * 3 + 2):
                     new_sources_protection.append(sources_protection[quantity_transfers])
             break
+    # sending data to the terminal
+    print(f"Sources protection: {new_sources_protection}")
 
 # Authors of the project:
 # 1-MachnevEgor_https://vk.com/machnev_egor
