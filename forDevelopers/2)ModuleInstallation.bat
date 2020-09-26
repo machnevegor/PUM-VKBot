@@ -1,7 +1,7 @@
 @: Authors of the project:
 @: 1-MachnevEgor_https://vk.com/machnev_egor
 @: 2-SchalimovDmitriy_https://vk.com/astronaut_without_spaceship
-@: 3-ArsenyKarimov_https://vk.com/@id222338543
+@: 3-ArsenyKarimov_https://vk.com/id222338543
 @: 4-MihailMarkov_https://vk.com/mixxxxail
 @: Contacts in email:
 @: 1-meb.official.com@gmail.com
@@ -15,7 +15,7 @@ pip install openpyxl
 @: Authors of the project:
 @: 1-MachnevEgor_https://vk.com/machnev_egor
 @: 2-SchalimovDmitriy_https://vk.com/astronaut_without_spaceship
-@: 3-ArsenyKarimov_https://vk.com/@id222338543
+@: 3-ArsenyKarimov_https://vk.com/id222338543
 @: 4-MihailMarkov_https://vk.com/mixxxxail
 @: Contacts in email:
 @: 1-meb.official.com@gmail.com
