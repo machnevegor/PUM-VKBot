@@ -1,7 +1,7 @@
 # Authors of the project:
 # 1-MachnevEgor_https://vk.com/machnev_egor
 # 2-SchalimovDmitriy_https://vk.com/astronaut_without_spaceship
-# 3-ArsenyKarimov_https://vk.com/@id222338543
+# 3-ArsenyKarimov_https://vk.com/id222338543
 # 4-MihailMarkov_https://vk.com/mixxxxail
 # Contacts in email:
 # 1-meb.official.com@gmail.com
@@ -250,78 +250,66 @@ for event in longpoll.listen():
                 write_msg(event.object.peer_id, "А какой из🙄", keyboard=eleven_class_keyboard)
             # 8 - assembling source
             elif event.object.text.lower() == "8-1":
-                sources_protection.append(f"{event.object.peer_id}")
-                sources_protection.append("excelDatabase/8class/8class.xlsx")
-                sources_protection.append(["A", "B", "D"])
+                sources_protection.append(
+                    [f"{event.object.peer_id}", "excelDatabase/8class/8class.xlsx", ["A", "B", "D"]])
                 write_msg(event.object.peer_id, "Отлично, теперь выбери день недели🗓",
                           keyboard=choosing_day_of_week_keyboard)
             elif event.object.text.lower() == "8-2":
-                sources_protection.append(f"{event.object.peer_id}")
-                sources_protection.append("excelDatabase/8class/8class.xlsx")
-                sources_protection.append(["A", "F", "H"])
+                sources_protection.append(
+                    [f"{event.object.peer_id}", "excelDatabase/8class/8class.xlsx", ["A", "F", "H"]])
                 write_msg(event.object.peer_id, "Отлично, теперь выбери день недели🗓",
                           keyboard=choosing_day_of_week_keyboard)
             # 9 - assembling source
             elif event.object.text.lower() == "9-1":
-                sources_protection.append(f"{event.object.peer_id}")
-                sources_protection.append("excelDatabase/9class/9class.xlsx")
-                sources_protection.append(["A", "B", "D"])
+                sources_protection.append(
+                    [f"{event.object.peer_id}", "excelDatabase/9class/9class.xlsx", ["A", "B", "D"]])
                 write_msg(event.object.peer_id, "Отлично, теперь выбери день недели🗓",
                           keyboard=choosing_day_of_week_keyboard)
             elif event.object.text.lower() == "9-2":
-                sources_protection.append(f"{event.object.peer_id}")
-                sources_protection.append("excelDatabase/9class/9class.xlsx")
-                sources_protection.append(["A", "F", "H"])
+                sources_protection.append(
+                    [f"{event.object.peer_id}", "excelDatabase/9class/9class.xlsx", ["A", "F", "H"]])
                 write_msg(event.object.peer_id, "Отлично, теперь выбери день недели🗓",
                           keyboard=choosing_day_of_week_keyboard)
             elif event.object.text.lower() == "9-3":
-                sources_protection.append(f"{event.object.peer_id}")
-                sources_protection.append("excelDatabase/9class/9class.xlsx")
-                sources_protection.append(["A", "J", "L"])
+                sources_protection.append(
+                    [f"{event.object.peer_id}", "excelDatabase/9class/9class.xlsx", ["A", "J", "L"]])
                 write_msg(event.object.peer_id, "Отлично, теперь выбери день недели🗓",
                           keyboard=choosing_day_of_week_keyboard)
             # 10 - assembling source
             elif event.object.text.lower() == "10-1":
-                sources_protection.append(f"{event.object.peer_id}")
-                sources_protection.append("excelDatabase/10class/10class.xlsx")
-                sources_protection.append(["A", "B", "D"])
+                sources_protection.append(
+                    [f"{event.object.peer_id}", "excelDatabase/10class/10class.xlsx", ["A", "B", "D"]])
                 write_msg(event.object.peer_id, "Отлично, теперь выбери день недели🗓",
                           keyboard=choosing_day_of_week_keyboard)
             elif event.object.text.lower() == "10-2":
-                sources_protection.append(f"{event.object.peer_id}")
-                sources_protection.append("excelDatabase/10class/10class.xlsx")
-                sources_protection.append(["A", "F", "H"])
+                sources_protection.append(
+                    [f"{event.object.peer_id}", "excelDatabase/10class/10class.xlsx", ["A", "F", "H"]])
                 write_msg(event.object.peer_id, "Отлично, теперь выбери день недели🗓",
                           keyboard=choosing_day_of_week_keyboard)
             elif event.object.text.lower() == "10-3":
-                sources_protection.append(f"{event.object.peer_id}")
-                sources_protection.append("excelDatabase/10class/10class.xlsx")
-                sources_protection.append(["A", "J", "L"])
+                sources_protection.append(
+                    [f"{event.object.peer_id}", "excelDatabase/10class/10class.xlsx", ["A", "J", "L"]])
                 write_msg(event.object.peer_id, "Отлично, теперь выбери день недели🗓",
                           keyboard=choosing_day_of_week_keyboard)
             # 11 - assembling source
             elif event.object.text.lower() == "11-1":
-                sources_protection.append(f"{event.object.peer_id}")
-                sources_protection.append("excelDatabase/11class/11class.xlsx")
-                sources_protection.append(["A", "B", "D"])
+                sources_protection.append(
+                    [f"{event.object.peer_id}", "excelDatabase/11class/11class.xlsx", ["A", "B", "D"]])
                 write_msg(event.object.peer_id, "Отлично, теперь выбери день недели🗓",
                           keyboard=choosing_day_of_week_keyboard)
             elif event.object.text.lower() == "11-2":
-                sources_protection.append(f"{event.object.peer_id}")
-                sources_protection.append("excelDatabase/11class/11class.xlsx")
-                sources_protection.append(["A", "F", "H"])
+                sources_protection.append(
+                    [f"{event.object.peer_id}", "excelDatabase/11class/11class.xlsx", ["A", "F", "H"]])
                 write_msg(event.object.peer_id, "Отлично, теперь выбери день недели🗓",
                           keyboard=choosing_day_of_week_keyboard)
             elif event.object.text.lower() == "11-3":
-                sources_protection.append(f"{event.object.peer_id}")
-                sources_protection.append("excelDatabase/11class/11class.xlsx")
-                sources_protection.append(["A", "J", "L"])
+                sources_protection.append(
+                    [f"{event.object.peer_id}", "excelDatabase/11class/11class.xlsx", ["A", "J", "L"]])
                 write_msg(event.object.peer_id, "Отлично, теперь выбери день недели🗓",
                           keyboard=choosing_day_of_week_keyboard)
             elif event.object.text.lower() == "11-4":
-                sources_protection.append(f"{event.object.peer_id}")
-                sources_protection.append("excelDatabase/11class/11class.xlsx")
-                sources_protection.append(["A", "N", "P"])
+                sources_protection.append(
+                    [f"{event.object.peer_id}", "excelDatabase/11class/11class.xlsx", ["A", "N", "P"]])
                 write_msg(event.object.peer_id, "Отлично, теперь выбери день недели🗓",
                           keyboard=choosing_day_of_week_keyboard)
             # choosing day of week keyboard
@@ -332,7 +320,7 @@ for event in longpoll.listen():
                 ExcelSearcher.selective_data_search(excel_source=SourcesProtection.source_for_user,
                                                     columns=SourcesProtection.columns_for_user, extra_cells=1,
                                                     start_data="Понедельник", end_data="None")
-                write_msg(event.object.peer_id, ExcelSearcher.output_day_schedule, keyboard=main_keyboard)
+                write_msg(event.object.peer_id, f"\n{ExcelSearcher.output_day_schedule}", keyboard=main_keyboard)
             elif (event.object.text.lower() == "вторник"):
                 SourcesProtection.analizing_sources_protection(sources_protection=sources_protection,
                                                                user_id=f"{event.object.peer_id}", limit_users_data=100)
@@ -340,7 +328,7 @@ for event in longpoll.listen():
                 ExcelSearcher.selective_data_search(excel_source=SourcesProtection.source_for_user,
                                                     columns=SourcesProtection.columns_for_user, extra_cells=1,
                                                     start_data="Вторник", end_data="None")
-                write_msg(event.object.peer_id, ExcelSearcher.output_day_schedule, keyboard=main_keyboard)
+                write_msg(event.object.peer_id, f"\n{ExcelSearcher.output_day_schedule}", keyboard=main_keyboard)
             elif (event.object.text.lower() == "среда"):
                 SourcesProtection.analizing_sources_protection(sources_protection=sources_protection,
                                                                user_id=f"{event.object.peer_id}", limit_users_data=100)
@@ -348,7 +336,7 @@ for event in longpoll.listen():
                 ExcelSearcher.selective_data_search(excel_source=SourcesProtection.source_for_user,
                                                     columns=SourcesProtection.columns_for_user, extra_cells=1,
                                                     start_data="Среда", end_data="None")
-                write_msg(event.object.peer_id, ExcelSearcher.output_day_schedule, keyboard=main_keyboard)
+                write_msg(event.object.peer_id, f"\n{ExcelSearcher.output_day_schedule}", keyboard=main_keyboard)
             elif (event.object.text.lower() == "четверг"):
                 SourcesProtection.analizing_sources_protection(sources_protection=sources_protection,
                                                                user_id=f"{event.object.peer_id}", limit_users_data=100)
@@ -356,7 +344,7 @@ for event in longpoll.listen():
                 ExcelSearcher.selective_data_search(excel_source=SourcesProtection.source_for_user,
                                                     columns=SourcesProtection.columns_for_user, extra_cells=1,
                                                     start_data="Четверг", end_data="None")
-                write_msg(event.object.peer_id, ExcelSearcher.output_day_schedule, keyboard=main_keyboard)
+                write_msg(event.object.peer_id, f"\n{ExcelSearcher.output_day_schedule}", keyboard=main_keyboard)
             elif (event.object.text.lower() == "пятница"):
                 SourcesProtection.analizing_sources_protection(sources_protection=sources_protection,
                                                                user_id=f"{event.object.peer_id}", limit_users_data=100)
@@ -364,7 +352,7 @@ for event in longpoll.listen():
                 ExcelSearcher.selective_data_search(excel_source=SourcesProtection.source_for_user,
                                                     columns=SourcesProtection.columns_for_user, extra_cells=1,
                                                     start_data="Пятница", end_data="None")
-                write_msg(event.object.peer_id, ExcelSearcher.output_day_schedule, keyboard=main_keyboard)
+                write_msg(event.object.peer_id, f"\n{ExcelSearcher.output_day_schedule}", keyboard=main_keyboard)
             elif (event.object.text.lower() == "суббота"):
                 SourcesProtection.analizing_sources_protection(sources_protection=sources_protection,
                                                                user_id=f"{event.object.peer_id}", limit_users_data=100)
@@ -372,7 +360,7 @@ for event in longpoll.listen():
                 ExcelSearcher.selective_data_search(excel_source=SourcesProtection.source_for_user,
                                                     columns=SourcesProtection.columns_for_user, extra_cells=1,
                                                     start_data="Суббота", end_data="None")
-                write_msg(event.object.peer_id, ExcelSearcher.output_day_schedule, keyboard=main_keyboard)
+                write_msg(event.object.peer_id, f"\n{ExcelSearcher.output_day_schedule}", keyboard=main_keyboard)
             else:
                 write_msg(event.object.peer_id, "Это точно команда:/", keyboard=main_keyboard)
             # sending data to the terminal
@@ -381,7 +369,7 @@ for event in longpoll.listen():
 # Authors of the project:
 # 1-MachnevEgor_https://vk.com/machnev_egor
 # 2-SchalimovDmitriy_https://vk.com/astronaut_without_spaceship
-# 3-ArsenyKarimov_https://vk.com/@id222338543
+# 3-ArsenyKarimov_https://vk.com/id222338543
 # 4-MihailMarkov_https://vk.com/mixxxxail
 # Contacts in email:
 # 1-meb.official.com@gmail.com
