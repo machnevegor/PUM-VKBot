@@ -177,14 +177,16 @@ choosing_day_of_week_keyboard = str(choosing_day_of_week_keyboard.decode("utf-8"
 
 
 # sending messages
-def write_msg(id, message, keyboard=None, sticker_id=None):
+def write_msg(id, message, keyboard=None, sticker_id=None, attachment=None):
     # sending data to the terminal
     print(f"Responce: {''.join(message)}")
     if sticker_id != None:
         print(f"Sticker: {sticker_id}")
+    if attachment != None:
+        print(f"Attachment: {attachment}")
     # send the message
-    vk.method("messages.send", {"peer_id": id, "sticker_id": sticker_id, "message": message, "keyboard": keyboard,
-                                "random_id": randint(1, 100000000)})
+    vk.method("messages.send", {"peer_id": id, "message": message, "keyboard": keyboard, "sticker_id": sticker_id,
+                                "attachment": attachment, "random_id": randint(1, 100000000)})
 
 
 # longpoll
@@ -229,6 +231,9 @@ for event in longpoll.listen():
                 write_msg(event.object.peer_id, "Ок, только выбери какое🖖", keyboard=schedules_keyboard)
             elif event.object.text.lower() == "о боте":
                 write_msg(event.object.peer_id, about_bot, keyboard=main_keyboard)
+                write_msg(event.object.peer_id,
+                          "Не забывайте, что всю актуальную информацию о боте вы можете найти на стене нашего сообщества, поэтому, если бот не отвечает, вы знаете, что делать😉",
+                          keyboard=main_keyboard, attachment="photo222338543_457245553_8fcfd4117b6abd050c")
             # schedules keyboard
             elif event.object.text.lower() == "звонков":
                 write_msg(event.object.peer_id, "Такс, и ещё выбери свой класс🤔", keyboard=select_call_class_keyboard)
@@ -361,6 +366,12 @@ for event in longpoll.listen():
                                                     columns=SourcesProtection.columns_for_user, extra_cells=1,
                                                     start_data="Суббота", end_data="None")
                 write_msg(event.object.peer_id, f"\n{ExcelSearcher.output_day_schedule}", keyboard=main_keyboard)
+            # easter egg
+            elif event.object.text.lower() == "пасхалка":
+                write_msg(event.object.peer_id,
+                          "Пасхалка?! Вау, в боте есть пасхалка! Приступим, есть шифр, указанный в пикче ниже - расшифруй его и отпишись в общую беседу сообщества(понимаем, что довольно сложно, поэтому даём две подсказки: ascii, tenet)",
+                          keyboard=main_keyboard, attachment="photo222338543_457245551_1a0ffb49f6b278f095")
+            # unrecognized command
             else:
                 write_msg(event.object.peer_id, "Это точно команда:/", keyboard=main_keyboard)
             # sending data to the terminal
