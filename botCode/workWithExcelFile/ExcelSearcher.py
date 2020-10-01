@@ -12,16 +12,13 @@
 # import module
 import openpyxl
 
-# set main sheet name
-sheet_name = "Лист1"
-
 
 # data search and processing
-def selective_data_search(excel_source, columns, extra_cells, start_data, end_data):
+def selective_data_search(excel_source, columns, extra_cells, sheet_name, start_data, end_data):
     # output variables - declaration
     global output_day_schedule
     output_day_schedule = ["Расписание на заданный день:"]
-    if (excel_source == "") or (columns == []):
+    if (excel_source == "") or (columns == []) or (sheet_name == ""):
         # sending data to the terminal
         print(f"!!!ERROR: The source is not specified!!!")
         output_day_schedule = "Расписание не найдено - попробуй заново😳"
@@ -70,7 +67,7 @@ def selective_data_search(excel_source, columns, extra_cells, start_data, end_da
             output_day_schedule.append(
                 f"{quantity_transfers + 1}. {lessons_output_data_array[quantity_transfers]}({cabinets_output_data_array[quantity_transfers]})")
         if output_day_schedule == ["Расписание на заданный день:"]:
-            output_day_schedule = "Кажись в этот день технопарк🙃"
+            output_day_schedule = "Кажись в этот день техно парк🙃"
         else:
             output_day_schedule = "\n".join(output_day_schedule)
 
