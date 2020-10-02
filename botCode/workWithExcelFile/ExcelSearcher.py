@@ -67,7 +67,7 @@ def selective_data_search(excel_source, columns, extra_cells, sheet_name, start_
             output_day_schedule.append(
                 f"{quantity_transfers + 1}. {lessons_output_data_array[quantity_transfers]}({cabinets_output_data_array[quantity_transfers]})")
         if output_day_schedule == ["Расписание на заданный день:"]:
-            output_day_schedule = "Кажись в этот день техно парк🙃"
+            output_day_schedule = "Кажись в этот день технопарк🙃"
         else:
             output_day_schedule = "\n".join(output_day_schedule)
 
