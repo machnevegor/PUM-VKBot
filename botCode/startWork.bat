@@ -9,7 +9,7 @@
 @: 3-arseny.karimov@gmail.com
 @: 4-mihailmarkov2004@gmail.com
 
-py MainBotLogic.py --user
+python MainBotLogic.py --user
 pause
 
 @: Authors of the project:
