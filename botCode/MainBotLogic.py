@@ -419,6 +419,7 @@ if __name__ == "__main__":
         try:
             bot_processing()
         except Exception as E:
+            print("-----------------------------")
             print(datetime.datetime.today())
             print("!!!  The bot is disabled  !!!")
             print(f"Reason: {E}")
