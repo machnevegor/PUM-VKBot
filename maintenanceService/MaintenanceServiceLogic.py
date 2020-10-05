@@ -135,12 +135,12 @@ def bot_processing():
                     write_msg(event.object.peer_id, about_bot, keyboard=main_keyboard)
                     write_msg(event.object.peer_id,
                               "Не забывайте, что всю актуальную информацию о боте вы можете найти на стене нашего сообщества, поэтому, если бот не отвечает, вы знаете, что делать😉",
-                              keyboard=main_keyboard, attachment="photo222338543_457245553_8fcfd4117b6abd050c")
+                              keyboard=main_keyboard, attachment="photo222338543_457245618_dcd23490db181404fc")
                 # easter egg
                 elif event.object.text.lower() == "пасхалка":
                     write_msg(event.object.peer_id,
                               "Пасхалка?! Вау, в боте есть пасхалка! Приступим, есть шифр, указанный в пикче ниже - расшифруй его и отпишись в общую беседу сообщества(понимаем, что довольно сложно, поэтому даём две подсказки: ascii, tenet)",
-                              keyboard=main_keyboard, attachment="photo222338543_457245551_1a0ffb49f6b278f095")
+                              keyboard=main_keyboard, attachment="photo222338543_457245619_81b41a6918becb0404")
                 # unrecognized command
                 else:
                     write_msg(event.object.peer_id, "Это точно команда:/", keyboard=main_keyboard)
