@@ -8,6 +8,3 @@
 # 2-dmitriy-shalimov@yandex.ru
 # 3-arseny.karimov@gmail.com
 # 4-mihailmarkov2004@gmail.com
-Maчнев Егор Витальевич | id240544197 | workWithExcelFile/excelDatabase/10class/10class.xlsx | М-10-2, А-10-2 | ['A', 'B', 'E'] | 1
-Каримов Арсений Алесандрович | id222338543 | workWithExcelFile/excelDatabase/10class/10class.xlsx | М-10-1, А-10-1 | ['A', 'B', 'E'] | 1
-Шалимов Дмитрий Александрович | id196595710 | workWithExcelFile/excelDatabase/10class/10class.xlsx | М-10-3, А-10-2 | ['A', 'B', 'E'] | 1
