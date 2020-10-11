@@ -23,6 +23,7 @@ def selective_data_search(excel_source, columns, extra_cells, sheet_name, start_
     output_day_schedule = ["Расписание на заданный день:"]
     # sending data to the terminal
     print(f"Schedule source: {excel_source}({columns}, {extra_cells}, {start_data}, {end_data})")
+    # searcher logic
     try:
         # open excel file
         excel_document = openpyxl.load_workbook(f"{excel_database_source}/{excel_source}")
@@ -75,7 +76,7 @@ def selective_data_search(excel_source, columns, extra_cells, sheet_name, start_
             output_day_schedule = "\n".join(output_day_schedule)
     except Exception as E:
         # sending data to the terminal
-        print(f"!!! ERROR: Broken user data !!!")
+        print(f"!!! ERROR: Broken user data for excel searcher !!!")
         print(f"Reason: {E}")
         output_day_schedule = "Очень странно - ты есть в базе, но некоторые данные неправильные. Напиши в основную беседу, прикрепленную к сообществу - там тебе помогут решить данную проблему😬"
 
