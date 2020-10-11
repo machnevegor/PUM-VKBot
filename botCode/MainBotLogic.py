@@ -19,7 +19,6 @@ import datetime as datetime
 # import other modules
 from configurationFile import BotConfig as BotConfig
 from workWithUsersDatabase import UserSearcher
-from dataProcessing import SourcesProtection
 from workWithExcelFile import ExcelSearcher as ExcelSearcher
 
 # reboot time
@@ -184,16 +183,7 @@ def bot_processing():
                     write_msg(event.object.peer_id, "Такс, и ещё выбери для каких классов🤔",
                               keyboard=select_call_class_keyboard)
                 elif event.object.text.lower() == "уроков":
-                    UserSearcher.searching_user_in_database(database_source="workWithUsersDatabase/UsersDatabase.txt",
-                                                            user_id=f"id{event.object.peer_id}")
-                    if UserSearcher.presence_user == []:
-                        write_msg(event.object.peer_id,
-                                  "Такс, тебя же нет в базе. Напиши в основную беседу, прикрепленную к сообществу, и тебе помогут решить эту проблему✌",
-                                  keyboard=main_keyboard)
-                    else:
-                        write_msg(event.object.peer_id, "Хмм, теперь выбери день😼",
-                                  keyboard=choosing_day_of_week_keyboard)
-                        sources_protection.append(UserSearcher.presence_user)
+                    write_msg(event.object.peer_id, "Хмм, теперь выбери день😼", keyboard=choosing_day_of_week_keyboard)
                 # select call class keyboard
                 elif event.object.text.lower() == "8-9":
                     write_msg(event.object.peer_id, eight_nine_schedule_calls, keyboard=main_keyboard)
@@ -201,70 +191,94 @@ def bot_processing():
                     write_msg(event.object.peer_id, ten_eleven_schedule_calls, keyboard=main_keyboard)
                 # choosing day of week keyboard
                 elif (event.object.text.lower() == "понедельник"):
-                    SourcesProtection.analizing_sources_protection(sources_protection=sources_protection,
-                                                                   user_id=f"id{event.object.peer_id}",
-                                                                   limit_users_data=100)
-                    sources_protection = SourcesProtection.new_sources_protection
-                    ExcelSearcher.selective_data_search(excel_source=SourcesProtection.source_for_user,
-                                                        columns=SourcesProtection.columns_for_user,
-                                                        extra_cells=SourcesProtection.extra_cells,
-                                                        sheet_name=SourcesProtection.sheet_name,
-                                                        start_data="Понедельник", end_data="None")
-                    write_msg(event.object.peer_id, f"\n{ExcelSearcher.output_day_schedule}", keyboard=main_keyboard)
+                    UserSearcher.searching_user_in_database(database_source="workWithUsersDatabase/UsersDatabase.txt",
+                                                            user_id=f"id{event.object.peer_id}")
+                    if UserSearcher.presence_user == []:
+                        write_msg(event.object.peer_id,
+                                  f"Такс, тебя же нет в базе. Лови свой VK-ID(id{event.object.peer_id}) и пиши в основную беседу, прикрепленную к сообществу - там тебе помогут решить данную проблему✌",
+                                  keyboard=main_keyboard)
+                    else:
+                        write_msg(event.object.peer_id, "Поиск актуального расписания🔎", keyboard=main_keyboard)
+                        ExcelSearcher.selective_data_search(excel_source=UserSearcher.presence_user[2],
+                                                            sheet_name=UserSearcher.presence_user[3],
+                                                            columns=UserSearcher.presence_user[4],
+                                                            extra_cells=UserSearcher.presence_user[5],
+                                                            start_data="Понедельник", end_data="None")
+                        write_msg(event.object.peer_id, f"\n{ExcelSearcher.output_day_schedule}", keyboard=main_keyboard)
                 elif (event.object.text.lower() == "вторник"):
-                    SourcesProtection.analizing_sources_protection(sources_protection=sources_protection,
-                                                                   user_id=f"id{event.object.peer_id}",
-                                                                   limit_users_data=100)
-                    sources_protection = SourcesProtection.new_sources_protection
-                    ExcelSearcher.selective_data_search(excel_source=SourcesProtection.source_for_user,
-                                                        columns=SourcesProtection.columns_for_user,
-                                                        extra_cells=SourcesProtection.extra_cells,
-                                                        sheet_name=SourcesProtection.sheet_name,
-                                                        start_data="Вторник", end_data="None")
+                    UserSearcher.searching_user_in_database(database_source="workWithUsersDatabase/UsersDatabase.txt",
+                                                            user_id=f"id{event.object.peer_id}")
+                    if UserSearcher.presence_user == []:
+                        write_msg(event.object.peer_id,
+                                  f"Такс, тебя же нет в базе. Лови свой VK-ID(id{event.object.peer_id}) и пиши в основную беседу, прикрепленную к сообществу - там тебе помогут решить данную проблему✌",
+                                  keyboard=main_keyboard)
+                    else:
+                        write_msg(event.object.peer_id, "Поиск актуального расписания🔎", keyboard=main_keyboard)
+                        ExcelSearcher.selective_data_search(excel_source=UserSearcher.presence_user[2],
+                                                            sheet_name=UserSearcher.presence_user[3],
+                                                            columns=UserSearcher.presence_user[4],
+                                                            extra_cells=UserSearcher.presence_user[5],
+                                                            start_data="Вторник", end_data="None")
                     write_msg(event.object.peer_id, f"\n{ExcelSearcher.output_day_schedule}", keyboard=main_keyboard)
                 elif (event.object.text.lower() == "среда"):
-                    SourcesProtection.analizing_sources_protection(sources_protection=sources_protection,
-                                                                   user_id=f"id{event.object.peer_id}",
-                                                                   limit_users_data=100)
-                    sources_protection = SourcesProtection.new_sources_protection
-                    ExcelSearcher.selective_data_search(excel_source=SourcesProtection.source_for_user,
-                                                        columns=SourcesProtection.columns_for_user,
-                                                        extra_cells=SourcesProtection.extra_cells,
-                                                        sheet_name=SourcesProtection.sheet_name,
-                                                        start_data="Среда", end_data="None")
+                    UserSearcher.searching_user_in_database(database_source="workWithUsersDatabase/UsersDatabase.txt",
+                                                            user_id=f"id{event.object.peer_id}")
+                    if UserSearcher.presence_user == []:
+                        write_msg(event.object.peer_id,
+                                  f"Такс, тебя же нет в базе. Лови свой VK-ID(id{event.object.peer_id}) и пиши в основную беседу, прикрепленную к сообществу - там тебе помогут решить данную проблему✌",
+                                  keyboard=main_keyboard)
+                    else:
+                        write_msg(event.object.peer_id, "Поиск актуального расписания🔎", keyboard=main_keyboard)
+                        ExcelSearcher.selective_data_search(excel_source=UserSearcher.presence_user[2],
+                                                            sheet_name=UserSearcher.presence_user[3],
+                                                            columns=UserSearcher.presence_user[4],
+                                                            extra_cells=UserSearcher.presence_user[5],
+                                                            start_data="Среда", end_data="None")
                     write_msg(event.object.peer_id, f"\n{ExcelSearcher.output_day_schedule}", keyboard=main_keyboard)
                 elif (event.object.text.lower() == "четверг"):
-                    SourcesProtection.analizing_sources_protection(sources_protection=sources_protection,
-                                                                   user_id=f"id{event.object.peer_id}",
-                                                                   limit_users_data=100)
-                    sources_protection = SourcesProtection.new_sources_protection
-                    ExcelSearcher.selective_data_search(excel_source=SourcesProtection.source_for_user,
-                                                        columns=SourcesProtection.columns_for_user,
-                                                        extra_cells=SourcesProtection.extra_cells,
-                                                        sheet_name=SourcesProtection.sheet_name,
-                                                        start_data="Четверг", end_data="None")
+                    UserSearcher.searching_user_in_database(database_source="workWithUsersDatabase/UsersDatabase.txt",
+                                                            user_id=f"id{event.object.peer_id}")
+                    if UserSearcher.presence_user == []:
+                        write_msg(event.object.peer_id,
+                                  f"Такс, тебя же нет в базе. Лови свой VK-ID(id{event.object.peer_id}) и пиши в основную беседу, прикрепленную к сообществу - там тебе помогут решить данную проблему✌",
+                                  keyboard=main_keyboard)
+                    else:
+                        write_msg(event.object.peer_id, "Поиск актуального расписания🔎", keyboard=main_keyboard)
+                        ExcelSearcher.selective_data_search(excel_source=UserSearcher.presence_user[2],
+                                                            sheet_name=UserSearcher.presence_user[3],
+                                                            columns=UserSearcher.presence_user[4],
+                                                            extra_cells=UserSearcher.presence_user[5],
+                                                            start_data="Четверг", end_data="None")
                     write_msg(event.object.peer_id, f"\n{ExcelSearcher.output_day_schedule}", keyboard=main_keyboard)
                 elif (event.object.text.lower() == "пятница"):
-                    SourcesProtection.analizing_sources_protection(sources_protection=sources_protection,
-                                                                   user_id=f"id{event.object.peer_id}",
-                                                                   limit_users_data=100)
-                    sources_protection = SourcesProtection.new_sources_protection
-                    ExcelSearcher.selective_data_search(excel_source=SourcesProtection.source_for_user,
-                                                        columns=SourcesProtection.columns_for_user,
-                                                        extra_cells=SourcesProtection.extra_cells,
-                                                        sheet_name=SourcesProtection.sheet_name,
-                                                        start_data="Пятница", end_data="None")
+                    UserSearcher.searching_user_in_database(database_source="workWithUsersDatabase/UsersDatabase.txt",
+                                                            user_id=f"id{event.object.peer_id}")
+                    if UserSearcher.presence_user == []:
+                        write_msg(event.object.peer_id,
+                                  f"Такс, тебя же нет в базе. Лови свой VK-ID(id{event.object.peer_id}) и пиши в основную беседу, прикрепленную к сообществу - там тебе помогут решить данную проблему✌",
+                                  keyboard=main_keyboard)
+                    else:
+                        write_msg(event.object.peer_id, "Поиск актуального расписания🔎", keyboard=main_keyboard)
+                        ExcelSearcher.selective_data_search(excel_source=UserSearcher.presence_user[2],
+                                                            sheet_name=UserSearcher.presence_user[3],
+                                                            columns=UserSearcher.presence_user[4],
+                                                            extra_cells=UserSearcher.presence_user[5],
+                                                            start_data="Пятница", end_data="None")
                     write_msg(event.object.peer_id, f"\n{ExcelSearcher.output_day_schedule}", keyboard=main_keyboard)
                 elif (event.object.text.lower() == "суббота"):
-                    SourcesProtection.analizing_sources_protection(sources_protection=sources_protection,
-                                                                   user_id=f"id{event.object.peer_id}",
-                                                                   limit_users_data=100)
-                    sources_protection = SourcesProtection.new_sources_protection
-                    ExcelSearcher.selective_data_search(excel_source=SourcesProtection.source_for_user,
-                                                        columns=SourcesProtection.columns_for_user,
-                                                        extra_cells=SourcesProtection.extra_cells,
-                                                        sheet_name=SourcesProtection.sheet_name,
-                                                        start_data="Суббота", end_data="None")
+                    UserSearcher.searching_user_in_database(database_source="workWithUsersDatabase/UsersDatabase.txt",
+                                                            user_id=f"id{event.object.peer_id}")
+                    if UserSearcher.presence_user == []:
+                        write_msg(event.object.peer_id,
+                                  f"Такс, тебя же нет в базе. Лови свой VK-ID(id{event.object.peer_id}) и пиши в основную беседу, прикрепленную к сообществу - там тебе помогут решить данную проблему✌",
+                                  keyboard=main_keyboard)
+                    else:
+                        write_msg(event.object.peer_id, "Поиск актуального расписания🔎", keyboard=main_keyboard)
+                        ExcelSearcher.selective_data_search(excel_source=UserSearcher.presence_user[2],
+                                                            sheet_name=UserSearcher.presence_user[3],
+                                                            columns=UserSearcher.presence_user[4],
+                                                            extra_cells=UserSearcher.presence_user[5],
+                                                            start_data="Суббота", end_data="None")
                     write_msg(event.object.peer_id, f"\n{ExcelSearcher.output_day_schedule}", keyboard=main_keyboard)
                 # easter egg
                 elif event.object.text.lower() == "пасхалка":
