@@ -12,6 +12,9 @@
 # import module
 import openpyxl
 
+# the path to the branching database
+excel_database_source = "workWithExcelFile/excelDatabase"
+
 
 # data search and processing
 def selective_data_search(excel_source, columns, extra_cells, sheet_name, start_data, end_data):
@@ -20,13 +23,13 @@ def selective_data_search(excel_source, columns, extra_cells, sheet_name, start_
     output_day_schedule = ["Расписание на заданный день:"]
     if (excel_source == "") or (columns == []) or (sheet_name == ""):
         # sending data to the terminal
-        print(f"!!!ERROR: The source is not specified!!!")
+        print(f"!!! ERROR: The source is not specified !!!")
         output_day_schedule = "Расписание не найдено - попробуй заново😳"
     else:
         # sending data to the terminal
         print(f"Schedule source: {excel_source}({columns}, {extra_cells}, {start_data}, {end_data})")
         # open excel file
-        excel_document = openpyxl.load_workbook(excel_source)
+        excel_document = openpyxl.load_workbook(f"{excel_database_source}/{excel_source}")
         # days - import data from a graph and transfer it to a separate array
         days_data_array = []
         sheet = excel_document.get_sheet_by_name(sheet_name)
@@ -56,7 +59,7 @@ def selective_data_search(excel_source, columns, extra_cells, sheet_name, start_
                         break
                     # writing the necessary information to separate arrays
                     lessons_output_data_array.append(
-                        lessons_data_array[quantity_recording_data + quantity_checks + 1 + extra_cells])
+                        (lessons_data_array[quantity_recording_data + quantity_checks + 1 + extra_cells]).title())
                     if cabinets_data_array[quantity_recording_data + quantity_checks + 1 + extra_cells] == "None":
                         cabinets_output_data_array.append("Узнавать у классного руководителя")
                     else:

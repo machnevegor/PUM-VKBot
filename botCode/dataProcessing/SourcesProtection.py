@@ -30,11 +30,11 @@ def analizing_sources_protection(sources_protection, user_id, limit_users_data):
         sources_protection = new_sources_protection
     # search for data in an array
     for quantity_checks in range(len(sources_protection)):
-        if user_id == sources_protection[quantity_checks][0]:
-            source_for_user = f"{sources_protection[quantity_checks][1]}"
-            columns_for_user = sources_protection[quantity_checks][2]
-            extra_cells = sources_protection[quantity_checks][3]
-            sheet_name = sources_protection[quantity_checks][4]
+        if user_id == sources_protection[quantity_checks][1]:
+            source_for_user = sources_protection[quantity_checks][2]
+            sheet_name = sources_protection[quantity_checks][3]
+            columns_for_user = sources_protection[quantity_checks][4]
+            extra_cells = sources_protection[quantity_checks][5]
             new_sources_protection = []
             for quantity_transfers in range(len(sources_protection)):
                 if (quantity_transfers != quantity_checks):
