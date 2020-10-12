@@ -22,7 +22,7 @@ def selective_data_search(excel_source, columns, extra_cells, sheet_name, start_
     global output_day_schedule
     output_day_schedule = ["Расписание на заданный день:"]
     # sending data to the terminal
-    print(f"Schedule source: {excel_source}({columns}, {extra_cells}, {start_data}, {end_data})")
+    print(f"Schedule source: {excel_source}({columns}, {extra_cells}, [{start_data}, {end_data}])")
     # searcher logic
     try:
         # open excel file
