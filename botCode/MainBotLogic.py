@@ -168,7 +168,7 @@ def bot_processing():
                     write_msg(event.object.peer_id, about_bot, keyboard=main_keyboard)
                     write_msg(event.object.peer_id,
                               "Не забывайте, что всю актуальную информацию о боте вы можете найти на стене нашего сообщества, поэтому, если бот не отвечает, вы знаете, что делать😉",
-                              keyboard=main_keyboard, attachment="photo222338543_457245618_dcd23490db181404fc")
+                              keyboard=main_keyboard, attachment="photo222338543_457245710_4c9cbdcfb8eba61348")
                 # schedules keyboard
                 elif event.object.text.lower() == "звонков":
                     write_msg(event.object.peer_id, "Такс, и ещё выбери для каких классов🤔",
@@ -288,7 +288,7 @@ def bot_processing():
                 elif event.object.text.lower() == "пасхалка":
                     write_msg(event.object.peer_id,
                               "Пасхалка?! Вау, в боте есть пасхалка! Приступим, есть шифр, указанный в пикче ниже - расшифруй его и отпишись в общую беседу сообщества(понимаем, что довольно сложно, поэтому даём две подсказки: ascii, tenet)",
-                              keyboard=main_keyboard, attachment="photo222338543_457245619_81b41a6918becb0404")
+                              keyboard=main_keyboard, attachment="photo222338543_457245709_c2475e60dc624529c3")
                 # check for updates
                 elif event.object.text.lower() == "проверить обновления":
                     write_msg(event.object.peer_id,
