@@ -24,7 +24,7 @@ cell_separator = " | "
 # standardizing the database if it is empty
 def standardization_users_database(database_source):
     # opening the database
-    data_memory = open(database_source, "r+")
+    data_memory = open(database_source, "r+", encoding="Windows-1251")
     file_lines_array = list(data_memory.readlines())
     # sending data to the terminal
     print("--<Old data:" + "\n" + "".join(file_lines_array))
@@ -75,7 +75,7 @@ def database_interpreter(excel_source, sheet_name, columns, source_for_user, col
                 source_for_user) + cell_separator + str(group_name[i]) + cell_separator + str(
                 columns_for_user) + cell_separator + str(extra_cells))
         # opening the database
-        data_memory = open(txt_source, "r+")
+        data_memory = open(txt_source, "r+", encoding="Windows-1251")
         file_lines_array = list(data_memory.readlines())
         # clear file data
         data_memory.truncate(0)
