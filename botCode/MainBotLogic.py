@@ -76,7 +76,8 @@ def bot_processing():
         "buttons": [
             [get_button(label="Учебники", color="positive"),
              get_button(label="Расписание", color="positive")],
-            [get_button(label="О боте", color="primary")],
+            [get_button(label="Получить ID", color="primary"),
+             get_button(label="О боте", color="primary")],
         ]
     }
 
@@ -289,6 +290,10 @@ def bot_processing():
                 elif event.object.text.lower() == "проверить обновления":
                     write_msg(event.object.peer_id,
                               "Оооу да - а вот и долгожданное обновление! Мы славно поработали и надеемся, что тебе всё понравится😎",
+                              keyboard=main_keyboard)
+                # get VK-ID
+                elif event.object.text.lower() == "получить id":
+                    write_msg(event.object.peer_id, f"Твой персональный ID в ВК: id{event.object.peer_id}",
                               keyboard=main_keyboard)
                 # unrecognized command
                 else:
