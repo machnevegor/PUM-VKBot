@@ -200,6 +200,7 @@ def bot_processing():
                                   keyboard=main_keyboard)
                     else:
                         write_msg(event.object.peer_id, "Поиск актуального расписания🔎", keyboard=main_keyboard)
+                        vk.method('messages.setActivity', {'peer_id': event.object.peer_id, 'type': 'typing'})
                         ExcelSearcher.selective_data_search(excel_source=UserSearcher.presence_user[2],
                                                             sheet_name=UserSearcher.presence_user[3],
                                                             columns=UserSearcher.presence_user[4],
@@ -215,6 +216,7 @@ def bot_processing():
                                   keyboard=main_keyboard)
                     else:
                         write_msg(event.object.peer_id, "Поиск актуального расписания🔎", keyboard=main_keyboard)
+                        vk.method('messages.setActivity', {'peer_id': event.object.peer_id, 'type': 'typing'})
                         ExcelSearcher.selective_data_search(excel_source=UserSearcher.presence_user[2],
                                                             sheet_name=UserSearcher.presence_user[3],
                                                             columns=UserSearcher.presence_user[4],
@@ -229,6 +231,7 @@ def bot_processing():
                                   f"Такс, тебя же нет в базе. Лови свой VK-ID(id{event.object.peer_id}) и пиши в основную беседу, прикрепленную к сообществу - там тебе помогут решить данную проблему✌",
                                   keyboard=main_keyboard)
                     else:
+                        vk.method('messages.setActivity', {'peer_id': event.object.peer_id, 'type': 'typing'})
                         write_msg(event.object.peer_id, "Поиск актуального расписания🔎", keyboard=main_keyboard)
                         ExcelSearcher.selective_data_search(excel_source=UserSearcher.presence_user[2],
                                                             sheet_name=UserSearcher.presence_user[3],
@@ -245,6 +248,7 @@ def bot_processing():
                                   keyboard=main_keyboard)
                     else:
                         write_msg(event.object.peer_id, "Поиск актуального расписания🔎", keyboard=main_keyboard)
+                        vk.method('messages.setActivity', {'peer_id': event.object.peer_id, 'type': 'typing'})
                         ExcelSearcher.selective_data_search(excel_source=UserSearcher.presence_user[2],
                                                             sheet_name=UserSearcher.presence_user[3],
                                                             columns=UserSearcher.presence_user[4],
@@ -260,6 +264,7 @@ def bot_processing():
                                   keyboard=main_keyboard)
                     else:
                         write_msg(event.object.peer_id, "Поиск актуального расписания🔎", keyboard=main_keyboard)
+                        vk.method('messages.setActivity', {'peer_id': event.object.peer_id, 'type': 'typing'})
                         ExcelSearcher.selective_data_search(excel_source=UserSearcher.presence_user[2],
                                                             sheet_name=UserSearcher.presence_user[3],
                                                             columns=UserSearcher.presence_user[4],
@@ -275,6 +280,7 @@ def bot_processing():
                                   keyboard=main_keyboard)
                     else:
                         write_msg(event.object.peer_id, "Поиск актуального расписания🔎", keyboard=main_keyboard)
+                        vk.method('messages.setActivity', {'peer_id': event.object.peer_id, 'type': 'typing'})
                         ExcelSearcher.selective_data_search(excel_source=UserSearcher.presence_user[2],
                                                             sheet_name=UserSearcher.presence_user[3],
                                                             columns=UserSearcher.presence_user[4],
