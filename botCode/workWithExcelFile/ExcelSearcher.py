@@ -22,11 +22,11 @@ def selective_data_search(excel_source, columns, extra_cells, sheet_name, start_
     global output_day_schedule
     output_day_schedule = ["Расписание на заданный день:"]
     # sending data to the terminal
-    print(f"Schedule source: {excel_source}({columns}, {extra_cells}, [{start_data}, {end_data}])")
+    print(f"Schedule source: {excel_source}/{sheet_name}.xlsx({columns}, {extra_cells}, [{start_data}, {end_data}])")
     # searcher logic
     try:
         # open excel file
-        excel_document = openpyxl.load_workbook(f"{excel_database_source}/{excel_source}")
+        excel_document = openpyxl.load_workbook(f"{excel_database_source}/{excel_source}/{sheet_name}.xlsx")
         # days - import data from a graph and transfer it to a separate array
         days_data_array = []
         sheet = excel_document.get_sheet_by_name(sheet_name)

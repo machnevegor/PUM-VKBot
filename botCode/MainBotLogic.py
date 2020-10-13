@@ -215,7 +215,8 @@ def bot_processing():
                                                             columns=UserSearcher.presence_user[4],
                                                             extra_cells=UserSearcher.presence_user[5],
                                                             start_data="Вторник", end_data="None")
-                    write_msg(event.object.peer_id, f"\n{ExcelSearcher.output_day_schedule}", keyboard=main_keyboard)
+                        write_msg(event.object.peer_id, f"\n{ExcelSearcher.output_day_schedule}",
+                                  keyboard=main_keyboard)
                 elif (event.object.text.lower() == "среда"):
                     UserSearcher.searching_user_in_database(database_source="workWithUsersDatabase/UsersDatabase.txt",
                                                             user_id=f"id{event.object.peer_id}")
@@ -232,7 +233,8 @@ def bot_processing():
                                                             columns=UserSearcher.presence_user[4],
                                                             extra_cells=UserSearcher.presence_user[5],
                                                             start_data="Среда", end_data="None")
-                    write_msg(event.object.peer_id, f"\n{ExcelSearcher.output_day_schedule}", keyboard=main_keyboard)
+                        write_msg(event.object.peer_id, f"\n{ExcelSearcher.output_day_schedule}",
+                                  keyboard=main_keyboard)
                 elif (event.object.text.lower() == "четверг"):
                     UserSearcher.searching_user_in_database(database_source="workWithUsersDatabase/UsersDatabase.txt",
                                                             user_id=f"id{event.object.peer_id}")
@@ -249,7 +251,8 @@ def bot_processing():
                                                             columns=UserSearcher.presence_user[4],
                                                             extra_cells=UserSearcher.presence_user[5],
                                                             start_data="Четверг", end_data="None")
-                    write_msg(event.object.peer_id, f"\n{ExcelSearcher.output_day_schedule}", keyboard=main_keyboard)
+                        write_msg(event.object.peer_id, f"\n{ExcelSearcher.output_day_schedule}",
+                                  keyboard=main_keyboard)
                 elif (event.object.text.lower() == "пятница"):
                     UserSearcher.searching_user_in_database(database_source="workWithUsersDatabase/UsersDatabase.txt",
                                                             user_id=f"id{event.object.peer_id}")
@@ -266,7 +269,8 @@ def bot_processing():
                                                             columns=UserSearcher.presence_user[4],
                                                             extra_cells=UserSearcher.presence_user[5],
                                                             start_data="Пятница", end_data="None")
-                    write_msg(event.object.peer_id, f"\n{ExcelSearcher.output_day_schedule}", keyboard=main_keyboard)
+                        write_msg(event.object.peer_id, f"\n{ExcelSearcher.output_day_schedule}",
+                                  keyboard=main_keyboard)
                 elif (event.object.text.lower() == "суббота"):
                     UserSearcher.searching_user_in_database(database_source="workWithUsersDatabase/UsersDatabase.txt",
                                                             user_id=f"id{event.object.peer_id}")
@@ -283,7 +287,8 @@ def bot_processing():
                                                             columns=UserSearcher.presence_user[4],
                                                             extra_cells=UserSearcher.presence_user[5],
                                                             start_data="Суббота", end_data="None")
-                    write_msg(event.object.peer_id, f"\n{ExcelSearcher.output_day_schedule}", keyboard=main_keyboard)
+                        write_msg(event.object.peer_id, f"\n{ExcelSearcher.output_day_schedule}",
+                                  keyboard=main_keyboard)
                 # easter egg
                 elif event.object.text.lower() == "пасхалка":
                     write_msg(event.object.peer_id,

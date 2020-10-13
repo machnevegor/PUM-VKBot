@@ -96,7 +96,7 @@ def database_interpreter(excel_source, sheet_name, columns, source_for_user, col
 
 # start work - make sure everything is correct
 database_interpreter(excel_source="usersExcelDatabase/###xlsx", sheet_name="Лист1",
-                     columns=["#", "#", "#"], source_for_user="##class/##class.xlsx",
+                     columns=["#", "#", "#"], source_for_user="##class",
                      columns_for_user="['A', 'B', 'E']", extra_cells=1, txt_source="UsersDatabase.txt")
 
 # Authors of the project:
