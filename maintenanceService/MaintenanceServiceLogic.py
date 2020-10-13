@@ -20,6 +20,8 @@ import datetime as datetime
 
 # reboot time
 reboot_time = 10
+# system array
+groups_id_array = ["187254286"]
 
 # information about developers
 about_bot = [
@@ -35,15 +37,6 @@ eng_greetings_bot = ["hello", "hey", "hi", "qq", "q"]
 
 # algorithm for processing user requests
 def bot_processing():
-    # system arrays
-    global groups_id_array
-    groups_id_array = ["187254286"]
-    global users_id_array
-    users_id_array = []
-    # sources protection
-    global sources_protection
-    sources_protection = []
-
     # vk connect
     vk = vk_api.VkApi(token=f"{BotConfig.BotToken}")
     vk._auth_token()
@@ -102,9 +95,6 @@ def bot_processing():
             print(f"Message content: {event.object.text}")
             # if the request is from in private messages
             if event.object.peer_id == event.object.from_id:
-                # if this user is not already in the database
-                if event.object.peer_id not in users_id_array:
-                    users_id_array.append(event.object.peer_id)
                 # if the back buttons are pressed
                 if event.object.text.lower() in buttons_back:
                     # greetings and jump to main menu
