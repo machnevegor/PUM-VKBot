@@ -22,7 +22,7 @@ from workWithUsersDatabase import UserSearcher
 from workWithExcelFile import ExcelSearcher as ExcelSearcher
 
 # reboot time
-reboot_time = 10
+reboot_time = 5
 # system array
 groups_id_array = ["187254286"]
 
