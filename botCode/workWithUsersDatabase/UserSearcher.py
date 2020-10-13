@@ -21,7 +21,7 @@ cell_separator = " | "
 # standardizing the database if it is empty
 def standardization_users_database(database_source):
     # opening the database
-    data_memory = open(database_source, "r+", encoding="Windows-1251")
+    data_memory = open(database_source, "r+", encoding="UTF-8")
     file_lines_array = list(data_memory.readlines())
     # standardization
     if len(file_lines_array) < len(authors_comments):
@@ -41,7 +41,7 @@ def standardization_users_database(database_source):
 def adding_user_in_database(database_source, full_name, user_id, source_for_user, sheet_name, columns_for_user,
                             extra_cells):
     # opening the database
-    data_memory = open(database_source, "r+", encoding="Windows-1251")
+    data_memory = open(database_source, "r+", encoding="UTF-8")
     file_lines_array = list(data_memory.readlines())
     # clear file data
     data_memory.truncate(0)
@@ -60,7 +60,7 @@ def searching_user_in_database(database_source, user_id):
     # standardization of data
     standardization_users_database(database_source=database_source)
     # opening the database and moving all rows to a single array
-    data_memory = open(database_source, "r+", encoding="Windows-1251")
+    data_memory = open(database_source, "r+", encoding="UTF-8")
     file_lines_array = list(data_memory.readlines())
     data_memory.close()
     # creating an array with all user data
