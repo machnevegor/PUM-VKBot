@@ -113,8 +113,7 @@ def searching_user_in_database(database_source, user_id):
 
 
 # adding_user_in_database(database_source="UsersDatabase.txt", full_name="# # #", user_id="id#",
-#                         source_for_user="excelDatabase/##class/##class.xlsx", sheet_name="#, #",
-#                         columns_for_user=["#", "#", "#"], extra_cells=1)
+#                         source_for_user="##class", sheet_name="#, #", columns_for_user=["#", "#", "#"], extra_cells=1)
 
 # Authors of the project:
 # 1-MachnevEgor_https://vk.com/machnev_egor
