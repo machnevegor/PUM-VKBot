@@ -64,8 +64,8 @@ def selective_data_search(excel_source, columns, extra_cells, sheet_name, start_
                             cabinets_output_data_array.append(int(float(cabinets_data_array[
                                                                             quantity_recording_data + quantity_checks + 1 + extra_cells])))
                         except Exception as E:
-                            cabinets_output_data_array.append(
-                                cabinets_data_array[quantity_recording_data + quantity_checks + 1 + extra_cells])
+                            cabinets_output_data_array.append(cabinets_data_array[
+                                                                  quantity_recording_data + quantity_checks + 1 + extra_cells].title())
         # the preparation of a reply
         for quantity_transfers in range(len(lessons_output_data_array)):
             output_day_schedule.append(
