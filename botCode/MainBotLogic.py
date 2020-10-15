@@ -340,7 +340,7 @@ def bot_processing():
                         get_last_name = vk.method("users.get", {"user_ids": event.object.peer_id})[0]["last_name"]
                         if event.object.text.upper() in eight_class_groups:
                             UserSearcher.adding_user_in_database(
-                                database_source="workWithUsersDatapase/UsersDatabase.txt",
+                                database_source="workWithUsersDatabase/UsersDatabase.txt",
                                 full_name=f"{get_last_name} {get_first_name}", user_id=f"id{event.object.peer_id}",
                                 source_for_user="8class", sheet_name=event.object.text.upper(),
                                 columns_for_user=['A', 'B', 'E'], extra_cells=1)
@@ -348,7 +348,7 @@ def bot_processing():
                                       keyboard=main_keyboard)
                         elif event.object.text.upper() in nine_class_groups:
                             UserSearcher.adding_user_in_database(
-                                database_source="workWithUsersDatapase/UsersDatabase.txt",
+                                database_source="workWithUsersDatabase/UsersDatabase.txt",
                                 full_name=f"{get_last_name} {get_first_name}", user_id=f"id{event.object.peer_id}",
                                 source_for_user="9class", sheet_name=event.object.text.upper(),
                                 columns_for_user=['A', 'B', 'E'], extra_cells=1)
@@ -364,7 +364,7 @@ def bot_processing():
                                       keyboard=main_keyboard)
                         elif event.object.text.upper() in eleven_class_groups:
                             UserSearcher.adding_user_in_database(
-                                database_source="workWithUsersDatapase/UsersDatabase.txt",
+                                database_source="workWithUsersDatabase/UsersDatabase.txt",
                                 full_name=f"{get_last_name} {get_first_name}", user_id=f"id{event.object.peer_id}",
                                 source_for_user="11class", sheet_name=event.object.text.upper(),
                                 columns_for_user=['A', 'B', 'E'], extra_cells=1)
