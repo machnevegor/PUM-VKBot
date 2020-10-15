@@ -111,11 +111,6 @@ def searching_user_in_database(database_source, user_id):
             print("!!! ERROR: Users database - BROKEN !!!")
             print(f"Reason: {E}")
 
-
-# adding_user_in_database(database_source="UsersDatabase.txt", full_name="# # #", user_id="id#",
-#                         source_for_user="excelDatabase/##class/##class.xlsx", sheet_name="#, #",
-#                         columns_for_user=["#", "#", "#"], extra_cells=1)
-
 # Authors of the project:
 # 1-MachnevEgor_https://vk.com/machnev_egor
 # 2-SchalimovDmitriy_https://vk.com/astronaut_without_spaceship
