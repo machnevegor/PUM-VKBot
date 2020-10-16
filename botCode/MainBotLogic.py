@@ -222,7 +222,10 @@ def bot_processing():
                     write_msg(event.object.peer_id, "Такс, и ещё выбери для каких классов🤔",
                               keyboard=select_call_class_keyboard)
                 elif event.object.text.lower() == "уроков":
-                    write_msg(event.object.peer_id, "Хмм, теперь выбери день😼", keyboard=choosing_day_of_week_keyboard)
+                    write_msg(event.object.peer_id,
+                              "Хмм, теперь выбери день😼\nКста, держи график занятий во время очно-дистанционного обучения:",
+                              keyboard=choosing_day_of_week_keyboard,
+                              attachment="photo222338543_457245736_f877fbd5dda6819ff3")
                 # select call class keyboard
                 elif event.object.text.lower() == "8-9":
                     write_msg(event.object.peer_id, eight_nine_schedule_calls, keyboard=main_keyboard)
