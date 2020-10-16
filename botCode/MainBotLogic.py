@@ -21,7 +21,9 @@ from configurationFile import BotConfig as BotConfig
 from workWithUsersDatabase import UserSearcher
 from workWithExcelFile import ExcelSearcher as ExcelSearcher
 
-# reboot time
+# full error log output(without auto-reconnection)
+error_checking_switch = False
+# auto-reconnection
 reboot_time = 5
 # system array
 community_id = ["187254286"]
@@ -396,19 +398,25 @@ def bot_processing():
                 print("-----------------------------")
 
 
-# connect and reconnect when disconnected
+# starting the bot logic
 if __name__ == "__main__":
-    while True:
-        try:
-            bot_processing()
-        except Exception as E:
-            print("-----------------------------")
-            print(datetime.datetime.today())
-            print("!!!  The bot is disabled  !!!")
-            print(f"Reason: {E}")
-            print("-----------------------------")
-            time.sleep(reboot_time)
-            print("!!!    Reconnect, wait    !!!")
+    if error_checking_switch == True:
+        # starting with the log output of the error
+        bot_processing()
+    else:
+        # for a permanent bot job with auto-reconnection
+        while True:
+            try:
+                bot_processing()
+            except Exception as E:
+                # sending data to the terminal
+                print("-----------------------------")
+                print(datetime.datetime.today())
+                print("!!!  The bot is disabled  !!!")
+                print(f"Reason: {E}")
+                print("-----------------------------")
+                time.sleep(reboot_time)
+                print("!!!    Reconnect, wait    !!!")
 
 # Authors of the project:
 # 1-MachnevEgor_https://vk.com/machnev_egor
