@@ -24,7 +24,7 @@ from workWithExcelFile import ExcelSearcher as ExcelSearcher
 # reboot time
 reboot_time = 5
 # system array
-groups_id_array = ["187254286"]
+community_id = ["187254286"]
 
 # all groups for all classes of the Mai pre-University
 eight_class_groups = ["М-8-1-1, Ф-8-1", "М-8-1-2, Ф-8-1", "М-8-1-2, Ф-8-2", "М-8-2-1, Ф-8-1", "М-8-2-1, Ф-8-2",
@@ -156,7 +156,7 @@ def bot_processing():
                                     "attachment": attachment, "random_id": randint(1, 100000000)})
 
     # longpoll
-    longpoll = VkBotLongPoll(vk, group_id=groups_id_array)
+    longpoll = VkBotLongPoll(vk, group_id=community_id)
     # response logic
     for event in longpoll.listen():
         # processing a new message
