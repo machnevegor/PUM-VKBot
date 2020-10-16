@@ -13,6 +13,7 @@
 import vk_api as vk_api
 from vk_api.bot_longpoll import VkBotLongPoll, VkBotEventType
 import json as json
+import requests as requests
 from random import randint as randint
 import time as time
 import datetime as datetime
@@ -23,10 +24,13 @@ from workWithExcelFile import ExcelSearcher as ExcelSearcher
 
 # full error log output(without auto-reconnection)
 error_checking_switch = False
+# time to restart the bot
 reboot_time = 5
 
 # system array
 community_id = ["187254286"]
+# talk to the reservation database
+conversation_for_data_reservation_id = 2000000004
 
 # all groups for all classes of the Mai pre-University
 eight_class_groups = ["М-8-1-1, Ф-8-1", "М-8-1-2, Ф-8-1", "М-8-1-2, Ф-8-2", "М-8-2-1, Ф-8-1", "М-8-2-1, Ф-8-2",
@@ -157,12 +161,26 @@ def bot_processing():
         vk.method("messages.send", {"peer_id": id, "message": message, "keyboard": keyboard, "sticker_id": sticker_id,
                                     "attachment": attachment, "random_id": randint(1, 100000000)})
 
+    # sending a database from a conversation to reserve data
+    def sending_and_reserving_database(conversation_id, database_source, message):
+        # sending data to the terminal
+        print(f"Sending and reserving a database...({conversation_id}, {database_source})")
+        # sending and reserving data
+        get_serverAccess = vk.method("docs.getMessagesUploadServer", {"type": "doc", "peer_id": conversation_id})
+        get_serverLink = requests.post(get_serverAccess["upload_url"],
+                                       files={"file": open(database_source, "rb")}).json()
+        save_docFile = vk.method("docs.save", {"file": get_serverLink["file"]})["doc"]
+        attachment = "doc{}_{}".format(save_docFile["owner_id"], save_docFile["id"])
+        vk.method("messages.send",
+                  {"peer_id": conversation_for_data_reservation_id, "message": message, "attachment": attachment,
+                   "random_id": randint(1, 10000000)})
+
     # longpoll
     longpoll = VkBotLongPoll(vk, group_id=community_id)
     # response logic
     for event in longpoll.listen():
         # processing a new message
-        if event.type == VkBotEventType.MESSAGE_NEW:
+        if (event.type == VkBotEventType.MESSAGE_NEW) and (event.object.peer_id == event.object.from_id):
             # sending data to the terminal
             print(datetime.datetime.today())
             print(f"Message from-->https://vk.com/id{event.object.peer_id}")
@@ -338,15 +356,18 @@ def bot_processing():
                     UserSearcher.searching_user_in_database(database_source="workWithUsersDatabase/UsersDatabase.txt",
                                                             user_id=f"id{event.object.peer_id}")
                     if UserSearcher.presence_user == []:
-                        get_first_name = vk.method("users.get", {"user_ids": event.object.peer_id})[0]["first_name"]
                         get_last_name = vk.method("users.get", {"user_ids": event.object.peer_id})[0]["last_name"]
+                        get_first_name = vk.method("users.get", {"user_ids": event.object.peer_id})[0]["first_name"]
                         if event.object.text.upper() in eight_class_groups:
                             UserSearcher.adding_user_in_database(
                                 database_source="workWithUsersDatabase/UsersDatabase.txt",
                                 full_name=f"{get_last_name} {get_first_name}", user_id=f"id{event.object.peer_id}",
                                 source_for_user="8class", sheet_name=event.object.text.upper(),
                                 columns_for_user=['A', 'B', 'E'], extra_cells=1)
-                            write_msg(event.object.peer_id, "Поздравляю! Ты успешно зарегистрирован✅",
+                            sending_and_reserving_database(conversation_id=event.object.from_id,
+                                                           database_source="workWithUsersDatabase/UsersDatabase.txt",
+                                                           message=f"К нам присоединился новый пользователь - {get_last_name} {get_first_name}(id{event.object.peer_id} | 8class | {event.object.text.upper()})🚀")
+                            write_msg(event.object.peer_id, "Поздравляю! Регистрация прошла успешно✅",
                                       keyboard=main_keyboard)
                         elif event.object.text.upper() in nine_class_groups:
                             UserSearcher.adding_user_in_database(
@@ -354,7 +375,10 @@ def bot_processing():
                                 full_name=f"{get_last_name} {get_first_name}", user_id=f"id{event.object.peer_id}",
                                 source_for_user="9class", sheet_name=event.object.text.upper(),
                                 columns_for_user=['A', 'B', 'E'], extra_cells=1)
-                            write_msg(event.object.peer_id, "Поздравляю! Ты успешно зарегистрирован✅",
+                            sending_and_reserving_database(conversation_id=event.object.from_id,
+                                                           database_source="workWithUsersDatabase/UsersDatabase.txt",
+                                                           message=f"К нам присоединился новый пользователь - {get_last_name} {get_first_name}(id{event.object.peer_id} | 9class | {event.object.text.upper()})🚀")
+                            write_msg(event.object.peer_id, "Поздравляю! Регистрация прошла успешно✅",
                                       keyboard=main_keyboard)
                         elif event.object.text.upper() in ten_class_groups:
                             UserSearcher.adding_user_in_database(
@@ -362,7 +386,10 @@ def bot_processing():
                                 full_name=f"{get_last_name} {get_first_name}", user_id=f"id{event.object.peer_id}",
                                 source_for_user="10class", sheet_name=event.object.text.upper(),
                                 columns_for_user=['A', 'B', 'E'], extra_cells=1)
-                            write_msg(event.object.peer_id, "Поздравляю! Ты успешно зарегистрирован✅",
+                            sending_and_reserving_database(conversation_id=event.object.from_id,
+                                                           database_source="workWithUsersDatabase/UsersDatabase.txt",
+                                                           message=f"К нам присоединился новый пользователь - {get_last_name} {get_first_name}(id{event.object.peer_id} | 10class | {event.object.text.upper()})🚀")
+                            write_msg(event.object.peer_id, "Поздравляю! Регистрация прошла успешно✅",
                                       keyboard=main_keyboard)
                         elif event.object.text.upper() in eleven_class_groups:
                             UserSearcher.adding_user_in_database(
@@ -370,7 +397,10 @@ def bot_processing():
                                 full_name=f"{get_last_name} {get_first_name}", user_id=f"id{event.object.peer_id}",
                                 source_for_user="11class", sheet_name=event.object.text.upper(),
                                 columns_for_user=['A', 'B', 'E'], extra_cells=1)
-                            write_msg(event.object.peer_id, "Поздравляю! Ты успешно зарегистрирован✅",
+                            sending_and_reserving_database(conversation_id=event.object.from_id,
+                                                           database_source="workWithUsersDatabase/UsersDatabase.txt",
+                                                           message=f"К нам присоединился новый пользователь - {get_last_name} {get_first_name}(id{event.object.peer_id} | 11class | {event.object.text.upper()})🚀")
+                            write_msg(event.object.peer_id, "Поздравляю! Регистрация прошла успешно✅",
                                       keyboard=main_keyboard)
                     else:
                         write_msg(event.object.peer_id,
