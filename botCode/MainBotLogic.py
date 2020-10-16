@@ -23,8 +23,8 @@ from workWithExcelFile import ExcelSearcher as ExcelSearcher
 
 # full error log output(without auto-reconnection)
 error_checking_switch = False
-# auto-reconnection
 reboot_time = 5
+
 # system array
 community_id = ["187254286"]
 
