@@ -13,6 +13,7 @@
 import vk_api as vk_api
 from vk_api.bot_longpoll import VkBotLongPoll, VkBotEventType
 import json as json
+import requests as requests
 from random import randint as randint
 import time as time
 import datetime as datetime
@@ -21,10 +22,15 @@ from configurationFile import BotConfig as BotConfig
 from workWithUsersDatabase import UserSearcher
 from workWithExcelFile import ExcelSearcher as ExcelSearcher
 
-# reboot time
+# full error log output(without auto-reconnection)
+error_checking_switch = False
+# time to restart the bot
 reboot_time = 5
+
 # system array
-groups_id_array = ["187254286"]
+community_id = ["187254286"]
+# talk to the reservation database
+conversation_for_data_reservation_id = 2000000004
 
 # all groups for all classes of the Mai pre-University
 eight_class_groups = ["М-8-1-1, Ф-8-1", "М-8-1-2, Ф-8-1", "М-8-1-2, Ф-8-2", "М-8-2-1, Ф-8-1", "М-8-2-1, Ф-8-2",
@@ -155,12 +161,26 @@ def bot_processing():
         vk.method("messages.send", {"peer_id": id, "message": message, "keyboard": keyboard, "sticker_id": sticker_id,
                                     "attachment": attachment, "random_id": randint(1, 100000000)})
 
+    # sending a database from a conversation to reserve data
+    def sending_and_reserving_database(conversation_id, database_source, message):
+        # sending data to the terminal
+        print(f"Sending and reserving a database...({conversation_id}, {database_source})")
+        # sending and reserving data
+        get_serverAccess = vk.method("docs.getMessagesUploadServer", {"type": "doc", "peer_id": conversation_id})
+        get_serverLink = requests.post(get_serverAccess["upload_url"],
+                                       files={"file": open(database_source, "rb")}).json()
+        save_docFile = vk.method("docs.save", {"file": get_serverLink["file"]})["doc"]
+        attachment = "doc{}_{}".format(save_docFile["owner_id"], save_docFile["id"])
+        vk.method("messages.send",
+                  {"peer_id": conversation_for_data_reservation_id, "message": message, "attachment": attachment,
+                   "random_id": randint(1, 10000000)})
+
     # longpoll
-    longpoll = VkBotLongPoll(vk, group_id=groups_id_array)
+    longpoll = VkBotLongPoll(vk, group_id=community_id)
     # response logic
     for event in longpoll.listen():
         # processing a new message
-        if event.type == VkBotEventType.MESSAGE_NEW:
+        if (event.type == VkBotEventType.MESSAGE_NEW) and (event.object.peer_id == event.object.from_id):
             # sending data to the terminal
             print(datetime.datetime.today())
             print(f"Message from-->https://vk.com/id{event.object.peer_id}")
@@ -214,7 +234,7 @@ def bot_processing():
                                                             user_id=f"id{event.object.peer_id}")
                     if UserSearcher.presence_user == []:
                         write_msg(event.object.peer_id,
-                                  "Такс, тебя же нет в базе. Нажми на плитку -Регистрация- в главном меню🤙",
+                                  "Такс, тебя же нет в базе. Нажми на плитку -Регистрация- в главном меню, чтобы занести свои данные для выдачи расписания📖",
                                   keyboard=main_keyboard)
                     else:
                         write_msg(event.object.peer_id, "Поиск актуального расписания для тебя🔎",
@@ -232,7 +252,7 @@ def bot_processing():
                                                             user_id=f"id{event.object.peer_id}")
                     if UserSearcher.presence_user == []:
                         write_msg(event.object.peer_id,
-                                  "Такс, тебя же нет в базе. Нажми на плитку -Регистрация- в главном меню🤙",
+                                  "Такс, тебя же нет в базе. Нажми на плитку -Регистрация- в главном меню, чтобы занести свои данные для выдачи расписания📖",
                                   keyboard=main_keyboard)
                     else:
                         write_msg(event.object.peer_id, "Поиск актуального расписания для тебя🔎",
@@ -250,7 +270,7 @@ def bot_processing():
                                                             user_id=f"id{event.object.peer_id}")
                     if UserSearcher.presence_user == []:
                         write_msg(event.object.peer_id,
-                                  "Такс, тебя же нет в базе. Нажми на плитку -Регистрация- в главном меню🤙",
+                                  "Такс, тебя же нет в базе. Нажми на плитку -Регистрация- в главном меню, чтобы занести свои данные для выдачи расписания📖",
                                   keyboard=main_keyboard)
                     else:
                         write_msg(event.object.peer_id, "Поиск актуального расписания для тебя🔎",
@@ -268,7 +288,7 @@ def bot_processing():
                                                             user_id=f"id{event.object.peer_id}")
                     if UserSearcher.presence_user == []:
                         write_msg(event.object.peer_id,
-                                  "Такс, тебя же нет в базе. Нажми на плитку -Регистрация- в главном меню🤙",
+                                  "Такс, тебя же нет в базе. Нажми на плитку -Регистрация- в главном меню, чтобы занести свои данные для выдачи расписания📖",
                                   keyboard=main_keyboard)
                     else:
                         write_msg(event.object.peer_id, "Поиск актуального расписания для тебя🔎",
@@ -286,7 +306,7 @@ def bot_processing():
                                                             user_id=f"id{event.object.peer_id}")
                     if UserSearcher.presence_user == []:
                         write_msg(event.object.peer_id,
-                                  "Такс, тебя же нет в базе. Нажми на плитку -Регистрация- в главном меню🤙",
+                                  "Такс, тебя же нет в базе. Нажми на плитку -Регистрация- в главном меню, чтобы занести свои данные для выдачи расписания📖",
                                   keyboard=main_keyboard)
                     else:
                         write_msg(event.object.peer_id, "Поиск актуального расписания для тебя🔎",
@@ -304,7 +324,7 @@ def bot_processing():
                                                             user_id=f"id{event.object.peer_id}")
                     if UserSearcher.presence_user == []:
                         write_msg(event.object.peer_id,
-                                  "Такс, тебя же нет в базе. Нажми на плитку -Регистрация- в главном меню🤙",
+                                  "Такс, тебя же нет в базе. Нажми на плитку -Регистрация- в главном меню, чтобы занести свои данные для выдачи расписания📖",
                                   keyboard=main_keyboard)
                     else:
                         write_msg(event.object.peer_id, "Поиск актуального расписания для тебя🔎",
@@ -323,7 +343,7 @@ def bot_processing():
                                                             user_id=f"id{event.object.peer_id}")
                     if UserSearcher.presence_user == []:
                         write_msg(event.object.peer_id,
-                                  f"Теперь ты можешь осуществить регистрацию прямо в боте! Для этого тебе просто нужно написать свою группу, которая указана в индивидуальном расписании😜\nДля удобства вывожу тебе список всех групп в школе:\n8️⃣Класс: {'; '.join(eight_class_groups)}\n9️⃣Класс: {'; '.join(nine_class_groups)}\n1️⃣0️⃣Класс: {'; '.join(ten_class_groups)}\n1️⃣1️⃣Класс: {'; '.join(eleven_class_groups)}\nЕсли нужна помощь, то пиши в беседу, прикрепленную к сообществу:\nhttps://vk.me/join/FhSVyJp7fYT0fM805_KTHNWPctDNa79JGsI=",
+                                  f"Теперь ты можешь осуществить регистрацию прямо в боте! Для этого тебе просто нужно написать свою группу, которая указана в индивидуальном расписании(название группы обязательно вводить русскими символами, если у тебя не получится ввести номер группы с первого раза - попробуй ещё раз)😜\nДля удобства вывожу тебе список всех групп в школе:\n8️⃣Класс: {'; '.join(eight_class_groups)}\n9️⃣Класс: {'; '.join(nine_class_groups)}\n1️⃣0️⃣Класс: {'; '.join(ten_class_groups)}\n1️⃣1️⃣Класс: {'; '.join(eleven_class_groups)}\nЕсли нужна помощь, то пиши в беседу, прикрепленную к сообществу:\nhttps://vk.me/join/FhSVyJp7fYT0fM805_KTHNWPctDNa79JGsI=",
                                   keyboard=main_keyboard)
                     else:
                         write_msg(event.object.peer_id,
@@ -336,23 +356,29 @@ def bot_processing():
                     UserSearcher.searching_user_in_database(database_source="workWithUsersDatabase/UsersDatabase.txt",
                                                             user_id=f"id{event.object.peer_id}")
                     if UserSearcher.presence_user == []:
-                        get_first_name = vk.method("users.get", {"user_ids": event.object.peer_id})[0]["first_name"]
                         get_last_name = vk.method("users.get", {"user_ids": event.object.peer_id})[0]["last_name"]
+                        get_first_name = vk.method("users.get", {"user_ids": event.object.peer_id})[0]["first_name"]
                         if event.object.text.upper() in eight_class_groups:
                             UserSearcher.adding_user_in_database(
-                                database_source="workWithUsersDatapase/UsersDatabase.txt",
+                                database_source="workWithUsersDatabase/UsersDatabase.txt",
                                 full_name=f"{get_last_name} {get_first_name}", user_id=f"id{event.object.peer_id}",
                                 source_for_user="8class", sheet_name=event.object.text.upper(),
                                 columns_for_user=['A', 'B', 'E'], extra_cells=1)
-                            write_msg(event.object.peer_id, "Поздравляю! Ты успешно зарегистрирован✅",
+                            sending_and_reserving_database(conversation_id=event.object.from_id,
+                                                           database_source="workWithUsersDatabase/UsersDatabase.txt",
+                                                           message=f"К нам присоединился новый пользователь - {get_last_name} {get_first_name}(id{event.object.peer_id} | 8class | {event.object.text.upper()})🚀")
+                            write_msg(event.object.peer_id, "Поздравляю! Регистрация прошла успешно✅",
                                       keyboard=main_keyboard)
                         elif event.object.text.upper() in nine_class_groups:
                             UserSearcher.adding_user_in_database(
-                                database_source="workWithUsersDatapase/UsersDatabase.txt",
+                                database_source="workWithUsersDatabase/UsersDatabase.txt",
                                 full_name=f"{get_last_name} {get_first_name}", user_id=f"id{event.object.peer_id}",
                                 source_for_user="9class", sheet_name=event.object.text.upper(),
                                 columns_for_user=['A', 'B', 'E'], extra_cells=1)
-                            write_msg(event.object.peer_id, "Поздравляю! Ты успешно зарегистрирован✅",
+                            sending_and_reserving_database(conversation_id=event.object.from_id,
+                                                           database_source="workWithUsersDatabase/UsersDatabase.txt",
+                                                           message=f"К нам присоединился новый пользователь - {get_last_name} {get_first_name}(id{event.object.peer_id} | 9class | {event.object.text.upper()})🚀")
+                            write_msg(event.object.peer_id, "Поздравляю! Регистрация прошла успешно✅",
                                       keyboard=main_keyboard)
                         elif event.object.text.upper() in ten_class_groups:
                             UserSearcher.adding_user_in_database(
@@ -360,24 +386,30 @@ def bot_processing():
                                 full_name=f"{get_last_name} {get_first_name}", user_id=f"id{event.object.peer_id}",
                                 source_for_user="10class", sheet_name=event.object.text.upper(),
                                 columns_for_user=['A', 'B', 'E'], extra_cells=1)
-                            write_msg(event.object.peer_id, "Поздравляю! Ты успешно зарегистрирован✅",
+                            sending_and_reserving_database(conversation_id=event.object.from_id,
+                                                           database_source="workWithUsersDatabase/UsersDatabase.txt",
+                                                           message=f"К нам присоединился новый пользователь - {get_last_name} {get_first_name}(id{event.object.peer_id} | 10class | {event.object.text.upper()})🚀")
+                            write_msg(event.object.peer_id, "Поздравляю! Регистрация прошла успешно✅",
                                       keyboard=main_keyboard)
                         elif event.object.text.upper() in eleven_class_groups:
                             UserSearcher.adding_user_in_database(
-                                database_source="workWithUsersDatapase/UsersDatabase.txt",
+                                database_source="workWithUsersDatabase/UsersDatabase.txt",
                                 full_name=f"{get_last_name} {get_first_name}", user_id=f"id{event.object.peer_id}",
                                 source_for_user="11class", sheet_name=event.object.text.upper(),
                                 columns_for_user=['A', 'B', 'E'], extra_cells=1)
-                            write_msg(event.object.peer_id, "Поздравляю! Ты успешно зарегистрирован✅",
-                                      keyboard=main_keyboard)
-                        else:
-                            write_msg(event.object.peer_id,
-                                      f"Так-так-так, ты неправильно ввёл свою группу. Напоминаю, что её нужно вводить русскими буквами, также как написано в твоём расписании. Попробуй опять ввести через клавиатуру😉\nТебе также могут помочь тут: https://vk.me/join/FhSVyJp7fYT0fM805_KTHNWPctDNa79JGsI=",
+                            sending_and_reserving_database(conversation_id=event.object.from_id,
+                                                           database_source="workWithUsersDatabase/UsersDatabase.txt",
+                                                           message=f"К нам присоединился новый пользователь - {get_last_name} {get_first_name}(id{event.object.peer_id} | 11class | {event.object.text.upper()})🚀")
+                            write_msg(event.object.peer_id, "Поздравляю! Регистрация прошла успешно✅",
                                       keyboard=main_keyboard)
                     else:
                         write_msg(event.object.peer_id,
                                   f"Разве что-то не так? - ты же есть в базе. Если есть какие-то проблемы или ты сомневаешься в чём-то, то держи свои данные({UserSearcher.presence_user[0]} | {UserSearcher.presence_user[1]} | {UserSearcher.presence_user[2]} | {UserSearcher.presence_user[3]}) и бегом в общую беседу, которая прикреплена к сообществу😦\nhttps://vk.me/join/FhSVyJp7fYT0fM805_KTHNWPctDNa79JGsI=",
                                   keyboard=main_keyboard)
+                # get VK-ID
+                elif event.object.text.lower() == "получить id":
+                    write_msg(event.object.peer_id, f"Твой персональный ID в ВК: id{event.object.peer_id}",
+                              keyboard=main_keyboard)
                 # easter egg
                 elif event.object.text.lower() == "пасхалка":
                     write_msg(event.object.peer_id,
@@ -388,30 +420,33 @@ def bot_processing():
                     write_msg(event.object.peer_id,
                               "Оооу да - а вот и долгожданное обновление! Мы славно поработали и надеемся, что тебе всё понравится😎",
                               keyboard=main_keyboard)
-                # get VK-ID
-                elif event.object.text.lower() == "получить id":
-                    write_msg(event.object.peer_id, f"Твой персональный ID в ВК: id{event.object.peer_id}",
-                              keyboard=main_keyboard)
                 # unrecognized command
                 else:
-                    write_msg(event.object.peer_id, "Это точно команда:/", keyboard=main_keyboard)
+                    write_msg(event.object.peer_id, "По-моему ты вводишь что-то не так, попробуй ещё раз😕",
+                              keyboard=main_keyboard)
                 # sending data to the terminal
                 print("-----------------------------")
 
 
-# connect and reconnect when disconnected
+# starting the bot logic
 if __name__ == "__main__":
-    while True:
-        try:
-            bot_processing()
-        except Exception as E:
-            print("-----------------------------")
-            print(datetime.datetime.today())
-            print("!!!  The bot is disabled  !!!")
-            print(f"Reason: {E}")
-            print("-----------------------------")
-            time.sleep(reboot_time)
-            print("!!!    Reconnect, wait    !!!")
+    if error_checking_switch == True:
+        # starting with the log output of the error
+        bot_processing()
+    else:
+        # for a permanent bot job with auto-reconnection
+        while True:
+            try:
+                bot_processing()
+            except Exception as E:
+                # sending data to the terminal
+                print("-----------------------------")
+                print(datetime.datetime.today())
+                print("!!!  The bot is disabled  !!!")
+                print(f"Reason: {E}")
+                print("-----------------------------")
+                time.sleep(reboot_time)
+                print("!!!    Reconnect, wait    !!!")
 
 # Authors of the project:
 # 1-MachnevEgor_https://vk.com/machnev_egor

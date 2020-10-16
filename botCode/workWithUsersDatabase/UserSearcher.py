@@ -53,6 +53,8 @@ def adding_user_in_database(database_source, full_name, user_id, source_for_user
             columns_for_user) + cell_separator + str(extra_cells))
     # closing the database
     data_memory.close()
+    # sending data to the terminal
+    print(f"New user: {full_name} - {user_id} ({source_for_user}, {sheet_name}, {columns_for_user}, {extra_cells})")
 
 
 # opening a database and transferring data to an array
