@@ -430,10 +430,7 @@ def bot_processing():
 
 # starting the bot logic
 if __name__ == "__main__":
-    if error_checking_switch == True:
-        # starting with the log output of the error
-        bot_processing()
-    else:
+    if error_checking_switch != True:
         # for a permanent bot job with auto-reconnection
         while True:
             try:
@@ -447,6 +444,9 @@ if __name__ == "__main__":
                 print("-----------------------------")
                 time.sleep(reboot_time)
                 print("!!!    Reconnect, wait    !!!")
+    else:
+        # starting with the log output of the error
+        bot_processing()
 
 # Authors of the project:
 # 1-MachnevEgor_https://vk.com/machnev_egor
