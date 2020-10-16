@@ -374,6 +374,10 @@ def bot_processing():
                         write_msg(event.object.peer_id,
                                   f"Разве что-то не так? - ты же есть в базе. Если есть какие-то проблемы или ты сомневаешься в чём-то, то держи свои данные({UserSearcher.presence_user[0]} | {UserSearcher.presence_user[1]} | {UserSearcher.presence_user[2]} | {UserSearcher.presence_user[3]}) и бегом в общую беседу, которая прикреплена к сообществу😦\nhttps://vk.me/join/FhSVyJp7fYT0fM805_KTHNWPctDNa79JGsI=",
                                   keyboard=main_keyboard)
+                # get VK-ID
+                elif event.object.text.lower() == "получить id":
+                    write_msg(event.object.peer_id, f"Твой персональный ID в ВК: id{event.object.peer_id}",
+                              keyboard=main_keyboard)
                 # easter egg
                 elif event.object.text.lower() == "пасхалка":
                     write_msg(event.object.peer_id,
@@ -384,13 +388,10 @@ def bot_processing():
                     write_msg(event.object.peer_id,
                               "Оооу да - а вот и долгожданное обновление! Мы славно поработали и надеемся, что тебе всё понравится😎",
                               keyboard=main_keyboard)
-                # get VK-ID
-                elif event.object.text.lower() == "получить id":
-                    write_msg(event.object.peer_id, f"Твой персональный ID в ВК: id{event.object.peer_id}",
-                              keyboard=main_keyboard)
                 # unrecognized command
                 else:
-                    write_msg(event.object.peer_id, "По-моему ты вводишь что-то не так, попробуй ещё раз😕", keyboard=main_keyboard)
+                    write_msg(event.object.peer_id, "По-моему ты вводишь что-то не так, попробуй ещё раз😕",
+                              keyboard=main_keyboard)
                 # sending data to the terminal
                 print("-----------------------------")
 
