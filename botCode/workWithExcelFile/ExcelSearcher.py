@@ -16,7 +16,7 @@ import openpyxl
 excel_database_source = "workWithExcelFile/excelDatabase"
 
 # words or sentences that you don't want to output
-unnecessary_words_or_sentences = ["см. таблицу после субботы"]
+unnecessary_words_or_sentences = ["См.Таблицу После Субботы"]
 
 
 # data search and processing
@@ -71,7 +71,7 @@ def selective_data_search(excel_source, columns, extra_cells, sheet_name, start_
                     if (teachers_data_array[
                             quantity_recording_data + quantity_checks + 1 + extra_cells] != "None") and (
                             teachers_data_array[
-                                quantity_recording_data + quantity_checks + 1 + extra_cells].lower() not in unnecessary_words_or_sentences):
+                                quantity_recording_data + quantity_checks + 1 + extra_cells].title() not in unnecessary_words_or_sentences):
                         teachers_output_data_array.append(
                             teachers_data_array[quantity_recording_data + quantity_checks + 1 + extra_cells].title())
                     else:
@@ -80,7 +80,7 @@ def selective_data_search(excel_source, columns, extra_cells, sheet_name, start_
                     if (cabinets_data_array[
                             quantity_recording_data + quantity_checks + 1 + extra_cells] != "None") and (
                             cabinets_data_array[
-                                quantity_recording_data + quantity_checks + 1 + extra_cells].lower() not in unnecessary_words_or_sentences):
+                                quantity_recording_data + quantity_checks + 1 + extra_cells].title() not in unnecessary_words_or_sentences):
                         try:
                             cabinets_output_data_array.append(int(float(cabinets_data_array[
                                                                             quantity_recording_data + quantity_checks + 1 + extra_cells])))
