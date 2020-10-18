@@ -15,6 +15,9 @@ import openpyxl
 # the path to the branching database
 excel_database_source = "workWithExcelFile/excelDatabase"
 
+# words or sentences that you don't want to output
+unnecessary_words_or_sentences = ["см. таблицу после субботы"]
+
 
 # data search and processing
 def selective_data_search(excel_source, columns, extra_cells, sheet_name, start_data, end_data):
@@ -39,14 +42,21 @@ def selective_data_search(excel_source, columns, extra_cells, sheet_name, start_
         for row in sheet[f"{columns[1]}1":f"{columns[1]}{sheet.max_row}"]:
             for cell in row:
                 lessons_data_array.append(str(cell.value))
+        # teachers - import data from a graph and transfer it to a separate array
+        teachers_data_array = []
+        sheet = excel_document.get_sheet_by_name(sheet_name)
+        for row in sheet[f"{columns[2]}1":f"{columns[2]}{sheet.max_row}"]:
+            for cell in row:
+                teachers_data_array.append(str(cell.value))
         # cabinets - import data from a graph and transfer it to a separate array
         cabinets_data_array = []
         sheet = excel_document.get_sheet_by_name(sheet_name)
-        for row in sheet[f"{columns[2]}1":f"{columns[2]}{sheet.max_row}"]:
+        for row in sheet[f"{columns[3]}1":f"{columns[3]}{sheet.max_row}"]:
             for cell in row:
                 cabinets_data_array.append(str(cell.value))
         # search for relevant information
         lessons_output_data_array = []
+        teachers_output_data_array = []
         cabinets_output_data_array = []
         for quantity_checks in range(len(days_data_array)):
             if days_data_array[quantity_checks].lower() == start_data.lower():
@@ -54,22 +64,35 @@ def selective_data_search(excel_source, columns, extra_cells, sheet_name, start_
                     if lessons_data_array[
                         quantity_recording_data + quantity_checks + 1 + extra_cells].lower() == end_data.lower():
                         break
-                    # writing the necessary information to separate arrays
+                    # lessons - writing the necessary information
                     lessons_output_data_array.append(
                         (lessons_data_array[quantity_recording_data + quantity_checks + 1 + extra_cells]).title())
-                    if cabinets_data_array[quantity_recording_data + quantity_checks + 1 + extra_cells] == "None":
-                        cabinets_output_data_array.append("Узнавать у классного руководителя")
+                    # teachers - data analysis and writing the necessary information
+                    if (teachers_data_array[
+                            quantity_recording_data + quantity_checks + 1 + extra_cells] != "None") and (
+                            teachers_data_array[
+                                quantity_recording_data + quantity_checks + 1 + extra_cells].lower() not in unnecessary_words_or_sentences):
+                        teachers_output_data_array.append(
+                            teachers_data_array[quantity_recording_data + quantity_checks + 1 + extra_cells].title())
                     else:
+                        teachers_output_data_array.append("Преподаватель не указан")
+                    # cabinets - data analysis and writing the necessary information
+                    if (cabinets_data_array[
+                            quantity_recording_data + quantity_checks + 1 + extra_cells] != "None") and (
+                            cabinets_data_array[
+                                quantity_recording_data + quantity_checks + 1 + extra_cells].lower() not in unnecessary_words_or_sentences):
                         try:
                             cabinets_output_data_array.append(int(float(cabinets_data_array[
                                                                             quantity_recording_data + quantity_checks + 1 + extra_cells])))
                         except Exception as E:
                             cabinets_output_data_array.append(cabinets_data_array[
                                                                   quantity_recording_data + quantity_checks + 1 + extra_cells].title())
+                    else:
+                        cabinets_output_data_array.append("Узнавать у классного руководителя")
         # the preparation of a reply
         for quantity_transfers in range(len(lessons_output_data_array)):
             output_day_schedule.append(
-                f"{quantity_transfers + 1}. {lessons_output_data_array[quantity_transfers]}({cabinets_output_data_array[quantity_transfers]})")
+                f"{quantity_transfers + 1}. {lessons_output_data_array[quantity_transfers]}({teachers_output_data_array[quantity_transfers]} & {cabinets_output_data_array[quantity_transfers]})")
         if output_day_schedule == ["Расписание на заданный день:"]:
             output_day_schedule = "Кажись в этот день технопарк🙃"
         else:
