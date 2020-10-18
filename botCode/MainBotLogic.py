@@ -44,9 +44,9 @@ nine_class_groups = ["М-9-1, Ф-9-1, Р-9-1-2", "М-9-1, Ф-9-1, Р-9-2-1", "М
 ten_class_groups = ["М-10-1, А-10-1", "М-10-1, А-10-2", "М-10-1, А-10-3", "М-10-2, А-10-1", "М-10-2, А-10-2",
                     "М-10-2, А-10-3", "М-10-3, А-10-1", "М-10-3, А-10-2", "М-10-3, А-10-3"]
 eleven_class_groups = ["М1, Ф1, М-1-1, Р-1-4, Л3", "М1, Ф1, М-1-1, Р-1-4, Л4", "М1, Ф1, М-1-1, Р-3, Л-3",
-                       "М1, Ф1, М-3-1, Р-2, Л3", "М1, Ф1, М-3-1, Р-3, Л3", "М1, Ф1, М-3-1, Р1, Л3",
-                       "М1, Ф4, М-2-1, Р1, Л3", "М1, Ф4, М-3-1, Р1, Л3", "М2, Ф2, М-2-1, Р-3, Л2",
-                       "М2, Ф2, М-2-1, Р-3, Л3", "М2, Ф2, М-2-1, Р1, Л2", "М2, Ф2, М-2-1, Р1, Л3",
+                       "М1, Ф1, М-2-1, Р1, Л3", "М1, Ф1, М-3-1, Р1, Л3", "М1, Ф1, М-3-1, Р-2, Л3",
+                       "М1, Ф1, М-3-1, Р-3, Л3", "М1, Ф4, М-2-1, Р1, Л3", "М1, Ф4, М-3-1, Р1, Л3",
+                       "М2, Ф2, М-2-1, Р1, Л2", "М2, Ф2, М-2-1, Р-3, Л2", "М2, Ф2, М-2-1, Р-3, Л3",
                        "М2, Ф2, М-2-1, Р4, Л4", "М2, Ф2, М-3-1, Р1, Л1", "М2, Ф2, М-3-1, Р1, Л2",
                        "М2, Ф2, М-3-1, Р2, Л2", "М2, Ф2, М-3-1, Р4, Л4", "М3, Ф1, М-1-1, Р4, Л4",
                        "М3, Ф1, М-2-1, Р-1, Л3", "М3, Ф1, М-2-1, Р3, Л2", "М3, Ф1, М-2-1, Р3, Л3",
@@ -56,9 +56,9 @@ eleven_class_groups = ["М1, Ф1, М-1-1, Р-1-4, Л3", "М1, Ф1, М-1-1, Р-1-
                        "М3, Ф4, М-3-1, Р1, Л2", "М3, Ф4, М-3-1, Р3, Л2", "М3, Ф4, М-3-1, Р4, Л4",
                        "М4, Ф1, М-4-1, Р1, Л1", "М4, Ф1, М-4-1, Р2, Л1", "М4, Ф1, М-4-1, Р4, Л4",
                        "М4, Ф1, М-4-2, Р2, Л1", "М4, Ф1, М-4-2, Р4, Л4", "М4, Ф4, М-4-1, Р1, Л1",
-                       "М4, Ф4, М-4-1, Р2, Л1", "М4, Ф4, М-4-1, Р3, Л1", "М4, Ф4, М-4-1, Р4, Л4",
-                       "М4, Ф4, М-4-2, Р1, Л1", "М4, Ф4, М-4-2, Р2, Л1", "М4, Ф4, М-4-2, Р2, Л3",
-                       "М4, Ф4, М-4-2, Р4, Л4"]
+                       "М4, Ф4, М-4-1, Р2, Л1", "М4, Ф4, М-4-1, Р3, Л1", "М4, Ф4, М-4-1, Р3, Л1",
+                       "М4, Ф4, М-4-1, Р4, Л4", "М4, Ф4, М-4-2, Р1, Л1", "М4, Ф4, М-4-2, Р2, Л1",
+                       "М4, Ф4, М-4-2, Р2, Л3", "М4, Ф4, М-4-2, Р4, Л4"]
 
 # information about developers
 about_bot = [
@@ -366,7 +366,7 @@ def bot_processing():
                                 database_source="workWithUsersDatabase/UsersDatabase.txt",
                                 full_name=f"{get_last_name} {get_first_name}", user_id=f"id{event.object.peer_id}",
                                 source_for_user="8class", sheet_name=event.object.text.upper(),
-                                columns_for_user=['A', 'B', 'E'], extra_cells=1)
+                                columns_for_user=['A', 'B', 'D', 'E'], extra_cells=1)
                             sending_and_reserving_database(conversation_id=event.object.from_id,
                                                            database_source="workWithUsersDatabase/UsersDatabase.txt",
                                                            message=f"К нам присоединился новый пользователь - {get_last_name} {get_first_name}(id{event.object.peer_id} | 8class | {event.object.text.upper()})🚀")
@@ -377,7 +377,7 @@ def bot_processing():
                                 database_source="workWithUsersDatabase/UsersDatabase.txt",
                                 full_name=f"{get_last_name} {get_first_name}", user_id=f"id{event.object.peer_id}",
                                 source_for_user="9class", sheet_name=event.object.text.upper(),
-                                columns_for_user=['A', 'B', 'E'], extra_cells=1)
+                                columns_for_user=['A', 'B', 'D', 'E'], extra_cells=1)
                             sending_and_reserving_database(conversation_id=event.object.from_id,
                                                            database_source="workWithUsersDatabase/UsersDatabase.txt",
                                                            message=f"К нам присоединился новый пользователь - {get_last_name} {get_first_name}(id{event.object.peer_id} | 9class | {event.object.text.upper()})🚀")
@@ -388,7 +388,7 @@ def bot_processing():
                                 database_source="workWithUsersDatabase/UsersDatabase.txt",
                                 full_name=f"{get_last_name} {get_first_name}", user_id=f"id{event.object.peer_id}",
                                 source_for_user="10class", sheet_name=event.object.text.upper(),
-                                columns_for_user=['A', 'B', 'E'], extra_cells=1)
+                                columns_for_user=['A', 'B', 'D', 'E'], extra_cells=1)
                             sending_and_reserving_database(conversation_id=event.object.from_id,
                                                            database_source="workWithUsersDatabase/UsersDatabase.txt",
                                                            message=f"К нам присоединился новый пользователь - {get_last_name} {get_first_name}(id{event.object.peer_id} | 10class | {event.object.text.upper()})🚀")
@@ -399,7 +399,7 @@ def bot_processing():
                                 database_source="workWithUsersDatabase/UsersDatabase.txt",
                                 full_name=f"{get_last_name} {get_first_name}", user_id=f"id{event.object.peer_id}",
                                 source_for_user="11class", sheet_name=event.object.text.upper(),
-                                columns_for_user=['A', 'B', 'E'], extra_cells=1)
+                                columns_for_user=['A', 'B', 'D', 'E'], extra_cells=1)
                             sending_and_reserving_database(conversation_id=event.object.from_id,
                                                            database_source="workWithUsersDatabase/UsersDatabase.txt",
                                                            message=f"К нам присоединился новый пользователь - {get_last_name} {get_first_name}(id{event.object.peer_id} | 11class | {event.object.text.upper()})🚀")
