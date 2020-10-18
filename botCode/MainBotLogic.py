@@ -222,7 +222,10 @@ def bot_processing():
                     write_msg(event.object.peer_id, "Такс, и ещё выбери для каких классов🤔",
                               keyboard=select_call_class_keyboard)
                 elif event.object.text.lower() == "уроков":
-                    write_msg(event.object.peer_id, "Хмм, теперь выбери день😼", keyboard=choosing_day_of_week_keyboard)
+                    write_msg(event.object.peer_id,
+                              "Хмм, теперь выбери день😼\nКста, держи график занятий во время очно-дистанционного обучения:",
+                              keyboard=choosing_day_of_week_keyboard,
+                              attachment="photo222338543_457245736_f877fbd5dda6819ff3")
                 # select call class keyboard
                 elif event.object.text.lower() == "8-9":
                     write_msg(event.object.peer_id, eight_nine_schedule_calls, keyboard=main_keyboard)
@@ -430,10 +433,7 @@ def bot_processing():
 
 # starting the bot logic
 if __name__ == "__main__":
-    if error_checking_switch == True:
-        # starting with the log output of the error
-        bot_processing()
-    else:
+    if error_checking_switch != True:
         # for a permanent bot job with auto-reconnection
         while True:
             try:
@@ -447,6 +447,9 @@ if __name__ == "__main__":
                 print("-----------------------------")
                 time.sleep(reboot_time)
                 print("!!!    Reconnect, wait    !!!")
+    else:
+        # starting with the log output of the error
+        bot_processing()
 
 # Authors of the project:
 # 1-MachnevEgor_https://vk.com/machnev_egor
