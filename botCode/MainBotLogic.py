@@ -408,16 +408,25 @@ def bot_processing():
                                       keyboard=main_keyboard)
                     else:
                         if event.object.text.upper() == UserSearcher.presence_user[3]:
-                            write_msg(event.object.peer_id, "Да-да, всё внесено верно - ты есть в базе. Если есть какие-то вопросы, то пиши в беседу, прикреплённую к сообществу🗿\nhttps://vk.me/join/FhSVyJp7fYT0fM805_KTHNWPctDNa79JGsI=",
+                            write_msg(event.object.peer_id,
+                                      "Да-да, всё внесено верно - ты есть в базе. Если есть какие-то вопросы, то пиши в беседу, прикреплённую к сообществу🗿\nhttps://vk.me/join/FhSVyJp7fYT0fM805_KTHNWPctDNa79JGsI=",
                                       keyboard=main_keyboard)
                         else:
                             write_msg(event.object.peer_id,
                                       f"Ого - похоже ты хочешь изменить группу! Напиши в беседу, прикреплённую к сообществу, чтобы мы редактировали твои данные✍\nhttps://vk.me/join/FhSVyJp7fYT0fM805_KTHNWPctDNa79JGsI=",
                                       keyboard=main_keyboard)
-                # get VK-ID
-                elif event.object.text.lower() == "получить id":
-                    write_msg(event.object.peer_id, f"Твой персональный ID в ВК: id{event.object.peer_id}",
-                              keyboard=main_keyboard)
+                # get your data
+                elif event.object.text.lower() in ["я", "мои данные"]:
+                    UserSearcher.searching_user_in_database(database_source="workWithUsersDatabase/UsersDatabase.txt",
+                                                            user_id=f"id{event.object.peer_id}")
+                    if UserSearcher.presence_user != []:
+                        write_msg(event.object.peer_id,
+                                  f"Вот твои данные, которые ты внёс при регистрации: {UserSearcher.presence_user[0]} | {UserSearcher.presence_user[1]} | {UserSearcher.presence_user[2]} | {UserSearcher.presence_user[3]}💾",
+                                  keyboard=main_keyboard)
+                    else:
+                        write_msg(event.object.peer_id,
+                                  f"Ты ещё не зарегистрировался, бот пока знает про тебя только это: id{event.object.peer_id}📡",
+                                  keyboard=main_keyboard)
                 # easter egg
                 elif event.object.text.lower() == "пасхалка":
                     write_msg(event.object.peer_id,
