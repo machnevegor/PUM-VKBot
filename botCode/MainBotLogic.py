@@ -408,7 +408,7 @@ def bot_processing():
                                       keyboard=main_keyboard)
                     else:
                         if event.object.text.upper() == UserSearcher.presence_user[3]:
-                            write_msg(event.object.peer_id, "Да-да, всё внесено верно - ты есть в базе. Если есть какие-то вопросы, то пиши в беседу, прикреплённую к сообществу😎\nhttps://vk.me/join/FhSVyJp7fYT0fM805_KTHNWPctDNa79JGsI=",
+                            write_msg(event.object.peer_id, "Да-да, всё внесено верно - ты есть в базе. Если есть какие-то вопросы, то пиши в беседу, прикреплённую к сообществу🧐\nhttps://vk.me/join/FhSVyJp7fYT0fM805_KTHNWPctDNa79JGsI=",
                                       keyboard=main_keyboard)
                         else:
                             write_msg(event.object.peer_id,
