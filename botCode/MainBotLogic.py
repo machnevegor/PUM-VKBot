@@ -351,7 +351,7 @@ def bot_processing():
                                   keyboard=main_keyboard)
                     else:
                         write_msg(event.object.peer_id,
-                                  f"Ты уже есть в базе данных, поэтому если всё нормально, то можешь продолжать пользоваться ботом. Но если что-то не так, то пиши в беседу, прикреплённую к сообществу✌\nhttps://vk.me/join/FhSVyJp7fYT0fM805_KTHNWPctDNa79JGsI=",
+                                  f"Ты уже зарегистрирован - если всё нормально, то можешь продолжать пользоваться ботом. Если же у тебя есть какие-то проблемы, то лови свои данные({UserSearcher.presence_user[0]} | {UserSearcher.presence_user[1]} | {UserSearcher.presence_user[2]} | {UserSearcher.presence_user[3]}) и бегом в беседу, прикреплённую к сообществу⚙\nhttps://vk.me/join/FhSVyJp7fYT0fM805_KTHNWPctDNa79JGsI=",
                                   keyboard=main_keyboard)
                 elif (event.object.text.upper() in eight_class_groups) or (
                         event.object.text.upper() in nine_class_groups) or (
@@ -407,9 +407,13 @@ def bot_processing():
                             write_msg(event.object.peer_id, "Поздравляю! Регистрация прошла успешно✅",
                                       keyboard=main_keyboard)
                     else:
-                        write_msg(event.object.peer_id,
-                                  f"Разве что-то не так? - ты же есть в базе. Если есть какие-то проблемы или ты сомневаешься в чём-то, то держи свои данные({UserSearcher.presence_user[0]} | {UserSearcher.presence_user[1]} | {UserSearcher.presence_user[2]} | {UserSearcher.presence_user[3]}) и бегом в общую беседу, которая прикреплена к сообществу😦\nhttps://vk.me/join/FhSVyJp7fYT0fM805_KTHNWPctDNa79JGsI=",
-                                  keyboard=main_keyboard)
+                        if event.object.text.upper() == UserSearcher.presence_user[3]:
+                            write_msg(event.object.peer_id, "Да-да, всё внесено верно - ты есть в базе. Если есть какие-то вопросы, то пиши в беседу, прикреплённую к сообществу😉\nhttps://vk.me/join/FhSVyJp7fYT0fM805_KTHNWPctDNa79JGsI=",
+                                      keyboard=main_keyboard)
+                        else:
+                            write_msg(event.object.peer_id,
+                                      f"Ого - похоже ты хочешь изменить группу! Напиши в беседу, прикреплённую к сообществу, чтобы мы редактировали твои данные✍\nhttps://vk.me/join/FhSVyJp7fYT0fM805_KTHNWPctDNa79JGsI=",
+                                      keyboard=main_keyboard)
                 # get VK-ID
                 elif event.object.text.lower() == "получить id":
                     write_msg(event.object.peer_id, f"Твой персональный ID в ВК: id{event.object.peer_id}",
