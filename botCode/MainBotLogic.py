@@ -351,7 +351,7 @@ def bot_processing():
                                   keyboard=main_keyboard)
                     else:
                         write_msg(event.object.peer_id,
-                                  f"Ты уже зарегистрирован - если всё нормально, то можешь продолжать пользоваться ботом. Если же у тебя есть какие-то проблемы, то лови свои данные({UserSearcher.presence_user[0]} | {UserSearcher.presence_user[1]} | {UserSearcher.presence_user[2]} | {UserSearcher.presence_user[3]}) и бегом в беседу, прикреплённую к сообществу⚙\nhttps://vk.me/join/FhSVyJp7fYT0fM805_KTHNWPctDNa79JGsI=",
+                                  f"Ты уже зарегистрирован - если всё работает отлично, то ты также можешь продолжать пользоваться ботом. Если же у тебя есть какие-либо вопросы или ты сменил группу, то пиши в беседу, прикреплённую к сообществу⚙\nhttps://vk.me/join/FhSVyJp7fYT0fM805_KTHNWPctDNa79JGsI=",
                                   keyboard=main_keyboard)
                 elif (event.object.text.upper() in eight_class_groups) or (
                         event.object.text.upper() in nine_class_groups) or (
@@ -408,7 +408,7 @@ def bot_processing():
                                       keyboard=main_keyboard)
                     else:
                         if event.object.text.upper() == UserSearcher.presence_user[3]:
-                            write_msg(event.object.peer_id, "Да-да, всё внесено верно - ты есть в базе. Если есть какие-то вопросы, то пиши в беседу, прикреплённую к сообществу😉\nhttps://vk.me/join/FhSVyJp7fYT0fM805_KTHNWPctDNa79JGsI=",
+                            write_msg(event.object.peer_id, "Да-да, всё внесено верно - ты есть в базе. Если есть какие-то вопросы, то пиши в беседу, прикреплённую к сообществу😎\nhttps://vk.me/join/FhSVyJp7fYT0fM805_KTHNWPctDNa79JGsI=",
                                       keyboard=main_keyboard)
                         else:
                             write_msg(event.object.peer_id,
