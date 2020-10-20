@@ -416,7 +416,7 @@ def bot_processing():
                                       f"Ого - похоже ты хочешь изменить группу! Напиши в беседу, прикреплённую к сообществу, чтобы мы редактировали твои данные✍\nhttps://vk.me/join/FhSVyJp7fYT0fM805_KTHNWPctDNa79JGsI=",
                                       keyboard=main_keyboard)
                 # get your data
-                elif event.object.text.lower() in ["я", "мои данные"]:
+                elif event.object.text.lower() in ["я", "кто я", "хто я", "мои данные"]:
                     UserSearcher.searching_user_in_database(database_source="workWithUsersDatabase/UsersDatabase.txt",
                                                             user_id=f"id{event.object.peer_id}")
                     if UserSearcher.presence_user != []:
