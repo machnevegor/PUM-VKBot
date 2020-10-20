@@ -234,7 +234,7 @@ def bot_processing():
                 elif event.object.text.lower() == "помощь":
                     write_msg(event.object.peer_id,
                               "У тебя есть вопросы? - не волнуйся, ведь ты их всегда можешь задать в беседе, прикреплённой к сообществу🎯\nhttps://vk.me/join/FhSVyJp7fYT0fM805_KTHNWPctDNa79JGsI=",
-                              keyboard=schedules_keyboard)
+                              keyboard=main_keyboard)
                 elif event.object.text.lower() == "о боте":
                     write_msg(event.object.peer_id, about_bot[0], keyboard=main_keyboard)
                     write_msg(event.object.peer_id, about_bot[1], keyboard=main_keyboard,
