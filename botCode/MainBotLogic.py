@@ -170,10 +170,11 @@ def bot_processing():
         if attachment != None:
             print(f"Attachment: {attachment}")
         # keyboard if the person is not registered yet
-        UserSearcher.searching_user_in_database(database_source="workWithUsersDatabase/UsersDatabase.txt",
-                                                user_id=f"id{user_id}")
-        if UserSearcher.presence_user == []:
-            keyboard = before_registration_keyboard
+        if keyboard == main_keyboard:
+            UserSearcher.searching_user_in_database(database_source="workWithUsersDatabase/UsersDatabase.txt",
+                                                    user_id=f"id{user_id}")
+            if UserSearcher.presence_user == []:
+                keyboard = before_registration_keyboard
         # send the message
         vk.method("messages.send",
                   {"peer_id": user_id, "message": message, "keyboard": keyboard, "sticker_id": sticker_id,
