@@ -60,11 +60,10 @@ eleven_class_groups = ["М1, Ф1, М-1-1, Р-1-4, Л3", "М1, Ф1, М-1-1, Р-1-
                        "М4, Ф4, М-4-1, Р4, Л4", "М4, Ф4, М-4-2, Р1, Л1", "М4, Ф4, М-4-2, Р2, Л1",
                        "М4, Ф4, М-4-2, Р2, Л3", "М4, Ф4, М-4-2, Р4, Л4"]
 
-# array for keyboard
+# array for the back button and welcome words
 buttons_back = ["здравствуй", "привет", "хай", "куку", "ку", "салам", "саламалейкум", "здарова", "дыдова", "начать",
                 "главное меню", "меню", "плитки", "клавиатура", "назад", "hello", "hey", "hi", "qq", "q", "start",
                 "main menu", "menu", "tiles", "keyboard", "back"]
-# auxiliary arrays
 ru_greetings_bot = ["здравствуй", "привет", "хай", "ку", "салам", "здарова", "дыдова"]
 eng_greetings_bot = ["hello", "hey", "hi", "qq", "q"]
 
@@ -105,7 +104,16 @@ def bot_processing():
         "buttons": [
             [get_button(label="Учебники", color="positive"),
              get_button(label="Расписание", color="positive")],
-            [get_button(label="Регистрация", color="primary"),
+            [get_button(label="Помощь", color="primary"),
+             get_button(label="О боте", color="primary")],
+        ]
+    }
+
+    before_registration_keyboard = {
+        "one_time": False,
+        "buttons": [
+            [get_button(label="Регистрация", color="positive")],
+            [get_button(label="Помощь", color="primary"),
              get_button(label="О боте", color="primary")],
         ]
     }
@@ -144,6 +152,8 @@ def bot_processing():
     # json for keyboard
     main_keyboard = json.dumps(main_keyboard, ensure_ascii=False).encode("utf-8")
     main_keyboard = str(main_keyboard.decode("utf-8"))
+    before_registration_keyboard = json.dumps(before_registration_keyboard, ensure_ascii=False).encode("utf-8")
+    before_registration_keyboard = str(before_registration_keyboard.decode("utf-8"))
     schedules_keyboard = json.dumps(schedules_keyboard, ensure_ascii=False).encode("utf-8")
     schedules_keyboard = str(schedules_keyboard.decode("utf-8"))
     select_call_class_keyboard = json.dumps(select_call_class_keyboard, ensure_ascii=False).encode("utf-8")
@@ -152,16 +162,22 @@ def bot_processing():
     choosing_day_of_week_keyboard = str(choosing_day_of_week_keyboard.decode("utf-8"))
 
     # sending messages
-    def write_msg(id, message, keyboard=None, sticker_id=None, attachment=None):
+    def write_msg(user_id, message, keyboard=None, sticker_id=None, attachment=None):
         # sending data to the terminal
         print("Responce:", "".join(message))
         if sticker_id != None:
             print(f"Sticker: {sticker_id}")
         if attachment != None:
             print(f"Attachment: {attachment}")
+        # keyboard if the person is not registered yet
+        UserSearcher.searching_user_in_database(database_source="workWithUsersDatabase/UsersDatabase.txt",
+                                                user_id=f"id{user_id}")
+        if UserSearcher.presence_user == []:
+            keyboard = before_registration_keyboard
         # send the message
-        vk.method("messages.send", {"peer_id": id, "message": message, "keyboard": keyboard, "sticker_id": sticker_id,
-                                    "attachment": attachment, "random_id": randint(1, 100000000)})
+        vk.method("messages.send",
+                  {"peer_id": user_id, "message": message, "keyboard": keyboard, "sticker_id": sticker_id,
+                   "attachment": attachment, "random_id": randint(1, 100000000)})
 
     # sending a database from a conversation to reserve data
     def sending_and_reserving_database(conversation_id, database_source, message):
@@ -214,6 +230,10 @@ def bot_processing():
                               keyboard=main_keyboard)
                 elif event.object.text.lower() == "расписание":
                     write_msg(event.object.peer_id, "Ок, только выбери какое🖖", keyboard=schedules_keyboard)
+                elif event.object.text.lower() == "помощь":
+                    write_msg(event.object.peer_id,
+                              "У тебя есть вопросы? - не волнуйся, ведь ты их всегда можешь задать в беседе, прикреплённой к сообществу🎯\nhttps://vk.me/join/FhSVyJp7fYT0fM805_KTHNWPctDNa79JGsI=",
+                              keyboard=schedules_keyboard)
                 elif event.object.text.lower() == "о боте":
                     write_msg(event.object.peer_id, about_bot[0], keyboard=main_keyboard)
                     write_msg(event.object.peer_id, about_bot[1], keyboard=main_keyboard,
@@ -341,7 +361,7 @@ def bot_processing():
                                                             start_data="Суббота", end_data="None")
                         write_msg(event.object.peer_id, f"\n{ExcelSearcher.output_day_schedule}",
                                   keyboard=main_keyboard)
-                # registration
+                # registration - instruction
                 elif event.object.text.lower() == "регистрация":
                     UserSearcher.searching_user_in_database(database_source="workWithUsersDatabase/UsersDatabase.txt",
                                                             user_id=f"id{event.object.peer_id}")
@@ -353,6 +373,7 @@ def bot_processing():
                         write_msg(event.object.peer_id,
                                   f"Ты уже зарегистрирован - если всё работает отлично, то ты также можешь продолжать пользоваться ботом. Если же у тебя есть какие-либо вопросы или ты сменил группу, то пиши в беседу, прикреплённую к сообществу⚙\nhttps://vk.me/join/FhSVyJp7fYT0fM805_KTHNWPctDNa79JGsI=",
                                   keyboard=main_keyboard)
+                # registration - the process of entering users in the database
                 elif (event.object.text.upper() in eight_class_groups) or (
                         event.object.text.upper() in nine_class_groups) or (
                         event.object.text.upper() in ten_class_groups) or (
@@ -415,7 +436,7 @@ def bot_processing():
                             write_msg(event.object.peer_id,
                                       f"Ого - похоже ты хочешь изменить группу! Напиши в беседу, прикреплённую к сообществу, чтобы мы редактировали твои данные✍\nhttps://vk.me/join/FhSVyJp7fYT0fM805_KTHNWPctDNa79JGsI=",
                                       keyboard=main_keyboard)
-                # get your data
+                # get your data from the database
                 elif event.object.text.lower() in ["я", "кто я", "хто я", "мои данные"]:
                     UserSearcher.searching_user_in_database(database_source="workWithUsersDatabase/UsersDatabase.txt",
                                                             user_id=f"id{event.object.peer_id}")
@@ -427,7 +448,7 @@ def bot_processing():
                         write_msg(event.object.peer_id,
                                   f"Ты ещё не зарегистрировался, бот пока знает про тебя только это: id{event.object.peer_id}📡",
                                   keyboard=main_keyboard)
-                # easter egg
+                # 3301 - easter egg
                 elif event.object.text.lower() == "пасхалка":
                     write_msg(event.object.peer_id,
                               "Пасхалка?! Вау, в боте есть пасхалка! Приступим, есть шифр, указанный в пикче ниже - расшифруй его и отпишись в общую беседу сообщества(понимаем, что довольно сложно, поэтому даём две подсказки: ascii, tenet)",
