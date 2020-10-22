@@ -194,7 +194,7 @@ def bot_processing():
                   {"peer_id": conversation_for_data_reservation_id, "message": message, "attachment": attachment,
                    "random_id": randint(1, 10000000)})
 
-    # getting attachment for photos
+    # getting attachments for photos
     def updateAttachment(img_source):
         get_serverAccess = vk.method("photos.getMessagesUploadServer",
                                      {"album_id": 268631098, "group_id": community_id})
