@@ -199,7 +199,7 @@ def bot_processing():
         get_serverAccess = vk.method("photos.getMessagesUploadServer",
                                      {"album_id": 268631098, "group_id": community_id})
         get_serverLink = requests.post(get_serverAccess["upload_url"],
-                                       files={"file": open(img_source, "rb")}).json()
+                                       files={"file": open(f"botAttachments/{img_source}", "rb")}).json()
         save_attachmentFile = vk.method("photos.saveMessagesPhoto",
                                         {"photo": get_serverLink["photo"], "server": get_serverLink["server"],
                                          "hash": get_serverLink["hash"]})[0]
@@ -249,7 +249,7 @@ def bot_processing():
                 elif event.object.text.lower() == "о боте":
                     write_msg(event.object.peer_id, about_bot[0], keyboard=main_keyboard)
                     write_msg(event.object.peer_id, about_bot[1], keyboard=main_keyboard,
-                              attachment=updateAttachment(img_source="botAttachments/AboutBot.png"))
+                              attachment=updateAttachment(img_source="AboutBot.png"))
                 # schedules keyboard
                 elif event.object.text.lower() == "звонков":
                     write_msg(event.object.peer_id, "Такс, и ещё выбери для каких классов🤔",
@@ -258,7 +258,7 @@ def bot_processing():
                     write_msg(event.object.peer_id,
                               "Хмм, теперь выбери день😼\nКста, держи график занятий во время очно-дистанционного обучения:",
                               keyboard=choosing_day_of_week_keyboard,
-                              attachment=updateAttachment(img_source="botAttachments/SchoolDays.png"))
+                              attachment=updateAttachment(img_source="SchoolDays.png"))
                 # select call class keyboard
                 elif event.object.text.lower() == "8-9":
                     write_msg(event.object.peer_id, eight_nine_schedule_calls, keyboard=main_keyboard)
@@ -464,8 +464,7 @@ def bot_processing():
                 elif event.object.text.lower() == "пасхалка":
                     write_msg(event.object.peer_id,
                               "Пасхалка?! Вау, в боте есть пасхалка! Приступим, есть шифр, указанный в пикче ниже - расшифруй его и отпишись в общую беседу сообщества(понимаем, что довольно сложно, поэтому даём две подсказки: ascii, tenet)",
-                              keyboard=main_keyboard,
-                              attachment=updateAttachment(img_source="botAttachments/EasterEgg.png"))
+                              keyboard=main_keyboard, attachment=updateAttachment(img_source="EasterEgg.png"))
                 # check for updates
                 elif event.object.text.lower() == "проверить обновления":
                     write_msg(event.object.peer_id,

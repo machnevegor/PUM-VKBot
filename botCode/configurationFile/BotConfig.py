@@ -9,7 +9,7 @@
 # 3-arseny.karimov@gmail.com
 # 4-mihailmarkov2004@gmail.com
 
-BotToken = ""  # bot token
+BotToken = "2a0137796fb9abcb4efd8640afc0727d5bc1ef5f4fe353804e705e4aaeca675d4b7195a299010bb160f03"  # bot token
 
 # Authors of the project:
 # 1-MachnevEgor_https://vk.com/machnev_egor
