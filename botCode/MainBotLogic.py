@@ -238,7 +238,7 @@ def bot_processing():
                 elif event.object.text.lower() == "о боте":
                     write_msg(event.object.peer_id, about_bot[0], keyboard=main_keyboard)
                     write_msg(event.object.peer_id, about_bot[1], keyboard=main_keyboard,
-                              attachment="photo222338543_457245710_4c9cbdcfb8eba61348")
+                              attachment="photo222338543_457245836_657bc0cfbecac6a616")
                 # schedules keyboard
                 elif event.object.text.lower() == "звонков":
                     write_msg(event.object.peer_id, "Такс, и ещё выбери для каких классов🤔",
@@ -247,7 +247,7 @@ def bot_processing():
                     write_msg(event.object.peer_id,
                               "Хмм, теперь выбери день😼\nКста, держи график занятий во время очно-дистанционного обучения:",
                               keyboard=choosing_day_of_week_keyboard,
-                              attachment="photo222338543_457245736_f877fbd5dda6819ff3")
+                              attachment="photo222338543_457245837_c353f13b4997d1ff78")
                 # select call class keyboard
                 elif event.object.text.lower() == "8-9":
                     write_msg(event.object.peer_id, eight_nine_schedule_calls, keyboard=main_keyboard)
@@ -453,7 +453,7 @@ def bot_processing():
                 elif event.object.text.lower() == "пасхалка":
                     write_msg(event.object.peer_id,
                               "Пасхалка?! Вау, в боте есть пасхалка! Приступим, есть шифр, указанный в пикче ниже - расшифруй его и отпишись в общую беседу сообщества(понимаем, что довольно сложно, поэтому даём две подсказки: ascii, tenet)",
-                              keyboard=main_keyboard, attachment="photo222338543_457245709_c2475e60dc624529c3")
+                              keyboard=main_keyboard, attachment="photo222338543_457245838_d3e257103e69dd2d75")
                 # check for updates
                 elif event.object.text.lower() == "проверить обновления":
                     write_msg(event.object.peer_id,
