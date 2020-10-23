@@ -114,7 +114,7 @@ def bot_processing():
         "buttons": [
             [get_button(label="Регистрация", color="positive")],
             [get_button(label="Помощь", color="primary"),
-             get_button(label="Звонки", color="positive"),
+             get_button(label="Звонки", color="primary"),
              get_button(label="О боте", color="primary")],
         ]
     }
