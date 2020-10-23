@@ -114,6 +114,7 @@ def bot_processing():
         "buttons": [
             [get_button(label="Регистрация", color="positive")],
             [get_button(label="Помощь", color="primary"),
+             get_button(label="Звонки", color="positive"),
              get_button(label="О боте", color="primary")],
         ]
     }
@@ -251,7 +252,7 @@ def bot_processing():
                     write_msg(event.object.peer_id, about_bot[1], keyboard=main_keyboard,
                               attachment=updateAttachment(img_source="AboutBot.png"))
                 # schedules keyboard
-                elif event.object.text.lower() == "звонков":
+                elif event.object.text.lower() in ["звонков", "звонки"]:
                     write_msg(event.object.peer_id, "Такс, и ещё выбери для каких классов🤔",
                               keyboard=select_call_class_keyboard)
                 elif event.object.text.lower() == "уроков":
