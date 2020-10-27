@@ -23,7 +23,7 @@ from workWithUsersDatabase import UserSearcher
 from workWithExcelFile import ExcelSearcher as ExcelSearcher
 
 # full error log output(without auto-reconnection)
-error_checking_switch = True
+error_checking_switch = False
 # time to restart the bot
 reboot_time = 5
 
