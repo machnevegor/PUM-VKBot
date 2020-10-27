@@ -112,7 +112,7 @@ def selective_data_search(excel_source, columns, extra_cells, sheet_name, start_
             if excel_source != teacher_key:
                 output_day_schedule = "Кажись в этот день технопарк🙃"
             else:
-                output_day_schedule = "Отдых - в этот день нет занятий✨"
+                output_day_schedule = "В этот день нет занятий✨"
         else:
             output_day_schedule = "\n".join(output_day_schedule)
     except Exception as E:
