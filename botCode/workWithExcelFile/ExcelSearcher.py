@@ -16,7 +16,7 @@ import openpyxl
 excel_database_source = "workWithExcelFile/excelDatabase"
 
 # words or sentences that you don't want to output
-unnecessary_words_or_sentences = ["См.Таблицу После Субботы"]
+unnecessary_words_or_sentences = ["См.Таблицу После Пятницы", "См.Таблицу После Субботы", "202/302/303/504/505"]
 
 
 # data search and processing
