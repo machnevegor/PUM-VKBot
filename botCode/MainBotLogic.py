@@ -23,42 +23,9 @@ from workWithUsersDatabase import UserSearcher
 from workWithExcelFile import ExcelSearcher as ExcelSearcher
 
 # full error log output(without auto-reconnection)
-error_checking_switch = False
+error_checking_switch = True
 # time to restart the bot
 reboot_time = 5
-
-# system array
-community_id = ["187254286"]
-# talk to the reservation database
-conversation_for_data_reservation_id = 2000000004
-
-# all groups for all classes of the Mai pre-University
-eight_class_groups = ["М-8-1-1, Ф-8-1", "М-8-1-2, Ф-8-1", "М-8-1-2, Ф-8-2", "М-8-2-1, Ф-8-1", "М-8-2-1, Ф-8-2",
-                      "М-8-2-2, Ф-8-2"]
-nine_class_groups = ["М-9-1, Ф-9-1, Р-9-1-2", "М-9-1, Ф-9-1, Р-9-2-1", "М-9-1, Ф-9-1, Р-9-3-1", "М-9-1, Ф-9-1, Р-9-3-2",
-                     "М-9-1, Ф-9-2, Р-9-1-1", "М-9-1, Ф-9-2, Р-9-1-2", "М-9-1, Ф-9-2, Р-9-2-1", "М-9-1, Ф-9-2, Р-9-2-2",
-                     "М-9-1, Ф-9-2, Р-9-3-1", "М-9-1, Ф-9-2, Р-9-3-2", "М-9-2, Ф-9-1, Р-9-1-2", "М-9-2, Ф-9-1, Р-9-2-1",
-                     "М-9-2, Ф-9-1, Р-9-3-1", "М-9-2, Ф-9-1, Р-9-3-2", "М-9-2, Ф-9-2, Р-9-1-1", "М-9-2, Ф-9-2, Р-9-1-2",
-                     "М-9-2, Ф-9-2, Р-9-2-2", "М-9-2, Ф-9-2, Р-9-3-1", "М-9-2, Ф-9-2, Р-9-3-2", "М-9-3, Ф-9-3, Р-9-1-1",
-                     "М-9-3, Ф-9-3, Р-9-1-2", "М-9-3, Ф-9-3, Р-9-2-1", "М-9-3, Ф-9-3, Р-9-2-2", "М-9-3, Ф-9-3, Р-9-3-2"]
-ten_class_groups = ["М-10-1, А-10-1", "М-10-1, А-10-2", "М-10-1, А-10-3", "М-10-2, А-10-1", "М-10-2, А-10-2",
-                    "М-10-2, А-10-3", "М-10-3, А-10-1", "М-10-3, А-10-2", "М-10-3, А-10-3"]
-eleven_class_groups = ["М1, Ф1, М-1-1, Р-1-4, Л3", "М1, Ф1, М-1-1, Р-1-4, Л4", "М1, Ф1, М-1-1, Р-3, Л-3",
-                       "М1, Ф1, М-2-1, Р1, Л3", "М1, Ф1, М-3-1, Р1, Л3", "М1, Ф1, М-3-1, Р-2, Л3",
-                       "М1, Ф1, М-3-1, Р-3, Л3", "М1, Ф4, М-2-1, Р1, Л3", "М1, Ф4, М-3-1, Р1, Л3",
-                       "М2, Ф2, М-2-1, Р1, Л2", "М2, Ф2, М-2-1, Р-3, Л2", "М2, Ф2, М-2-1, Р-3, Л3",
-                       "М2, Ф2, М-2-1, Р4, Л4", "М2, Ф2, М-3-1, Р1, Л1", "М2, Ф2, М-3-1, Р1, Л2",
-                       "М2, Ф2, М-3-1, Р2, Л2", "М2, Ф2, М-3-1, Р4, Л4", "М3, Ф1, М-1-1, Р4, Л4",
-                       "М3, Ф1, М-2-1, Р-1, Л3", "М3, Ф1, М-2-1, Р3, Л2", "М3, Ф1, М-2-1, Р3, Л3",
-                       "М3, Ф1, М-2-1, Р4, Л4", "М3, Ф1, М-3-1, Р1, Л2", "М3, Ф1, М-3-1, Р2, Л1",
-                       "М3, Ф1, М-3-1, Р4, Л4", "М3, Ф4, М-1-1, Р1, Л1", "М3, Ф4, М-1-1, Р4, Л4",
-                       "М3, Ф4, М-2-1, Р1, Л1", "М3, Ф4, М-2-1, Р3, Л2", "М3, Ф4, М-2-1, Р4, Л4",
-                       "М3, Ф4, М-3-1, Р1, Л2", "М3, Ф4, М-3-1, Р3, Л2", "М3, Ф4, М-3-1, Р4, Л4",
-                       "М4, Ф1, М-4-1, Р1, Л1", "М4, Ф1, М-4-1, Р2, Л1", "М4, Ф1, М-4-1, Р4, Л4",
-                       "М4, Ф1, М-4-2, Р2, Л1", "М4, Ф1, М-4-2, Р4, Л4", "М4, Ф4, М-4-1, Р1, Л1",
-                       "М4, Ф4, М-4-1, Р2, Л1", "М4, Ф4, М-4-1, Р3, Л1", "М4, Ф4, М-4-1, Р3, Л1",
-                       "М4, Ф4, М-4-1, Р4, Л4", "М4, Ф4, М-4-2, Р1, Л1", "М4, Ф4, М-4-2, Р2, Л1",
-                       "М4, Ф4, М-4-2, Р2, Л3", "М4, Ф4, М-4-2, Р4, Л4"]
 
 # array for the back button and welcome words
 buttons_back = ["здравствуй", "привет", "хай", "куку", "ку", "салам", "саламалейкум", "здарова", "дыдова", "начать",
@@ -192,13 +159,13 @@ def bot_processing():
         save_docFile = vk.method("docs.save", {"file": get_serverLink["file"]})["doc"]
         attachment = "doc{}_{}".format(save_docFile["owner_id"], save_docFile["id"])
         vk.method("messages.send",
-                  {"peer_id": conversation_for_data_reservation_id, "message": message, "attachment": attachment,
+                  {"peer_id": BotConfig.ConversationForDataReservationID, "message": message, "attachment": attachment,
                    "random_id": randint(1, 10000000)})
 
     # getting attachments for photos
     def updateAttachment(img_source):
         get_serverAccess = vk.method("photos.getMessagesUploadServer",
-                                     {"album_id": 268631098, "group_id": community_id})
+                                     {"album_id": 268631098, "group_id": BotConfig.CommunityID})
         get_serverLink = requests.post(get_serverAccess["upload_url"],
                                        files={"file": open(f"botAttachments/{img_source}", "rb")}).json()
         save_attachmentFile = vk.method("photos.saveMessagesPhoto",
@@ -207,7 +174,7 @@ def bot_processing():
         return f"photo{save_attachmentFile['owner_id']}_{save_attachmentFile['id']}"
 
     # longpoll
-    longpoll = VkBotLongPoll(vk, group_id=community_id)
+    longpoll = VkBotLongPoll(vk, group_id=BotConfig.CommunityID)
     # response logic
     for event in longpoll.listen():
         # processing a new message
@@ -380,23 +347,24 @@ def bot_processing():
                                                             user_id=f"id{event.object.peer_id}")
                     if UserSearcher.presence_user == []:
                         write_msg(event.object.peer_id,
-                                  f"Теперь ты можешь осуществить регистрацию прямо в боте! Для этого тебе просто нужно написать свою группу, которая указана в индивидуальном расписании(название группы обязательно вводить русскими символами, если у тебя не получится ввести номер группы с первого раза - попробуй ещё раз)😜\nДля удобства вывожу тебе список всех групп в школе:\n8️⃣Класс: {'; '.join(eight_class_groups)}\n9️⃣Класс: {'; '.join(nine_class_groups)}\n1️⃣0️⃣Класс: {'; '.join(ten_class_groups)}\n1️⃣1️⃣Класс: {'; '.join(eleven_class_groups)}\nЕсли нужна помощь, то пиши в беседу, прикрепленную к сообществу:\nhttps://vk.me/join/FhSVyJp7fYT0fM805_KTHNWPctDNa79JGsI=",
+                                  f"Теперь ты можешь осуществить регистрацию прямо в боте! Для этого тебе просто нужно написать свою группу, которая указана в индивидуальном расписании(название группы обязательно вводить русскими символами, если у тебя не получится ввести номер группы с первого раза - попробуй ещё раз)😜\nДля удобства вывожу тебе список всех групп в школе:\n8️⃣Класс: {'; '.join(BotConfig.EightClassGroups)}\n9️⃣Класс: {'; '.join(BotConfig.NineClassGroups)}\n1️⃣0️⃣Класс: {'; '.join(BotConfig.TenClassGroups)}\n1️⃣1️⃣Класс: {'; '.join(BotConfig.ElevenClassGroups)}\nЕсли нужна помощь, то пиши в беседу, прикрепленную к сообществу:\nhttps://vk.me/join/FhSVyJp7fYT0fM805_KTHNWPctDNa79JGsI=",
                                   keyboard=main_keyboard)
                     else:
                         write_msg(event.object.peer_id,
                                   f"Ты уже зарегистрирован - если всё работает отлично, то ты также можешь продолжать пользоваться ботом. Если же у тебя есть какие-либо вопросы или ты сменил группу, то пиши в беседу, прикреплённую к сообществу⚙\nhttps://vk.me/join/FhSVyJp7fYT0fM805_KTHNWPctDNa79JGsI=",
                                   keyboard=main_keyboard)
                 # registration - the process of entering users in the database
-                elif (event.object.text.upper() in eight_class_groups) or (
-                        event.object.text.upper() in nine_class_groups) or (
-                        event.object.text.upper() in ten_class_groups) or (
-                        event.object.text.upper() in eleven_class_groups):
+                elif (event.object.text.upper() in BotConfig.EightClassGroups) or (
+                        event.object.text.upper() in BotConfig.NineClassGroups) or (
+                        event.object.text.upper() in BotConfig.TenClassGroups) or (
+                        event.object.text.upper() in BotConfig.ElevenClassGroups) or (
+                        event.object.text.upper() in BotConfig.TeachersCodifiers):
                     UserSearcher.searching_user_in_database(database_source="workWithUsersDatabase/UsersDatabase.txt",
                                                             user_id=f"id{event.object.peer_id}")
                     if UserSearcher.presence_user == []:
                         get_last_name = vk.method("users.get", {"user_ids": event.object.peer_id})[0]["last_name"]
                         get_first_name = vk.method("users.get", {"user_ids": event.object.peer_id})[0]["first_name"]
-                        if event.object.text.upper() in eight_class_groups:
+                        if event.object.text.upper() in BotConfig.EightClassGroups:
                             UserSearcher.adding_user_in_database(
                                 database_source="workWithUsersDatabase/UsersDatabase.txt",
                                 full_name=f"{get_last_name} {get_first_name}", user_id=f"id{event.object.peer_id}",
@@ -407,7 +375,7 @@ def bot_processing():
                                                            message=f"К нам присоединился новый пользователь - {get_last_name} {get_first_name}(id{event.object.peer_id} | 8class | {event.object.text.upper()})🚀")
                             write_msg(event.object.peer_id, "Поздравляю! Регистрация прошла успешно✅",
                                       keyboard=main_keyboard)
-                        elif event.object.text.upper() in nine_class_groups:
+                        elif event.object.text.upper() in BotConfig.NineClassGroups:
                             UserSearcher.adding_user_in_database(
                                 database_source="workWithUsersDatabase/UsersDatabase.txt",
                                 full_name=f"{get_last_name} {get_first_name}", user_id=f"id{event.object.peer_id}",
@@ -418,7 +386,7 @@ def bot_processing():
                                                            message=f"К нам присоединился новый пользователь - {get_last_name} {get_first_name}(id{event.object.peer_id} | 9class | {event.object.text.upper()})🚀")
                             write_msg(event.object.peer_id, "Поздравляю! Регистрация прошла успешно✅",
                                       keyboard=main_keyboard)
-                        elif event.object.text.upper() in ten_class_groups:
+                        elif event.object.text.upper() in BotConfig.TenClassGroups:
                             UserSearcher.adding_user_in_database(
                                 database_source="workWithUsersDatabase/UsersDatabase.txt",
                                 full_name=f"{get_last_name} {get_first_name}", user_id=f"id{event.object.peer_id}",
@@ -429,7 +397,7 @@ def bot_processing():
                                                            message=f"К нам присоединился новый пользователь - {get_last_name} {get_first_name}(id{event.object.peer_id} | 10class | {event.object.text.upper()})🚀")
                             write_msg(event.object.peer_id, "Поздравляю! Регистрация прошла успешно✅",
                                       keyboard=main_keyboard)
-                        elif event.object.text.upper() in eleven_class_groups:
+                        elif event.object.text.upper() in BotConfig.ElevenClassGroups:
                             UserSearcher.adding_user_in_database(
                                 database_source="workWithUsersDatabase/UsersDatabase.txt",
                                 full_name=f"{get_last_name} {get_first_name}", user_id=f"id{event.object.peer_id}",
@@ -438,6 +406,17 @@ def bot_processing():
                             sending_and_reserving_database(conversation_id=event.object.from_id,
                                                            database_source="workWithUsersDatabase/UsersDatabase.txt",
                                                            message=f"К нам присоединился новый пользователь - {get_last_name} {get_first_name}(id{event.object.peer_id} | 11class | {event.object.text.upper()})🚀")
+                            write_msg(event.object.peer_id, "Поздравляю! Регистрация прошла успешно✅",
+                                      keyboard=main_keyboard)
+                        elif event.object.text in BotConfig.TeachersCodifiers:
+                            UserSearcher.adding_user_in_database(
+                                database_source="workWithUsersDatabase/UsersDatabase.txt",
+                                full_name=f"{get_last_name} {get_first_name}", user_id=f"id{event.object.peer_id}",
+                                source_for_user="TEACHERS", sheet_name=event.object.text.upper(),
+                                columns_for_user=['A', 'B', 'C', 'D'], extra_cells=0)
+                            sending_and_reserving_database(conversation_id=event.object.from_id,
+                                                           database_source="workWithUsersDatabase/UsersDatabase.txt",
+                                                           message=f"К нам присоединился новый педагог - {get_last_name} {get_first_name}(id{event.object.peer_id} | TEACHERS | {event.object.text.upper()})🎓")
                             write_msg(event.object.peer_id, "Поздравляю! Регистрация прошла успешно✅",
                                       keyboard=main_keyboard)
                     else:
