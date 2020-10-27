@@ -14,9 +14,10 @@ import openpyxl
 
 # the path to the branching database
 excel_database_source = "workWithExcelFile/excelDatabase"
-
 # words or sentences that you don't want to output
 unnecessary_words_or_sentences = ["См.Таблицу После Пятницы", "См.Таблицу После Субботы", "202/302/303/504/505"]
+# name of the folder where all teacher schedules are listed
+teacher_key = "TEACHERS"
 
 
 # data search and processing
@@ -75,7 +76,10 @@ def selective_data_search(excel_source, columns, extra_cells, sheet_name, start_
                         teachers_output_data_array.append(
                             teachers_data_array[quantity_recording_data + quantity_checks + 1 + extra_cells].title())
                     else:
-                        teachers_output_data_array.append("Преподаватель не указан")
+                        if excel_source != teacher_key:
+                            teachers_output_data_array.append("Преподаватель не указан")
+                        else:
+                            teachers_output_data_array.append("Предмет не указан")
                     # cabinets - data analysis and writing the necessary information
                     if (cabinets_data_array[
                             quantity_recording_data + quantity_checks + 1 + extra_cells] != "None") and (
@@ -88,13 +92,27 @@ def selective_data_search(excel_source, columns, extra_cells, sheet_name, start_
                             cabinets_output_data_array.append(cabinets_data_array[
                                                                   quantity_recording_data + quantity_checks + 1 + extra_cells].title())
                     else:
-                        cabinets_output_data_array.append("Узнавать у классного руководителя")
-        # the preparation of a reply
+                        if excel_source != teacher_key:
+                            cabinets_output_data_array.append("Узнавать у классного руководителя")
+                        else:
+                            cabinets_output_data_array.append("Номер кабинета узнавать у администрации")
+        # building a schedule
+        window_in_the_first_lesson = True
         for quantity_transfers in range(len(lessons_output_data_array)):
-            output_day_schedule.append(
-                f"{quantity_transfers + 1}. {lessons_output_data_array[quantity_transfers]}({teachers_output_data_array[quantity_transfers]} & {cabinets_output_data_array[quantity_transfers]})")
+            if lessons_output_data_array[quantity_transfers].upper() != "ОКНО":
+                if window_in_the_first_lesson == True:
+                    window_in_the_first_lesson = False
+                    output_day_schedule.append(f"👉Приходить к {quantity_transfers + 1} уроку👈")
+                output_day_schedule.append(
+                    f"{quantity_transfers + 1}. {lessons_output_data_array[quantity_transfers]}({teachers_output_data_array[quantity_transfers]} & {cabinets_output_data_array[quantity_transfers]})")
+            elif window_in_the_first_lesson == False:
+                output_day_schedule.append(f"{quantity_transfers + 1}. ОКНО(Можно отдохнуть в коворкинге)")
+        # answer if there is nothing on this day
         if output_day_schedule == ["Расписание на заданный день:"]:
-            output_day_schedule = "Кажись в этот день технопарк🙃"
+            if excel_source != teacher_key:
+                output_day_schedule = "Кажись в этот день технопарк🙃"
+            else:
+                output_day_schedule = "Отдых - в этот день нет занятий✨"
         else:
             output_day_schedule = "\n".join(output_day_schedule)
     except Exception as E:
