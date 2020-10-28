@@ -102,7 +102,10 @@ def selective_data_search(excel_source, columns, extra_cells, sheet_name, start_
             if lessons_output_data_array[quantity_transfers].upper() != "ОКНО":
                 if window_in_the_first_lesson == True:
                     window_in_the_first_lesson = False
-                    output_day_schedule.append(f"👉Приходить к {quantity_transfers + 1} уроку👈")
+                    if quantity_transfers + 1 != 2:
+                        output_day_schedule.append(f"👉Приходить к {quantity_transfers + 1} уроку👈")
+                    else:
+                        output_day_schedule.append(f"👉Приходить ко {quantity_transfers + 1} уроку👈")
                 output_day_schedule.append(
                     f"{quantity_transfers + 1}. {lessons_output_data_array[quantity_transfers]}({teachers_output_data_array[quantity_transfers]} & {cabinets_output_data_array[quantity_transfers]})")
             elif window_in_the_first_lesson == False:
