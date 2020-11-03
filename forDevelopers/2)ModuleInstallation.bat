@@ -11,6 +11,8 @@
 
 pip install vk-api
 pip install openpyxl
+pip install bs4
+pip install pycbrf
 
 @: Authors of the project:
 @: 1-MachnevEgor_https://vk.com/machnev_egor

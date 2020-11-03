@@ -12,7 +12,7 @@
 Before changing the code and making your own changes, you need to install the latest version of the python 
 (the link to the installer's website will be in a separate document), and you also need to run the file with the 
 .bat extension so that the modules is automatically installed(or you can install it manually in CMD: vk-api -->
-pip install vk-api, openpyxl --> pip install openpyxl)
+pip install vk-api, openpyxl --> pip install openpyxl, bs4 --> pip install bs4, pycbrf --> pip install pycbrf)
 P.S.If you didn't succeed, you can watch video courses on the Internet or write to us by email
 
 # Authors of the project:
