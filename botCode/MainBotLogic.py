@@ -21,29 +21,15 @@ import datetime as datetime
 from configurationFile import BotConfig as BotConfig
 from workWithUsersDatabase import UserSearcher
 from workWithExcelFile import ExcelSearcher as ExcelSearcher
+from specialScripts import CompilationNews as CompilationNews
 
 # full error log output(without auto-reconnection)
 error_checking_switch = False
 # time to restart the bot
 reboot_time = 5
 
-# array for the back button and welcome words
-buttons_back = ["здравствуй", "привет", "хай", "куку", "ку", "салам", "саламалейкум", "здарова", "дыдова", "начать",
-                "главное меню", "меню", "плитки", "клавиатура", "назад", "hello", "hey", "hi", "qq", "q", "start",
-                "main menu", "menu", "tiles", "keyboard", "back"]
-ru_greetings_bot = ["здравствуй", "привет", "хай", "ку", "салам", "здарова", "дыдова"]
-eng_greetings_bot = ["hello", "hey", "hi", "qq", "q"]
 
-# information about developers
-about_bot = [
-    "Данного бота по фану запилили рандомные челики из ПУМа. Этот бот отличается от всех других тем, что импортирует всю информацию из базы данных школы, а не тупо по написанным строкам разработчиков. Бот продуман, но не идеален, поэтому все вопросы можете задавать в беседу, прикреплённую к сообществу бота. Также хочется напомнить, что у нас есть discord сервер для разработчиков, на котором вы сможете найти себе команду для проекта, узнать что-то новое или присоединится к чьей-то идеи:\nhttps://smtechnology.info😊",
-    "Не забывайте, что всю актуальную информацию о боте вы можете найти на стене нашего сообщества, поэтому, если бот не отвечает, вы знаете, что делать😉"]
-# schedule calls
-eight_nine_schedule_calls = "Расписание звонков:\n1. 9:00 - 9:45\n2. 9:50 - 10:35\n3. 10:55 - 11:40\n4. 11:50 - 12:35\n5. 12:45 - 13:30\n6. 13:50 - 14:35\n7. 14:45 - 15:30\n8. 15:40 - 16:25\n9. 16:30 - 17:15\n10. 17:20 - 18:05"
-ten_eleven_schedule_calls = "Расписание звонков:\n1. 9:00 - 9:45\n2. 9:50 - 10:35\n3. 10:45 - 11:30\n4. 11:50 - 12:35\n5. 12:45 - 13:30\n6. 13:40 - 14:25\n7. 14:45 - 15:30\n8. 15:40 - 16:25\n9. 16:30 - 17:15\n10. 17:20 - 18:05"
-
-
-# algorithm for processing user requests
+# MAIN BOT LOGIC
 def bot_processing():
     # vk connect
     vk = vk_api.VkApi(token=f"{BotConfig.BotToken}")
@@ -72,6 +58,7 @@ def bot_processing():
             [get_button(label="Учебники", color="positive"),
              get_button(label="Расписание", color="positive")],
             [get_button(label="Помощь", color="primary"),
+             get_button(label="Новости", color="primary"),
              get_button(label="О боте", color="primary")],
         ]
     }
@@ -186,17 +173,17 @@ def bot_processing():
             # if the request is from in private messages
             if event.object.peer_id == event.object.from_id:
                 # if the back buttons are pressed
-                if event.object.text.lower() in buttons_back:
+                if event.object.text.lower() in BotConfig.buttons_back:
                     # greetings and jump to main menu
-                    if event.object.text.lower().lower() in ru_greetings_bot:
-                        response_randomizer = randint(0, len(ru_greetings_bot) - 1)
-                        response_word = ru_greetings_bot[response_randomizer]
+                    if event.object.text.lower().lower() in BotConfig.ru_greetings_bot:
+                        response_randomizer = randint(0, len(BotConfig.ru_greetings_bot) - 1)
+                        response_word = BotConfig.ru_greetings_bot[response_randomizer]
                         get_user_name = vk.method("users.get", {"user_ids": event.object.peer_id})[0]["first_name"]
                         write_msg(event.object.peer_id, f"{response_word.title()}, {str(get_user_name)}!",
                                   keyboard=main_keyboard)
-                    elif event.object.text.lower().lower() in eng_greetings_bot:
-                        response_randomizer = randint(0, len(eng_greetings_bot) - 1)
-                        response_word = eng_greetings_bot[response_randomizer]
+                    elif event.object.text.lower().lower() in BotConfig.eng_greetings_bot:
+                        response_randomizer = randint(0, len(BotConfig.eng_greetings_bot) - 1)
+                        response_word = BotConfig.eng_greetings_bot[response_randomizer]
                         get_user_name = vk.method("users.get", {"user_ids": event.object.peer_id})[0]["first_name"]
                         write_msg(event.object.peer_id, f"{response_word.title()}, {str(get_user_name)}!",
                                   keyboard=main_keyboard)
@@ -214,9 +201,29 @@ def bot_processing():
                     write_msg(event.object.peer_id,
                               "У тебя есть вопросы? - не волнуйся, ведь ты их всегда можешь задать в беседе, прикреплённой к сообществу🎯\nhttps://vk.me/join/FhSVyJp7fYT0fM805_KTHNWPctDNa79JGsI=",
                               keyboard=main_keyboard)
+                elif event.object.text.lower() == "новости":
+                    vk.method("messages.setActivity", {"peer_id": event.object.peer_id, "type": "typing"})
+                    write_msg(user_id=event.object.peer_id, keyboard=main_keyboard,
+                              message=CompilationNews.weather_searcher(source=BotConfig.weather_source,
+                                                                       search_tag=BotConfig.weather_search_tag,
+                                                                       tag_info=BotConfig.weather_tag_info,
+                                                                       headers=BotConfig.user_agent))
+                    write_msg(event.object.peer_id, CompilationNews.rates_searcher(), keyboard=main_keyboard)
+                    write_msg(user_id=event.object.peer_id, keyboard=main_keyboard,
+                              message="🔥Мы рекомендуем:\nЦитаты - @buildmesomerockets\nМемы - @pumpodslushano\n🤡Контента нет, просто место заполнить для галочки:\nМемы - @predmemetika")
+                    write_msg(user_id=event.object.peer_id, keyboard=main_keyboard,
+                              message=CompilationNews.news_searcher(source=BotConfig.news_source,
+                                                                    search_tag=BotConfig.news_search_tag,
+                                                                    tag_info=BotConfig.news_tag_info,
+                                                                    headers=BotConfig.user_agent))
+                    write_msg(user_id=event.object.peer_id, keyboard=main_keyboard,
+                              message=CompilationNews.covid_searcher(source=BotConfig.covid_source,
+                                                                     search_tag=BotConfig.covid_search_tag,
+                                                                     tag_info=BotConfig.covid_tag_info,
+                                                                     headers=BotConfig.user_agent))
                 elif event.object.text.lower() == "о боте":
-                    write_msg(event.object.peer_id, about_bot[0], keyboard=main_keyboard)
-                    write_msg(event.object.peer_id, about_bot[1], keyboard=main_keyboard,
+                    write_msg(event.object.peer_id, BotConfig.about_bot[0], keyboard=main_keyboard)
+                    write_msg(event.object.peer_id, BotConfig.about_bot[1], keyboard=main_keyboard,
                               attachment=updateAttachment(img_source="AboutBot.png"))
                 # schedules keyboard
                 elif event.object.text.lower() in ["звонков", "звонки"]:
@@ -229,9 +236,9 @@ def bot_processing():
                               attachment=updateAttachment(img_source="SchoolDays.png"))
                 # select call class keyboard
                 elif event.object.text.lower() == "8-9":
-                    write_msg(event.object.peer_id, eight_nine_schedule_calls, keyboard=main_keyboard)
+                    write_msg(event.object.peer_id, BotConfig.eight_nine_schedule_calls, keyboard=main_keyboard)
                 elif event.object.text.lower() == "10-11":
-                    write_msg(event.object.peer_id, ten_eleven_schedule_calls, keyboard=main_keyboard)
+                    write_msg(event.object.peer_id, BotConfig.ten_eleven_schedule_calls, keyboard=main_keyboard)
                 # choosing day of week keyboard
                 elif event.object.text.lower() == "понедельник":
                     UserSearcher.searching_user_in_database(database_source="workWithUsersDatabase/UsersDatabase.txt",
@@ -243,7 +250,7 @@ def bot_processing():
                     else:
                         write_msg(event.object.peer_id, "Поиск актуального расписания для тебя🔎",
                                   keyboard=main_keyboard)
-                        vk.method('messages.setActivity', {'peer_id': event.object.peer_id, 'type': 'typing'})
+                        vk.method("messages.setActivity", {"peer_id": event.object.peer_id, "type": "typing"})
                         ExcelSearcher.selective_data_search(excel_source=UserSearcher.presence_user[2],
                                                             sheet_name=UserSearcher.presence_user[3],
                                                             columns=UserSearcher.presence_user[4],
@@ -261,7 +268,7 @@ def bot_processing():
                     else:
                         write_msg(event.object.peer_id, "Поиск актуального расписания для тебя🔎",
                                   keyboard=main_keyboard)
-                        vk.method('messages.setActivity', {'peer_id': event.object.peer_id, 'type': 'typing'})
+                        vk.method("messages.setActivity", {"peer_id": event.object.peer_id, "type": "typing"})
                         ExcelSearcher.selective_data_search(excel_source=UserSearcher.presence_user[2],
                                                             sheet_name=UserSearcher.presence_user[3],
                                                             columns=UserSearcher.presence_user[4],
@@ -279,7 +286,7 @@ def bot_processing():
                     else:
                         write_msg(event.object.peer_id, "Поиск актуального расписания для тебя🔎",
                                   keyboard=main_keyboard)
-                        vk.method('messages.setActivity', {'peer_id': event.object.peer_id, 'type': 'typing'})
+                        vk.method("messages.setActivity", {"peer_id": event.object.peer_id, "type": "typing"})
                         ExcelSearcher.selective_data_search(excel_source=UserSearcher.presence_user[2],
                                                             sheet_name=UserSearcher.presence_user[3],
                                                             columns=UserSearcher.presence_user[4],
@@ -297,7 +304,7 @@ def bot_processing():
                     else:
                         write_msg(event.object.peer_id, "Поиск актуального расписания для тебя🔎",
                                   keyboard=main_keyboard)
-                        vk.method('messages.setActivity', {'peer_id': event.object.peer_id, 'type': 'typing'})
+                        vk.method("messages.setActivity", {"peer_id": event.object.peer_id, "type": "typing"})
                         ExcelSearcher.selective_data_search(excel_source=UserSearcher.presence_user[2],
                                                             sheet_name=UserSearcher.presence_user[3],
                                                             columns=UserSearcher.presence_user[4],
@@ -315,7 +322,7 @@ def bot_processing():
                     else:
                         write_msg(event.object.peer_id, "Поиск актуального расписания для тебя🔎",
                                   keyboard=main_keyboard)
-                        vk.method('messages.setActivity', {'peer_id': event.object.peer_id, 'type': 'typing'})
+                        vk.method("messages.setActivity", {"peer_id": event.object.peer_id, "type": "typing"})
                         ExcelSearcher.selective_data_search(excel_source=UserSearcher.presence_user[2],
                                                             sheet_name=UserSearcher.presence_user[3],
                                                             columns=UserSearcher.presence_user[4],
@@ -333,7 +340,7 @@ def bot_processing():
                     else:
                         write_msg(event.object.peer_id, "Поиск актуального расписания для тебя🔎",
                                   keyboard=main_keyboard)
-                        vk.method('messages.setActivity', {'peer_id': event.object.peer_id, 'type': 'typing'})
+                        vk.method("messages.setActivity", {"peer_id": event.object.peer_id, "type": "typing"})
                         ExcelSearcher.selective_data_search(excel_source=UserSearcher.presence_user[2],
                                                             sheet_name=UserSearcher.presence_user[3],
                                                             columns=UserSearcher.presence_user[4],
