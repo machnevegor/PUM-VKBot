@@ -13,13 +13,13 @@
 
 # BASIC SYSTEM SETUP
 # token for the bot
-BotToken = "0ecde18741fd31e68fdd900a050e1bf5ee52b104f480e47297934c931eb81137689fe71a473f80e6a6767"
+BotToken = "2a0137796fb9abcb4efd8640afc0727d5bc1ef5f4fe353804e705e4aaeca675d4b7195a299010bb160f03"
 
 # community ID where the bot will be assigned
-CommunityID = ["185794606"]
+CommunityID = ["187254286"]
 
 # talk to the reservation database
-ConversationForDataReservationID = 2000000002
+ConversationForDataReservationID = 2000000004
 
 ########################################################################################################################
 
