@@ -365,6 +365,7 @@ def bot_processing():
                         event.object.text.upper() in BotConfig.NineClassGroups) or (
                         event.object.text.upper() in BotConfig.TenClassGroups) or (
                         event.object.text.upper() in BotConfig.ElevenClassGroups) or (
+                        event.object.text.upper() in ["ГОСТЬ", "GUEST"]) or (
                         event.object.text.upper() in BotConfig.TeachersCodifiers):
                     UserSearcher.searching_user_in_database(database_source="workWithUsersDatabase/UsersDatabase.txt",
                                                             user_id=f"id{event.object.peer_id}")
@@ -414,6 +415,19 @@ def bot_processing():
                                                            database_source="workWithUsersDatabase/UsersDatabase.txt",
                                                            message=f"К нам присоединился новый пользователь - {get_last_name} {get_first_name}(id{event.object.peer_id} | 11class | {event.object.text.upper()})🚀")
                             write_msg(event.object.peer_id, "Поздравляю! Регистрация прошла успешно✅",
+                                      keyboard=main_keyboard)
+                        elif event.object.text.upper() in ["ГОСТЬ", "GUEST"]:
+                            UserSearcher.adding_user_in_database(
+                                database_source="workWithUsersDatabase/UsersDatabase.txt",
+                                full_name=f"{get_last_name} {get_first_name}", user_id=f"id{event.object.peer_id}",
+                                source_for_user="GUESTS", sheet_name="ГОСТЬ", columns_for_user=['A', 'B', 'C', 'D'],
+                                extra_cells=0)
+                            sending_and_reserving_database(conversation_id=event.object.from_id,
+                                                           database_source="workWithUsersDatabase/UsersDatabase.txt",
+                                                           message=f"Кто-то захотел протестировать бота - {get_last_name} {get_first_name}(id{event.object.peer_id} | GUESTS | {event.object.text.upper()})🎭")
+                            write_msg(event.object.peer_id, "Поздравляем! Регистрация прошла успешно✅",
+                                      keyboard=main_keyboard)
+                            write_msg(event.object.peer_id, "Теперь вы имеете абсолютно все возможности, чтобы полноценно протестировать нашего бота🎳",
                                       keyboard=main_keyboard)
                         elif event.object.text in BotConfig.TeachersCodifiers:
                             UserSearcher.adding_user_in_database(
