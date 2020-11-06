@@ -103,7 +103,7 @@ news_source = "https://ria.ru"
 news_search_tag, news_tag_info = "a", {"class": "cell-list__item-link color-font-hover-only"}
 
 # COVID-19 search - paths
-covid_source = "https://ncov.blog"
+covid_source = "https://ncov.blog/countries/ru/77/"
 covid_search_tag, covid_tag_info = "p", {"class": "mt-0"}
 
 ########################################################################################################################
