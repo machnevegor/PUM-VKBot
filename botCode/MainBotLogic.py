@@ -230,10 +230,7 @@ def bot_processing():
                     write_msg(event.object.peer_id, "Такс, и ещё выбери для каких классов🤔",
                               keyboard=select_call_class_keyboard)
                 elif event.object.text.lower() == "уроков":
-                    write_msg(event.object.peer_id,
-                              "Хмм, теперь выбери день😼\nКста, держи график занятий во время очно-дистанционного обучения:",
-                              keyboard=choosing_day_of_week_keyboard,
-                              attachment=updateAttachment(img_source="SchoolDays.png"))
+                    write_msg(event.object.peer_id, "Хмм, теперь выбери день😼", keyboard=choosing_day_of_week_keyboard)
                 # select call class keyboard
                 elif event.object.text.lower() == "8-9":
                     write_msg(event.object.peer_id, BotConfig.eight_nine_schedule_calls, keyboard=main_keyboard)
@@ -380,7 +377,7 @@ def bot_processing():
                                 columns_for_user=['A', 'B', 'D', 'E'], extra_cells=1)
                             sending_and_reserving_database(conversation_id=event.object.from_id,
                                                            database_source="workWithUsersDatabase/UsersDatabase.txt",
-                                                           message=f"К нам присоединился новый пользователь - {get_last_name} {get_first_name}(id{event.object.peer_id} | 8class | {event.object.text.upper()})🚀")
+                                                           message=f"#JOIN К нам присоединился новый пользователь - {get_last_name} {get_first_name}(id{event.object.peer_id} | 8class | {event.object.text.upper()})🚀")
                             write_msg(event.object.peer_id, "Поздравляю! Регистрация прошла успешно✅",
                                       keyboard=main_keyboard)
                         elif event.object.text.upper() in BotConfig.NineClassGroups:
@@ -391,7 +388,7 @@ def bot_processing():
                                 columns_for_user=['A', 'B', 'D', 'E'], extra_cells=1)
                             sending_and_reserving_database(conversation_id=event.object.from_id,
                                                            database_source="workWithUsersDatabase/UsersDatabase.txt",
-                                                           message=f"К нам присоединился новый пользователь - {get_last_name} {get_first_name}(id{event.object.peer_id} | 9class | {event.object.text.upper()})🚀")
+                                                           message=f"#JOIN К нам присоединился новый пользователь - {get_last_name} {get_first_name}(id{event.object.peer_id} | 9class | {event.object.text.upper()})🚀")
                             write_msg(event.object.peer_id, "Поздравляю! Регистрация прошла успешно✅",
                                       keyboard=main_keyboard)
                         elif event.object.text.upper() in BotConfig.TenClassGroups:
@@ -402,7 +399,7 @@ def bot_processing():
                                 columns_for_user=['A', 'B', 'D', 'E'], extra_cells=1)
                             sending_and_reserving_database(conversation_id=event.object.from_id,
                                                            database_source="workWithUsersDatabase/UsersDatabase.txt",
-                                                           message=f"К нам присоединился новый пользователь - {get_last_name} {get_first_name}(id{event.object.peer_id} | 10class | {event.object.text.upper()})🚀")
+                                                           message=f"#JOIN К нам присоединился новый пользователь - {get_last_name} {get_first_name}(id{event.object.peer_id} | 10class | {event.object.text.upper()})🚀")
                             write_msg(event.object.peer_id, "Поздравляю! Регистрация прошла успешно✅",
                                       keyboard=main_keyboard)
                         elif event.object.text.upper() in BotConfig.ElevenClassGroups:
@@ -413,7 +410,7 @@ def bot_processing():
                                 columns_for_user=['A', 'B', 'D', 'E'], extra_cells=1)
                             sending_and_reserving_database(conversation_id=event.object.from_id,
                                                            database_source="workWithUsersDatabase/UsersDatabase.txt",
-                                                           message=f"К нам присоединился новый пользователь - {get_last_name} {get_first_name}(id{event.object.peer_id} | 11class | {event.object.text.upper()})🚀")
+                                                           message=f"#JOIN К нам присоединился новый пользователь - {get_last_name} {get_first_name}(id{event.object.peer_id} | 11class | {event.object.text.upper()})🚀")
                             write_msg(event.object.peer_id, "Поздравляю! Регистрация прошла успешно✅",
                                       keyboard=main_keyboard)
                         elif event.object.text.upper() in ["ГОСТЬ", "ТЕСТ", "GUEST", "TEST"]:
@@ -424,7 +421,7 @@ def bot_processing():
                                 extra_cells=0)
                             sending_and_reserving_database(conversation_id=event.object.from_id,
                                                            database_source="workWithUsersDatabase/UsersDatabase.txt",
-                                                           message=f"Кто-то захотел протестировать бота - {get_last_name} {get_first_name}(id{event.object.peer_id} | GUESTS | {event.object.text.upper()})🎭")
+                                                           message=f"#JOIN Кто-то захотел протестировать бота - {get_last_name} {get_first_name}(id{event.object.peer_id} | GUESTS | ГОСТЬ)🔭")
                             write_msg(event.object.peer_id, "Поздравляем! Регистрация прошла успешно✅",
                                       keyboard=main_keyboard)
                             write_msg(user_id=event.object.peer_id, keyboard=main_keyboard,
@@ -437,7 +434,7 @@ def bot_processing():
                                 columns_for_user=['A', 'B', 'C', 'D'], extra_cells=0)
                             sending_and_reserving_database(conversation_id=event.object.from_id,
                                                            database_source="workWithUsersDatabase/UsersDatabase.txt",
-                                                           message=f"К нам присоединился новый педагог - {get_last_name} {get_first_name}(id{event.object.peer_id} | TEACHERS | {event.object.text.upper()})🎓")
+                                                           message=f"#JOIN К нам присоединился новый педагог - {get_last_name} {get_first_name}(id{event.object.peer_id} | TEACHERS | {event.object.text.upper()})🎓")
                             write_msg(event.object.peer_id, "Поздравляю! Регистрация прошла успешно✅",
                                       keyboard=main_keyboard)
                     else:
