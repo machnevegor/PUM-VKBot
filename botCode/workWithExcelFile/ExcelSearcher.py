@@ -55,10 +55,17 @@ def selective_data_search(excel_source, columns, extra_cells, sheet_name, start_
         for row in sheet[f"{columns[3]}1":f"{columns[3]}{sheet.max_row}"]:
             for cell in row:
                 cabinets_data_array.append(str(cell.value))
+        # additional information - import data from a graph and transfer it to a separate array
+        additional_information_data_array = []
+        sheet = excel_document.get_sheet_by_name(sheet_name)
+        for row in sheet[f"{columns[4]}1":f"{columns[4]}{sheet.max_row}"]:
+            for cell in row:
+                additional_information_data_array.append(str(cell.value))
         # search for relevant information
         lessons_output_data_array = []
         teachers_output_data_array = []
         cabinets_output_data_array = []
+        additional_information_output_data_array = []
         for quantity_checks in range(len(days_data_array)):
             if days_data_array[quantity_checks].lower() == start_data.lower():
                 for quantity_recording_data in range(len(lessons_data_array) - quantity_checks - 1 - extra_cells):
@@ -67,7 +74,7 @@ def selective_data_search(excel_source, columns, extra_cells, sheet_name, start_
                         break
                     # lessons - writing the necessary information
                     lessons_output_data_array.append(
-                        (lessons_data_array[quantity_recording_data + quantity_checks + 1 + extra_cells]).title())
+                        lessons_data_array[quantity_recording_data + quantity_checks + 1 + extra_cells].title())
                     # teachers - data analysis and writing the necessary information
                     if (teachers_data_array[
                             quantity_recording_data + quantity_checks + 1 + extra_cells] != "None") and (
@@ -96,6 +103,9 @@ def selective_data_search(excel_source, columns, extra_cells, sheet_name, start_
                             cabinets_output_data_array.append("Узнавать у классного руководителя")
                         else:
                             cabinets_output_data_array.append("Номер кабинета узнавать у администрации")
+                    # additional information - writing the necessary information
+                    additional_information_output_data_array.append(additional_information_data_array[
+                                                                        quantity_recording_data + quantity_checks + 1 + extra_cells].title())
         # building a schedule
         window_in_the_first_lesson = True
         for quantity_transfers in range(len(lessons_output_data_array)):
@@ -106,8 +116,12 @@ def selective_data_search(excel_source, columns, extra_cells, sheet_name, start_
                         output_day_schedule.append(f"👉Приходить к {quantity_transfers + 1} уроку👈")
                     else:
                         output_day_schedule.append(f"👉Приходить ко {quantity_transfers + 1} уроку👈")
-                output_day_schedule.append(
-                    f"{quantity_transfers + 1}. {lessons_output_data_array[quantity_transfers]}({teachers_output_data_array[quantity_transfers]} & {cabinets_output_data_array[quantity_transfers]})")
+                if additional_information_output_data_array[quantity_transfers] != "None":
+                    output_day_schedule.append(
+                        f"🧠 {additional_information_output_data_array[quantity_transfers]}({teachers_output_data_array[quantity_transfers]} & {cabinets_output_data_array[quantity_transfers]})")
+                else:
+                    output_day_schedule.append(
+                        f"{quantity_transfers + 1}. {lessons_output_data_array[quantity_transfers]}({teachers_output_data_array[quantity_transfers]} & {cabinets_output_data_array[quantity_transfers]})")
             elif window_in_the_first_lesson == False:
                 output_day_schedule.append(f"{quantity_transfers + 1}. ОКНО(Можно отдохнуть в коворкинге)")
         # answer if there is nothing on this day
