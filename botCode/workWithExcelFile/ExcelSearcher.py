@@ -123,7 +123,7 @@ def selective_data_search(excel_source, columns, extra_cells, sheet_name, start_
                     output_day_schedule.append(
                         f"{quantity_transfers + 1}. {lessons_output_data_array[quantity_transfers]} ({teachers_output_data_array[quantity_transfers]} & {cabinets_output_data_array[quantity_transfers]})")
             elif window_in_the_first_lesson == False:
-                output_day_schedule.append(f"{quantity_transfers + 1}. ОКНО(Можно отдохнуть в коворкинге)")
+                output_day_schedule.append(f"{quantity_transfers + 1}. ОКНО (Можно отдохнуть в коворкинге)")
         # answer if there is nothing on this day
         if output_day_schedule == ["Расписание на заданный день:"]:
             if excel_source != teacher_key:
