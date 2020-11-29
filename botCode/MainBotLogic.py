@@ -81,15 +81,6 @@ def bot_processing():
         ]
     }
 
-    select_call_class_keyboard = {
-        "one_time": False,
-        "buttons": [
-            [get_button(label="8-9", color="positive"),
-             get_button(label="10-11", color="positive")],
-            [get_button(label="Назад", color="secondary")],
-        ]
-    }
-
     choosing_day_of_week_keyboard = {
         "one_time": False,
         "buttons": [
@@ -110,8 +101,6 @@ def bot_processing():
     before_registration_keyboard = str(before_registration_keyboard.decode("utf-8"))
     schedules_keyboard = json.dumps(schedules_keyboard, ensure_ascii=False).encode("utf-8")
     schedules_keyboard = str(schedules_keyboard.decode("utf-8"))
-    select_call_class_keyboard = json.dumps(select_call_class_keyboard, ensure_ascii=False).encode("utf-8")
-    select_call_class_keyboard = str(select_call_class_keyboard.decode("utf-8"))
     choosing_day_of_week_keyboard = json.dumps(choosing_day_of_week_keyboard, ensure_ascii=False).encode("utf-8")
     choosing_day_of_week_keyboard = str(choosing_day_of_week_keyboard.decode("utf-8"))
 
@@ -223,18 +212,11 @@ def bot_processing():
                               attachment=update_attachment_id(img_source="AboutBot.png"))
                 # schedules keyboard
                 elif event.object.text.lower() in ["звонков", "звонки"]:
-                    write_msg(user_id=event.object.peer_id, keyboard=select_call_class_keyboard,
-                              message="Такс, и ещё выбери для каких классов🤔")
+                    write_msg(user_id=event.object.peer_id, keyboard=main_keyboard,
+                              message=BotConfig.unified_schedule_calls)
                 elif event.object.text.lower() == "уроков":
                     write_msg(user_id=event.object.peer_id, keyboard=choosing_day_of_week_keyboard,
                               message="Хмм, теперь выбери день😼\nКста, в целях защиты против коронавирусной инфекции не забывай надевать маску и перчатки😷")
-                # select call class keyboard
-                elif event.object.text.lower() == "8-9":
-                    write_msg(user_id=event.object.peer_id, keyboard=main_keyboard,
-                              message=BotConfig.eight_nine_schedule_calls)
-                elif event.object.text.lower() == "10-11":
-                    write_msg(user_id=event.object.peer_id, keyboard=main_keyboard,
-                              message=BotConfig.ten_eleven_schedule_calls)
                 # choosing day of week keyboard
                 elif event.object.text.lower() == "понедельник":
                     UserSearcher.searching_user_in_database(database_source="workWithUsersDatabase/UsersDatabase.txt",
