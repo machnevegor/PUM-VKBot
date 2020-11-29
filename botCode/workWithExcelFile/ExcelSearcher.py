@@ -15,7 +15,7 @@ import openpyxl
 # the path to the branching database
 excel_database_source = "workWithExcelFile/excelDatabase"
 # words or sentences that you don't want to output
-unnecessary_words_or_sentences = ["См.Таблицу После Пятницы", "См.Таблицу После Субботы", "202/302/303/504/505"]
+unnecessary_words_or_sentences = []
 # name of the folder where all teacher schedules are listed
 teacher_key = "TEACHERS"
 
@@ -136,7 +136,7 @@ def selective_data_search(excel_source, columns, extra_cells, sheet_name, start_
         # sending data to the terminal
         print(f"!!! ERROR: Broken user data for excel searcher !!!")
         print(f"Reason: {E}")
-        output_day_schedule = "Очень странно - ты есть в базе, но некоторые данные неправильные. Напиши в основную беседу, прикрепленную к сообществу - там тебе помогут решить данную проблему😬\nhttps://vk.me/join/FhSVyJp7fYT0fM805_KTHNWPctDNa79JGsI="
+        output_day_schedule = "Очень странно - ты есть в базе, но некоторые данные неправильные. Напиши в основную беседу, прикреплённую к сообществу - там тебе помогут решить данную проблему😬\nhttps://vk.me/join/FhSVyJp7fYT0fM805_KTHNWPctDNa79JGsI="
 
 # Authors of the project:
 # 1-MachnevEgor_https://vk.com/machnev_egor

@@ -55,10 +55,9 @@ def bot_processing():
     main_keyboard = {
         "one_time": False,
         "buttons": [
-            [get_button(label="Учебники", color="positive"),
+            [get_button(label="Новости", color="positive"),
              get_button(label="Расписание", color="positive")],
             [get_button(label="Помощь", color="primary"),
-             get_button(label="Новости", color="primary"),
              get_button(label="О боте", color="primary")],
         ]
     }
@@ -150,7 +149,7 @@ def bot_processing():
                    "random_id": randint(1, 10000000)})
 
     # getting attachments for photos
-    def updateAttachment(img_source):
+    def update_attachment_id(img_source):
         get_serverAccess = vk.method("photos.getMessagesUploadServer",
                                      {"album_id": 268631098, "group_id": BotConfig.CommunityID})
         get_serverLink = requests.post(get_serverAccess["upload_url"],
@@ -179,28 +178,24 @@ def bot_processing():
                         response_randomizer = randint(0, len(BotConfig.ru_greetings_bot) - 1)
                         response_word = BotConfig.ru_greetings_bot[response_randomizer]
                         get_user_name = vk.method("users.get", {"user_ids": event.object.peer_id})[0]["first_name"]
-                        write_msg(event.object.peer_id, f"{response_word.title()}, {str(get_user_name)}!",
-                                  keyboard=main_keyboard)
+                        write_msg(user_id=event.object.peer_id, keyboard=main_keyboard,
+                                  message=f"{response_word.title()}, {str(get_user_name)}!")
                     elif event.object.text.lower().lower() in BotConfig.eng_greetings_bot:
                         response_randomizer = randint(0, len(BotConfig.eng_greetings_bot) - 1)
                         response_word = BotConfig.eng_greetings_bot[response_randomizer]
                         get_user_name = vk.method("users.get", {"user_ids": event.object.peer_id})[0]["first_name"]
-                        write_msg(event.object.peer_id, f"{response_word.title()}, {str(get_user_name)}!",
-                                  keyboard=main_keyboard)
+                        write_msg(user_id=event.object.peer_id, keyboard=main_keyboard,
+                                  message=f"{response_word.title()}, {str(get_user_name)}!")
                     # only jump to main menu
                     else:
-                        write_msg(event.object.peer_id, "Главное меню👌", keyboard=main_keyboard)
+                        write_msg(user_id=event.object.peer_id, keyboard=main_keyboard, message="Главное меню👌")
                 # main keyboard
-                elif event.object.text.lower() == "учебники":
-                    write_msg(event.object.peer_id,
-                              "Ой, сорян, забыл предупредить - т.к. бот на бэтке, нам нужны люди, которые помогут найти все электронные сканы учебников с 8 по 11 классы, мы постепенно набираем базу, но ещё нужно время😏",
-                              keyboard=main_keyboard)
                 elif event.object.text.lower() == "расписание":
-                    write_msg(event.object.peer_id, "Ок, только выбери какое🖖", keyboard=schedules_keyboard)
+                    write_msg(user_id=event.object.peer_id, keyboard=schedules_keyboard,
+                              message="Ок, только выбери какое🖖")
                 elif event.object.text.lower() == "помощь":
-                    write_msg(event.object.peer_id,
-                              "У тебя есть вопросы? - не волнуйся, ведь ты их всегда можешь задать в беседе, прикреплённой к сообществу🎯\nhttps://vk.me/join/FhSVyJp7fYT0fM805_KTHNWPctDNa79JGsI=",
-                              keyboard=main_keyboard)
+                    write_msg(user_id=event.object.peer_id, keyboard=main_keyboard,
+                              message="У тебя есть вопросы? - не волнуйся, ведь ты их всегда можешь задать в беседе, прикреплённой к сообществу🎯\nhttps://vk.me/join/FhSVyJp7fYT0fM805_KTHNWPctDNa79JGsI=")
                 elif event.object.text.lower() == "новости":
                     vk.method("messages.setActivity", {"peer_id": event.object.peer_id, "type": "typing"})
                     write_msg(user_id=event.object.peer_id, keyboard=main_keyboard,
@@ -222,141 +217,137 @@ def bot_processing():
                                                                      tag_info=BotConfig.covid_tag_info,
                                                                      headers=BotConfig.user_agent))
                 elif event.object.text.lower() == "о боте":
-                    write_msg(event.object.peer_id, BotConfig.about_bot[0], keyboard=main_keyboard)
-                    write_msg(event.object.peer_id, BotConfig.about_bot[1], keyboard=main_keyboard,
-                              attachment=updateAttachment(img_source="AboutBot.png"))
+                    write_msg(user_id=event.object.peer_id, keyboard=main_keyboard, message=BotConfig.about_bot[0])
+                    write_msg(user_id=event.object.peer_id, keyboard=main_keyboard, message=BotConfig.about_bot[1])
+                    write_msg(user_id=event.object.peer_id, keyboard=main_keyboard, message=BotConfig.about_bot[2],
+                              attachment=update_attachment_id(img_source="AboutBot.png"))
                 # schedules keyboard
                 elif event.object.text.lower() in ["звонков", "звонки"]:
-                    write_msg(event.object.peer_id, "Такс, и ещё выбери для каких классов🤔",
-                              keyboard=select_call_class_keyboard)
+                    write_msg(user_id=event.object.peer_id, keyboard=select_call_class_keyboard,
+                              message="Такс, и ещё выбери для каких классов🤔")
                 elif event.object.text.lower() == "уроков":
-                    write_msg(event.object.peer_id, "Хмм, теперь выбери день😼\nКста, в целях защиты против коронавирусной инфекции не забывай надевать маску и перчатки😷", keyboard=choosing_day_of_week_keyboard)
+                    write_msg(user_id=event.object.peer_id, keyboard=choosing_day_of_week_keyboard,
+                              message="Хмм, теперь выбери день😼\nКста, в целях защиты против коронавирусной инфекции не забывай надевать маску и перчатки😷")
                 # select call class keyboard
                 elif event.object.text.lower() == "8-9":
-                    write_msg(event.object.peer_id, BotConfig.eight_nine_schedule_calls, keyboard=main_keyboard)
+                    write_msg(user_id=event.object.peer_id, keyboard=main_keyboard,
+                              message=BotConfig.eight_nine_schedule_calls)
                 elif event.object.text.lower() == "10-11":
-                    write_msg(event.object.peer_id, BotConfig.ten_eleven_schedule_calls, keyboard=main_keyboard)
+                    write_msg(user_id=event.object.peer_id, keyboard=main_keyboard,
+                              message=BotConfig.ten_eleven_schedule_calls)
                 # choosing day of week keyboard
                 elif event.object.text.lower() == "понедельник":
                     UserSearcher.searching_user_in_database(database_source="workWithUsersDatabase/UsersDatabase.txt",
                                                             user_id=f"id{event.object.peer_id}")
                     if UserSearcher.presence_user == []:
-                        write_msg(event.object.peer_id,
-                                  "Такс, тебя же нет в базе. Нажми на плитку -Регистрация- в главном меню, чтобы занести свои данные для выдачи расписания📖",
-                                  keyboard=main_keyboard)
+                        write_msg(user_id=event.object.peer_id, keyboard=main_keyboard,
+                                  message="Такс, тебя же нет в базе. Нажми на плитку -Регистрация- в главном меню, чтобы занести свои данные для выдачи расписания📖")
                     else:
-                        write_msg(event.object.peer_id, "Поиск актуального расписания для тебя🔎",
-                                  keyboard=main_keyboard)
+                        write_msg(user_id=event.object.peer_id, keyboard=main_keyboard,
+                                  message="Поиск актуального расписания для тебя🔎")
                         vk.method("messages.setActivity", {"peer_id": event.object.peer_id, "type": "typing"})
                         ExcelSearcher.selective_data_search(excel_source=UserSearcher.presence_user[2],
                                                             sheet_name=UserSearcher.presence_user[3],
                                                             columns=UserSearcher.presence_user[4],
                                                             extra_cells=UserSearcher.presence_user[5],
                                                             start_data="Понедельник", end_data="None")
-                        write_msg(event.object.peer_id, f"\n{ExcelSearcher.output_day_schedule}",
-                                  keyboard=main_keyboard)
+                        write_msg(user_id=event.object.peer_id, keyboard=main_keyboard,
+                                  message=f"\n{ExcelSearcher.output_day_schedule}")
                 elif event.object.text.lower() == "вторник":
                     UserSearcher.searching_user_in_database(database_source="workWithUsersDatabase/UsersDatabase.txt",
                                                             user_id=f"id{event.object.peer_id}")
                     if UserSearcher.presence_user == []:
-                        write_msg(event.object.peer_id,
-                                  "Такс, тебя же нет в базе. Нажми на плитку -Регистрация- в главном меню, чтобы занести свои данные для выдачи расписания📖",
-                                  keyboard=main_keyboard)
+                        write_msg(user_id=event.object.peer_id, keyboard=main_keyboard,
+                                  message="Такс, тебя же нет в базе. Нажми на плитку -Регистрация- в главном меню, чтобы занести свои данные для выдачи расписания📖")
                     else:
-                        write_msg(event.object.peer_id, "Поиск актуального расписания для тебя🔎",
-                                  keyboard=main_keyboard)
+                        write_msg(user_id=event.object.peer_id, keyboard=main_keyboard,
+                                  message="Поиск актуального расписания для тебя🔎")
                         vk.method("messages.setActivity", {"peer_id": event.object.peer_id, "type": "typing"})
                         ExcelSearcher.selective_data_search(excel_source=UserSearcher.presence_user[2],
                                                             sheet_name=UserSearcher.presence_user[3],
                                                             columns=UserSearcher.presence_user[4],
                                                             extra_cells=UserSearcher.presence_user[5],
                                                             start_data="Вторник", end_data="None")
-                        write_msg(event.object.peer_id, f"\n{ExcelSearcher.output_day_schedule}",
-                                  keyboard=main_keyboard)
+                        write_msg(user_id=event.object.peer_id, keyboard=main_keyboard,
+                                  message=f"\n{ExcelSearcher.output_day_schedule}")
                 elif event.object.text.lower() == "среда":
                     UserSearcher.searching_user_in_database(database_source="workWithUsersDatabase/UsersDatabase.txt",
                                                             user_id=f"id{event.object.peer_id}")
                     if UserSearcher.presence_user == []:
-                        write_msg(event.object.peer_id,
-                                  "Такс, тебя же нет в базе. Нажми на плитку -Регистрация- в главном меню, чтобы занести свои данные для выдачи расписания📖",
-                                  keyboard=main_keyboard)
+                        write_msg(user_id=event.object.peer_id, keyboard=main_keyboard,
+                                  message="Такс, тебя же нет в базе. Нажми на плитку -Регистрация- в главном меню, чтобы занести свои данные для выдачи расписания📖")
                     else:
-                        write_msg(event.object.peer_id, "Поиск актуального расписания для тебя🔎",
-                                  keyboard=main_keyboard)
+                        write_msg(user_id=event.object.peer_id, keyboard=main_keyboard,
+                                  message="Поиск актуального расписания для тебя🔎")
                         vk.method("messages.setActivity", {"peer_id": event.object.peer_id, "type": "typing"})
                         ExcelSearcher.selective_data_search(excel_source=UserSearcher.presence_user[2],
                                                             sheet_name=UserSearcher.presence_user[3],
                                                             columns=UserSearcher.presence_user[4],
                                                             extra_cells=UserSearcher.presence_user[5],
                                                             start_data="Среда", end_data="None")
-                        write_msg(event.object.peer_id, f"\n{ExcelSearcher.output_day_schedule}",
-                                  keyboard=main_keyboard)
+                        write_msg(user_id=event.object.peer_id, keyboard=main_keyboard,
+                                  message=f"\n{ExcelSearcher.output_day_schedule}")
                 elif event.object.text.lower() == "четверг":
                     UserSearcher.searching_user_in_database(database_source="workWithUsersDatabase/UsersDatabase.txt",
                                                             user_id=f"id{event.object.peer_id}")
                     if UserSearcher.presence_user == []:
-                        write_msg(event.object.peer_id,
-                                  "Такс, тебя же нет в базе. Нажми на плитку -Регистрация- в главном меню, чтобы занести свои данные для выдачи расписания📖",
-                                  keyboard=main_keyboard)
+                        write_msg(user_id=event.object.peer_id, keyboard=main_keyboard,
+                                  message="Такс, тебя же нет в базе. Нажми на плитку -Регистрация- в главном меню, чтобы занести свои данные для выдачи расписания📖")
                     else:
-                        write_msg(event.object.peer_id, "Поиск актуального расписания для тебя🔎",
-                                  keyboard=main_keyboard)
+                        write_msg(user_id=event.object.peer_id, keyboard=main_keyboard,
+                                  message="Поиск актуального расписания для тебя🔎")
                         vk.method("messages.setActivity", {"peer_id": event.object.peer_id, "type": "typing"})
                         ExcelSearcher.selective_data_search(excel_source=UserSearcher.presence_user[2],
                                                             sheet_name=UserSearcher.presence_user[3],
                                                             columns=UserSearcher.presence_user[4],
                                                             extra_cells=UserSearcher.presence_user[5],
                                                             start_data="Четверг", end_data="None")
-                        write_msg(event.object.peer_id, f"\n{ExcelSearcher.output_day_schedule}",
-                                  keyboard=main_keyboard)
+                        write_msg(user_id=event.object.peer_id, keyboard=main_keyboard,
+                                  message=f"\n{ExcelSearcher.output_day_schedule}")
                 elif event.object.text.lower() == "пятница":
                     UserSearcher.searching_user_in_database(database_source="workWithUsersDatabase/UsersDatabase.txt",
                                                             user_id=f"id{event.object.peer_id}")
                     if UserSearcher.presence_user == []:
-                        write_msg(event.object.peer_id,
-                                  "Такс, тебя же нет в базе. Нажми на плитку -Регистрация- в главном меню, чтобы занести свои данные для выдачи расписания📖",
-                                  keyboard=main_keyboard)
+                        write_msg(user_id=event.object.peer_id, keyboard=main_keyboard,
+                                  message="Такс, тебя же нет в базе. Нажми на плитку -Регистрация- в главном меню, чтобы занести свои данные для выдачи расписания📖")
                     else:
-                        write_msg(event.object.peer_id, "Поиск актуального расписания для тебя🔎",
-                                  keyboard=main_keyboard)
+                        write_msg(user_id=event.object.peer_id, keyboard=main_keyboard,
+                                  message="Поиск актуального расписания для тебя🔎")
                         vk.method("messages.setActivity", {"peer_id": event.object.peer_id, "type": "typing"})
                         ExcelSearcher.selective_data_search(excel_source=UserSearcher.presence_user[2],
                                                             sheet_name=UserSearcher.presence_user[3],
                                                             columns=UserSearcher.presence_user[4],
                                                             extra_cells=UserSearcher.presence_user[5],
                                                             start_data="Пятница", end_data="None")
-                        write_msg(event.object.peer_id, f"\n{ExcelSearcher.output_day_schedule}",
-                                  keyboard=main_keyboard)
+                        write_msg(user_id=event.object.peer_id, keyboard=main_keyboard,
+                                  message=f"\n{ExcelSearcher.output_day_schedule}")
                 elif event.object.text.lower() == "суббота":
                     UserSearcher.searching_user_in_database(database_source="workWithUsersDatabase/UsersDatabase.txt",
                                                             user_id=f"id{event.object.peer_id}")
                     if UserSearcher.presence_user == []:
-                        write_msg(event.object.peer_id,
-                                  "Такс, тебя же нет в базе. Нажми на плитку -Регистрация- в главном меню, чтобы занести свои данные для выдачи расписания📖",
-                                  keyboard=main_keyboard)
+                        write_msg(user_id=event.object.peer_id, keyboard=main_keyboard,
+                                  message="Такс, тебя же нет в базе. Нажми на плитку -Регистрация- в главном меню, чтобы занести свои данные для выдачи расписания📖")
                     else:
-                        write_msg(event.object.peer_id, "Поиск актуального расписания для тебя🔎",
-                                  keyboard=main_keyboard)
+                        write_msg(user_id=event.object.peer_id, keyboard=main_keyboard,
+                                  message="Поиск актуального расписания для тебя🔎")
                         vk.method("messages.setActivity", {"peer_id": event.object.peer_id, "type": "typing"})
                         ExcelSearcher.selective_data_search(excel_source=UserSearcher.presence_user[2],
                                                             sheet_name=UserSearcher.presence_user[3],
                                                             columns=UserSearcher.presence_user[4],
                                                             extra_cells=UserSearcher.presence_user[5],
                                                             start_data="Суббота", end_data="None")
-                        write_msg(event.object.peer_id, f"\n{ExcelSearcher.output_day_schedule}",
-                                  keyboard=main_keyboard)
+                        write_msg(user_id=event.object.peer_id, keyboard=main_keyboard,
+                                  message=f"\n{ExcelSearcher.output_day_schedule}")
                 # registration - instruction
                 elif event.object.text.lower() == "регистрация":
                     UserSearcher.searching_user_in_database(database_source="workWithUsersDatabase/UsersDatabase.txt",
                                                             user_id=f"id{event.object.peer_id}")
                     if UserSearcher.presence_user == []:
-                        write_msg(event.object.peer_id,
-                                  f"Теперь ты можешь осуществить регистрацию прямо в боте! Для этого тебе просто нужно написать свою группу, которая указана в индивидуальном расписании(название группы обязательно вводить русскими символами, если у тебя не получится ввести номер группы с первого раза - попробуй ещё раз)😜\nДля удобства вывожу тебе список всех групп в школе:\n8️⃣Класс: {'; '.join(BotConfig.EightClassGroups)}\n9️⃣Класс: {'; '.join(BotConfig.NineClassGroups)}\n1️⃣0️⃣Класс: {'; '.join(BotConfig.TenClassGroups)}\n1️⃣1️⃣Класс: {'; '.join(BotConfig.ElevenClassGroups)}\nЕсли нужна помощь, то пиши в беседу, прикрепленную к сообществу:\nhttps://vk.me/join/FhSVyJp7fYT0fM805_KTHNWPctDNa79JGsI=",
-                                  keyboard=main_keyboard)
+                        write_msg(user_id=event.object.peer_id, keyboard=main_keyboard,
+                                  message=f"Теперь регистрацию можно осуществить прямо тут - для этого введи название своей группы русскими символами (если не получиться с первого раза - попробуй ещё раз)😜\nВот список всех существующих групп в Предуниверсарии МАИ:\n8️⃣Класс: {'; '.join(BotConfig.EightClassGroups)}\n9️⃣Класс: {'; '.join(BotConfig.NineClassGroups)}\n1️⃣0️⃣Класс: {'; '.join(BotConfig.TenClassGroups)}\n1️⃣1️⃣Класс: {'; '.join(BotConfig.ElevenClassGroups)}\nЕсли ты не можешь найти свою группу или тебе нужна помощь, то пиши в беседу, прикреплённую к сообществу:\nhttps://vk.me/join/FhSVyJp7fYT0fM805_KTHNWPctDNa79JGsI=")
                     else:
-                        write_msg(event.object.peer_id,
-                                  f"Ты уже зарегистрирован - если всё работает отлично, то ты также можешь продолжать пользоваться ботом. Если же у тебя есть какие-либо вопросы или ты сменил группу, то пиши в беседу, прикреплённую к сообществу⚙\nhttps://vk.me/join/FhSVyJp7fYT0fM805_KTHNWPctDNa79JGsI=",
-                                  keyboard=main_keyboard)
+                        write_msg(user_id=event.object.peer_id, keyboard=main_keyboard,
+                                  message=f"Ты уже зарегистрирован - если всё работает отлично, то ты также можешь продолжать пользоваться ботом. Если же у тебя есть какие-либо вопросы или ты сменил группу, то пиши в беседу, прикреплённую к сообществу⚙\nhttps://vk.me/join/FhSVyJp7fYT0fM805_KTHNWPctDNa79JGsI=")
                 # registration - the process of entering users in the database
                 elif (event.object.text.upper() in BotConfig.EightClassGroups) or (
                         event.object.text.upper() in BotConfig.NineClassGroups) or (
@@ -378,8 +369,8 @@ def bot_processing():
                             sending_and_reserving_database(conversation_id=event.object.from_id,
                                                            database_source="workWithUsersDatabase/UsersDatabase.txt",
                                                            message=f"#JOIN К нам присоединился новый пользователь - {get_last_name} {get_first_name}(id{event.object.peer_id} | 8class | {event.object.text.upper()})🚀")
-                            write_msg(event.object.peer_id, "Поздравляю! Регистрация прошла успешно✅",
-                                      keyboard=main_keyboard)
+                            write_msg(user_id=event.object.peer_id, keyboard=main_keyboard,
+                                      message="Поздравляю! Регистрация прошла успешно✅")
                         elif event.object.text.upper() in BotConfig.NineClassGroups:
                             UserSearcher.adding_user_in_database(
                                 database_source="workWithUsersDatabase/UsersDatabase.txt",
@@ -389,8 +380,8 @@ def bot_processing():
                             sending_and_reserving_database(conversation_id=event.object.from_id,
                                                            database_source="workWithUsersDatabase/UsersDatabase.txt",
                                                            message=f"#JOIN К нам присоединился новый пользователь - {get_last_name} {get_first_name}(id{event.object.peer_id} | 9class | {event.object.text.upper()})🚀")
-                            write_msg(event.object.peer_id, "Поздравляю! Регистрация прошла успешно✅",
-                                      keyboard=main_keyboard)
+                            write_msg(user_id=event.object.peer_id, keyboard=main_keyboard,
+                                      message="Поздравляю! Регистрация прошла успешно✅")
                         elif event.object.text.upper() in BotConfig.TenClassGroups:
                             UserSearcher.adding_user_in_database(
                                 database_source="workWithUsersDatabase/UsersDatabase.txt",
@@ -400,8 +391,8 @@ def bot_processing():
                             sending_and_reserving_database(conversation_id=event.object.from_id,
                                                            database_source="workWithUsersDatabase/UsersDatabase.txt",
                                                            message=f"#JOIN К нам присоединился новый пользователь - {get_last_name} {get_first_name}(id{event.object.peer_id} | 10class | {event.object.text.upper()})🚀")
-                            write_msg(event.object.peer_id, "Поздравляю! Регистрация прошла успешно✅",
-                                      keyboard=main_keyboard)
+                            write_msg(user_id=event.object.peer_id, keyboard=main_keyboard,
+                                      message="Поздравляю! Регистрация прошла успешно✅")
                         elif event.object.text.upper() in BotConfig.ElevenClassGroups:
                             UserSearcher.adding_user_in_database(
                                 database_source="workWithUsersDatabase/UsersDatabase.txt",
@@ -411,8 +402,8 @@ def bot_processing():
                             sending_and_reserving_database(conversation_id=event.object.from_id,
                                                            database_source="workWithUsersDatabase/UsersDatabase.txt",
                                                            message=f"#JOIN К нам присоединился новый пользователь - {get_last_name} {get_first_name}(id{event.object.peer_id} | 11class | {event.object.text.upper()})🚀")
-                            write_msg(event.object.peer_id, "Поздравляю! Регистрация прошла успешно✅",
-                                      keyboard=main_keyboard)
+                            write_msg(user_id=event.object.peer_id, keyboard=main_keyboard,
+                                      message="Поздравляю! Регистрация прошла успешно✅")
                         elif event.object.text.upper() in ["ГОСТЬ", "ТЕСТ", "GUEST", "TEST"]:
                             UserSearcher.adding_user_in_database(
                                 database_source="workWithUsersDatabase/UsersDatabase.txt",
@@ -422,8 +413,8 @@ def bot_processing():
                             sending_and_reserving_database(conversation_id=event.object.from_id,
                                                            database_source="workWithUsersDatabase/UsersDatabase.txt",
                                                            message=f"#JOIN Кто-то захотел протестировать бота - {get_last_name} {get_first_name}(id{event.object.peer_id} | GUESTS | ГОСТЬ)🔭")
-                            write_msg(event.object.peer_id, "Поздравляем! Регистрация прошла успешно✅",
-                                      keyboard=main_keyboard)
+                            write_msg(user_id=event.object.peer_id, keyboard=main_keyboard,
+                                      message="Поздравляем! Регистрация прошла успешно✅")
                             write_msg(user_id=event.object.peer_id, keyboard=main_keyboard,
                                       message="Теперь вы имеете абсолютно все возможности, чтобы полноценно протестировать нашего бота🎳")
                         elif event.object.text in BotConfig.TeachersCodifiers:
@@ -435,43 +426,38 @@ def bot_processing():
                             sending_and_reserving_database(conversation_id=event.object.from_id,
                                                            database_source="workWithUsersDatabase/UsersDatabase.txt",
                                                            message=f"#JOIN К нам присоединился новый педагог - {get_last_name} {get_first_name}(id{event.object.peer_id} | TEACHERS | {event.object.text.upper()})🎓")
-                            write_msg(event.object.peer_id, "Поздравляю! Регистрация прошла успешно✅",
-                                      keyboard=main_keyboard)
+                            write_msg(user_id=event.object.peer_id, keyboard=main_keyboard,
+                                      message="Поздравляю! Регистрация прошла успешно✅")
                     else:
                         if event.object.text.upper() == UserSearcher.presence_user[3]:
-                            write_msg(event.object.peer_id,
-                                      "Да-да, всё внесено верно - ты есть в базе. Если есть какие-то вопросы, то пиши в беседу, прикреплённую к сообществу🗿\nhttps://vk.me/join/FhSVyJp7fYT0fM805_KTHNWPctDNa79JGsI=",
-                                      keyboard=main_keyboard)
+                            write_msg(user_id=event.object.peer_id, keyboard=main_keyboard,
+                                      message="Да-да, всё внесено верно - ты есть в базе. Если есть какие-то вопросы, то пиши в беседу, прикреплённую к сообществу🗿\nhttps://vk.me/join/FhSVyJp7fYT0fM805_KTHNWPctDNa79JGsI=")
                         else:
-                            write_msg(event.object.peer_id,
-                                      f"Ого - похоже ты хочешь изменить группу! Напиши в беседу, прикреплённую к сообществу, чтобы мы редактировали твои данные✍\nhttps://vk.me/join/FhSVyJp7fYT0fM805_KTHNWPctDNa79JGsI=",
-                                      keyboard=main_keyboard)
+                            write_msg(user_id=event.object.peer_id, keyboard=main_keyboard,
+                                      message=f"Ого - похоже ты хочешь изменить группу! Напиши в беседу, прикреплённую к сообществу, чтобы мы редактировали твои данные✍\nhttps://vk.me/join/FhSVyJp7fYT0fM805_KTHNWPctDNa79JGsI=")
                 # get your data from the database
                 elif event.object.text.lower() in ["я", "кто я", "хто я", "мои данные"]:
                     UserSearcher.searching_user_in_database(database_source="workWithUsersDatabase/UsersDatabase.txt",
                                                             user_id=f"id{event.object.peer_id}")
                     if UserSearcher.presence_user != []:
-                        write_msg(event.object.peer_id,
-                                  f"Вот твои данные, которые ты внёс при регистрации: {UserSearcher.presence_user[0]} | {UserSearcher.presence_user[1]} | {UserSearcher.presence_user[2]} | {UserSearcher.presence_user[3]}💾",
-                                  keyboard=main_keyboard)
+                        write_msg(user_id=event.object.peer_id, keyboard=main_keyboard,
+                                  message=f"Вот твои данные, которые ты внёс при регистрации: {UserSearcher.presence_user[0]} | {UserSearcher.presence_user[1]} | {UserSearcher.presence_user[2]} | {UserSearcher.presence_user[3]}💾")
                     else:
-                        write_msg(event.object.peer_id,
-                                  f"Ты ещё не зарегистрировался, бот пока знает про тебя только это: id{event.object.peer_id}📡",
-                                  keyboard=main_keyboard)
+                        write_msg(user_id=event.object.peer_id, keyboard=main_keyboard,
+                                  message=f"Ты ещё не зарегистрировался, бот пока знает про тебя только это: id{event.object.peer_id}📡")
                 # 3301 - easter egg
                 elif event.object.text.lower() == "пасхалка":
-                    write_msg(event.object.peer_id,
-                              "Пасхалка?! Вау, в боте есть пасхалка! Приступим, есть шифр, указанный в пикче ниже - расшифруй его и отпишись в общую беседу сообщества(понимаем, что довольно сложно, поэтому даём две подсказки: ascii, tenet)",
-                              keyboard=main_keyboard, attachment=updateAttachment(img_source="EasterEgg.png"))
+                    write_msg(user_id=event.object.peer_id, keyboard=main_keyboard,
+                              message="Пасхалка?! Вау, в боте есть пасхалка! Приступим, есть шифр, указанный в пикче ниже - расшифруй его и отпишись в общую беседу сообщества(понимаем, что довольно сложно, поэтому даём две подсказки: ascii, tenet)",
+                              attachment=update_attachment_id(img_source="EasterEgg.png"))
                 # check for updates
                 elif event.object.text.lower() == "проверить обновления":
-                    write_msg(event.object.peer_id,
-                              "Оооу да - а вот и долгожданное обновление! Мы славно поработали и надеемся, что тебе всё понравится😎",
-                              keyboard=main_keyboard)
+                    write_msg(user_id=event.object.peer_id, keyboard=main_keyboard,
+                              message="Оооу да - а вот и долгожданное обновление! Мы славно поработали и надеемся, что тебе всё понравится😎")
                 # unrecognized command
                 else:
-                    write_msg(event.object.peer_id, "По-моему ты вводишь что-то не так, попробуй ещё раз😕",
-                              keyboard=main_keyboard)
+                    write_msg(user_id=event.object.peer_id, keyboard=main_keyboard,
+                              message="По-моему ты вводишь что-то не так, попробуй ещё раз😕")
                 # sending data to the terminal
                 print("-----------------------------")
 
