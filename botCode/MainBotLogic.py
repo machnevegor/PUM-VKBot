@@ -179,12 +179,6 @@ def bot_processing():
                     else:
                         write_msg(user_id=event.object.peer_id, keyboard=main_keyboard, message="Главное меню👌")
                 # main keyboard
-                elif event.object.text.lower() == "расписание":
-                    write_msg(user_id=event.object.peer_id, keyboard=schedules_keyboard,
-                              message="Ок, только выбери какое🖖")
-                elif event.object.text.lower() == "помощь":
-                    write_msg(user_id=event.object.peer_id, keyboard=main_keyboard,
-                              message="У тебя есть вопросы? - не волнуйся, ведь ты их всегда можешь задать в беседе, прикреплённой к сообществу🎯\nhttps://vk.me/join/FhSVyJp7fYT0fM805_KTHNWPctDNa79JGsI=")
                 elif event.object.text.lower() == "новости":
                     vk.method("messages.setActivity", {"peer_id": event.object.peer_id, "type": "typing"})
                     write_msg(user_id=event.object.peer_id, keyboard=main_keyboard,
@@ -205,6 +199,12 @@ def bot_processing():
                                                                      search_tag=BotConfig.covid_search_tag,
                                                                      tag_info=BotConfig.covid_tag_info,
                                                                      headers=BotConfig.user_agent))
+                elif event.object.text.lower() == "расписание":
+                    write_msg(user_id=event.object.peer_id, keyboard=schedules_keyboard,
+                              message="Ок, только выбери какое🖖")
+                elif event.object.text.lower() == "помощь":
+                    write_msg(user_id=event.object.peer_id, keyboard=main_keyboard,
+                              message="У тебя есть вопросы? - не волнуйся, ведь ты их всегда можешь задать в беседе, прикреплённой к сообществу🎯\nhttps://vk.me/join/FhSVyJp7fYT0fM805_KTHNWPctDNa79JGsI=")
                 elif event.object.text.lower() == "о боте":
                     write_msg(user_id=event.object.peer_id, keyboard=main_keyboard, message=BotConfig.about_bot[0])
                     write_msg(user_id=event.object.peer_id, keyboard=main_keyboard, message=BotConfig.about_bot[1])
