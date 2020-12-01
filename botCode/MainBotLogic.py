@@ -23,7 +23,7 @@ from workWithUsersDatabase import UserSearcher
 from workWithExcelFile import ExcelSearcher as ExcelSearcher
 from specialScripts import CompilationNews as CompilationNews
 
-# full error log output(without auto-reconnection)
+# full error log output (without auto-reconnection)
 error_checking_switch = False
 # time to restart the bot
 reboot_time = 5
