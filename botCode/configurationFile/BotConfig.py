@@ -19,7 +19,7 @@ BotToken = ""
 CommunityID = [""]
 
 # talk to the reservation database
-ConversationForDataReservationID = ##########
+ConversationForDataReservationID = 2000000004
 
 ########################################################################################################################
 
