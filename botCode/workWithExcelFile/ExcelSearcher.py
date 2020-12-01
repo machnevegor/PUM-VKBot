@@ -113,9 +113,9 @@ def selective_data_search(excel_source, columns, extra_cells, sheet_name, start_
                 if window_in_the_first_lesson == True:
                     window_in_the_first_lesson = False
                     if quantity_transfers + 1 != 2:
-                        output_day_schedule.append(f"👉Приходить к {quantity_transfers + 1} уроку👈")
+                        output_day_schedule.append(f"👉Начало занятий с {quantity_transfers + 1} урока👈")
                     else:
-                        output_day_schedule.append(f"👉Приходить ко {quantity_transfers + 1} уроку👈")
+                        output_day_schedule.append(f"👉Начало занятий со {quantity_transfers + 1} урока👈")
                 if additional_information_output_data_array[quantity_transfers] != "None":
                     output_day_schedule.append(
                         f"{quantity_transfers + 1}. 🧠{additional_information_output_data_array[quantity_transfers]} ({teachers_output_data_array[quantity_transfers]} & {cabinets_output_data_array[quantity_transfers]})")
