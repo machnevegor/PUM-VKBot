@@ -13,7 +13,7 @@
 import requests as requests
 from bs4 import BeautifulSoup as BeautifulSoup
 import re as FormattingSpaces
-from pycbrf import ExchangeRates
+from pycbrf import ExchangeRates as ExchangeRates
 import datetime as datetime
 
 
