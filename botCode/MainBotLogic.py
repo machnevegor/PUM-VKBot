@@ -163,7 +163,6 @@ def bot_processing():
             # returns an empty array in case of failure
             return []
 
-
     # longpoll
     longpoll = VkBotLongPoll(vk, group_id=BotConfig.CommunityID)
     # response logic
