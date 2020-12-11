@@ -203,7 +203,7 @@ def bot_processing():
                                                                        headers=BotConfig.user_agent))
                     write_msg(event.object.peer_id, CompilationNews.rates_searcher(), keyboard=main_keyboard)
                     write_msg(user_id=event.object.peer_id, keyboard=main_keyboard,
-                              message="🔥Мы рекомендуем:\nЦитаты - @buildmesomerockets\nМемы - @pumpodslushano\n🤡Контента нет, просто место заполнить для галочки:\nМемы - @predmemetika")
+                              message="🔥Мы рекомендуем:\nЦитаты - @buildmesomerockets\nМемы - @pumpodslushano\n🤡Контента нет, просто место заполнить для галочки:\nМемы - @predmemetika\n📝Не понимаешь математику или физику? - вот тг-канал, который может тебе помочь:\nhttps://t.me/sunz_trained")
                     write_msg(user_id=event.object.peer_id, keyboard=main_keyboard,
                               message=CompilationNews.news_searcher(source=BotConfig.news_source,
                                                                     search_tag=BotConfig.news_search_tag,
