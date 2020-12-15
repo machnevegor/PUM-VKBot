@@ -12,16 +12,11 @@
 # import module
 import openpyxl
 
-# the path to the branching database
-excel_database_source = "workWithExcelFile/excelDatabase"
-# words or sentences that you don't want to output
-unnecessary_words_or_sentences = []
-# name of the folder where all teacher schedules are listed
-teacher_key = "TEACHERS"
-
 
 # data search and processing
-def selective_data_search(excel_source, columns, extra_cells, sheet_name, start_data, end_data):
+def selective_data_search(excel_source, columns, extra_cells, sheet_name, start_data, end_data,
+                          excel_database_source="workWithExcelFile/excelDatabase", unnecessary_words_or_sentences=[],
+                          teacher_key="TEACHERS"):
     # output variables - declaration
     global output_day_schedule
     output_day_schedule = ["Расписание на заданный день:"]

@@ -17,6 +17,7 @@ import requests as requests
 from random import randint as randint
 import time as time
 import datetime as datetime
+import os as os
 # import other modules
 from configurationFile import BotConfig as BotConfig
 from workWithUsersDatabase import UserSearcher
@@ -148,6 +149,20 @@ def bot_processing():
                                          "hash": get_serverLink["hash"]})[0]
         return f"photo{save_attachmentFile['owner_id']}_{save_attachmentFile['id']}"
 
+    # find and define all existing groups in a particular class
+    def list_of_groups_in_the_class(name_of_the_scanned_folder, database_source="workWithExcelFile/excelDatabase"):
+        try:
+            # search for files and separate the name from the extension
+            return ["".join(file_name.split(".xlsx")) for file_name in
+                    os.listdir(f"{database_source}/{name_of_the_scanned_folder}")]
+        except Exception as E:
+            # sending data to the terminal
+            print(f"!!! ERROR: Broken folder with the files or incorrect path !!!")
+            print(f"The specified path to the files: {database_source}/{name_of_the_scanned_folder}")
+            print(f"Reason: {E}")
+            # returns an empty array in case of failure
+            return []
+
     # longpoll
     longpoll = VkBotLongPoll(vk, group_id=BotConfig.CommunityID)
     # response logic
@@ -188,7 +203,7 @@ def bot_processing():
                                                                        headers=BotConfig.user_agent))
                     write_msg(event.object.peer_id, CompilationNews.rates_searcher(), keyboard=main_keyboard)
                     write_msg(user_id=event.object.peer_id, keyboard=main_keyboard,
-                              message="🔥Мы рекомендуем:\nЦитаты - @buildmesomerockets\nМемы - @pumpodslushano\n🤡Контента нет, просто место заполнить для галочки:\nМемы - @predmemetika")
+                              message="🔥Мы рекомендуем:\nЦитаты - @buildmesomerockets\nМемы - @pumpodslushano\n📝Не понимаешь математику или физику? - вот тг-канал, который может помочь тебе:\nhttps://t.me/sunz_trained\n🤡Контента нет, просто место заполнить для галочки:\nМемы - @predmemetika")
                     write_msg(user_id=event.object.peer_id, keyboard=main_keyboard,
                               message=CompilationNews.news_searcher(source=BotConfig.news_source,
                                                                     search_tag=BotConfig.news_search_tag,
@@ -326,23 +341,23 @@ def bot_processing():
                                                             user_id=f"id{event.object.peer_id}")
                     if UserSearcher.presence_user == []:
                         write_msg(user_id=event.object.peer_id, keyboard=main_keyboard,
-                                  message=f"Теперь регистрацию можно осуществить прямо тут - для этого введи название своей группы русскими символами (если не получиться с первого раза - попробуй ещё раз)😜\nВот список всех существующих групп в Предуниверсарии МАИ:\n8️⃣Класс: {'; '.join(BotConfig.EightClassGroups)}\n9️⃣Класс: {'; '.join(BotConfig.NineClassGroups)}\n1️⃣0️⃣Класс: {'; '.join(BotConfig.TenClassGroups)}\n1️⃣1️⃣Класс: {'; '.join(BotConfig.ElevenClassGroups)}\nЕсли ты не можешь найти свою группу или тебе нужна помощь, то пиши в беседу, прикреплённую к сообществу:\nhttps://vk.me/join/FhSVyJp7fYT0fM805_KTHNWPctDNa79JGsI=")
+                                  message=f"Теперь регистрацию можно осуществить прямо тут - для этого введи название своей группы русскими символами (если не получиться с первого раза - попробуй ещё раз)😜\nВот список всех существующих групп в Предуниверсарии МАИ:\n8️⃣Класс: {'; '.join(list_of_groups_in_the_class('8class'))}\n9️⃣Класс: {'; '.join(list_of_groups_in_the_class('9class'))}\n1️⃣0️⃣Класс: {'; '.join(list_of_groups_in_the_class('10class'))}\n1️⃣1️⃣Класс: {'; '.join(list_of_groups_in_the_class('11class'))}\nЕсли ты не можешь найти свою группу или тебе нужна помощь, то пиши в беседу, прикреплённую к сообществу:\nhttps://vk.me/join/FhSVyJp7fYT0fM805_KTHNWPctDNa79JGsI=")
                     else:
                         write_msg(user_id=event.object.peer_id, keyboard=main_keyboard,
                                   message=f"Ты уже зарегистрирован - если всё работает отлично, то ты также можешь продолжать пользоваться ботом. Если же у тебя есть какие-либо вопросы или ты сменил группу, то пиши в беседу, прикреплённую к сообществу⚙\nhttps://vk.me/join/FhSVyJp7fYT0fM805_KTHNWPctDNa79JGsI=")
                 # registration - the process of entering users in the database
-                elif (event.object.text.upper() in BotConfig.EightClassGroups) or (
-                        event.object.text.upper() in BotConfig.NineClassGroups) or (
-                        event.object.text.upper() in BotConfig.TenClassGroups) or (
-                        event.object.text.upper() in BotConfig.ElevenClassGroups) or (
-                        event.object.text.upper() in ["ГОСТЬ", "ТЕСТ", "GUEST", "TEST"]) or (
-                        event.object.text.upper() in BotConfig.TeachersCodifiers):
+                elif (event.object.text.upper() in list_of_groups_in_the_class("8class")) or (
+                        event.object.text.upper() in list_of_groups_in_the_class("9class")) or (
+                        event.object.text.upper() in list_of_groups_in_the_class("10class")) or (
+                        event.object.text.upper() in list_of_groups_in_the_class("11class")) or (
+                        event.object.text in ["ГОСТЬ", "ТЕСТ", "GUEST", "TEST"]) or (
+                        event.object.text in list_of_groups_in_the_class("TEACHERS")):
                     UserSearcher.searching_user_in_database(database_source="workWithUsersDatabase/UsersDatabase.txt",
                                                             user_id=f"id{event.object.peer_id}")
                     if UserSearcher.presence_user == []:
                         get_last_name = vk.method("users.get", {"user_ids": event.object.peer_id})[0]["last_name"]
                         get_first_name = vk.method("users.get", {"user_ids": event.object.peer_id})[0]["first_name"]
-                        if event.object.text.upper() in BotConfig.EightClassGroups:
+                        if event.object.text.upper() in list_of_groups_in_the_class("8class"):
                             UserSearcher.adding_user_in_database(
                                 database_source="workWithUsersDatabase/UsersDatabase.txt",
                                 full_name=f"{get_last_name} {get_first_name}", user_id=f"id{event.object.peer_id}",
@@ -353,7 +368,7 @@ def bot_processing():
                                                            message=f"#JOIN К нам присоединился новый пользователь - {get_last_name} {get_first_name}(id{event.object.peer_id} | 8class | {event.object.text.upper()})🚀")
                             write_msg(user_id=event.object.peer_id, keyboard=main_keyboard,
                                       message="Поздравляю! Регистрация прошла успешно✅")
-                        elif event.object.text.upper() in BotConfig.NineClassGroups:
+                        elif event.object.text.upper() in list_of_groups_in_the_class("9class"):
                             UserSearcher.adding_user_in_database(
                                 database_source="workWithUsersDatabase/UsersDatabase.txt",
                                 full_name=f"{get_last_name} {get_first_name}", user_id=f"id{event.object.peer_id}",
@@ -364,7 +379,7 @@ def bot_processing():
                                                            message=f"#JOIN К нам присоединился новый пользователь - {get_last_name} {get_first_name}(id{event.object.peer_id} | 9class | {event.object.text.upper()})🚀")
                             write_msg(user_id=event.object.peer_id, keyboard=main_keyboard,
                                       message="Поздравляю! Регистрация прошла успешно✅")
-                        elif event.object.text.upper() in BotConfig.TenClassGroups:
+                        elif event.object.text.upper() in list_of_groups_in_the_class("10class"):
                             UserSearcher.adding_user_in_database(
                                 database_source="workWithUsersDatabase/UsersDatabase.txt",
                                 full_name=f"{get_last_name} {get_first_name}", user_id=f"id{event.object.peer_id}",
@@ -375,7 +390,7 @@ def bot_processing():
                                                            message=f"#JOIN К нам присоединился новый пользователь - {get_last_name} {get_first_name}(id{event.object.peer_id} | 10class | {event.object.text.upper()})🚀")
                             write_msg(user_id=event.object.peer_id, keyboard=main_keyboard,
                                       message="Поздравляю! Регистрация прошла успешно✅")
-                        elif event.object.text.upper() in BotConfig.ElevenClassGroups:
+                        elif event.object.text.upper() in list_of_groups_in_the_class("11class"):
                             UserSearcher.adding_user_in_database(
                                 database_source="workWithUsersDatabase/UsersDatabase.txt",
                                 full_name=f"{get_last_name} {get_first_name}", user_id=f"id{event.object.peer_id}",
@@ -386,7 +401,7 @@ def bot_processing():
                                                            message=f"#JOIN К нам присоединился новый пользователь - {get_last_name} {get_first_name}(id{event.object.peer_id} | 11class | {event.object.text.upper()})🚀")
                             write_msg(user_id=event.object.peer_id, keyboard=main_keyboard,
                                       message="Поздравляю! Регистрация прошла успешно✅")
-                        elif event.object.text.upper() in ["ГОСТЬ", "ТЕСТ", "GUEST", "TEST"]:
+                        elif event.object.text in ["ГОСТЬ", "ТЕСТ", "GUEST", "TEST"]:
                             UserSearcher.adding_user_in_database(
                                 database_source="workWithUsersDatabase/UsersDatabase.txt",
                                 full_name=f"{get_last_name} {get_first_name}", user_id=f"id{event.object.peer_id}",
@@ -398,13 +413,13 @@ def bot_processing():
                             write_msg(user_id=event.object.peer_id, keyboard=main_keyboard,
                                       message="Поздравляем! Регистрация прошла успешно✅")
                             write_msg(user_id=event.object.peer_id, keyboard=main_keyboard,
-                                      message="Теперь вы имеете абсолютно все возможности, чтобы полноценно протестировать нашего бота🎳")
-                        elif event.object.text in BotConfig.TeachersCodifiers:
+                                      message="Теперь ты имеешь абсолютно все возможности, чтобы полноценно протестировать нашего бота🎳")
+                        elif event.object.text in list_of_groups_in_the_class("TEACHERS"):
                             UserSearcher.adding_user_in_database(
                                 database_source="workWithUsersDatabase/UsersDatabase.txt",
                                 full_name=f"{get_last_name} {get_first_name}", user_id=f"id{event.object.peer_id}",
                                 source_for_user="TEACHERS", sheet_name=event.object.text.upper(),
-                                columns_for_user=['A', 'B', 'D', 'E', 'F'], extra_cells=0)
+                                columns_for_user=['A', 'B', 'C', 'D', 'F'], extra_cells=0)
                             sending_and_reserving_database(conversation_id=event.object.from_id,
                                                            database_source="workWithUsersDatabase/UsersDatabase.txt",
                                                            message=f"#JOIN К нам присоединился новый педагог - {get_last_name} {get_first_name}(id{event.object.peer_id} | TEACHERS | {event.object.text.upper()})🎓")
