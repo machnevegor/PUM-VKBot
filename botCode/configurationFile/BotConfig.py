@@ -62,7 +62,7 @@ news_search_tag, news_tag_info = "a", {"class": "cell-list__item-link color-font
 
 # COVID-19 search - paths
 covid_source = "https://ncov.blog/countries/ru/77/"
-covid_search_tag, covid_tag_info = "p", {"class": "mt-0"}
+covid_search_tag, covid_tag_info = "div", {"itemprop": "text"}
 
 ########################################################################################################################
 
