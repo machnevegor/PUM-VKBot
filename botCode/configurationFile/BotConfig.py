@@ -13,7 +13,7 @@
 
 # BASIC SYSTEM SETUP
 # token for the bot
-BotToken = "6c691c69cb9514de0254f98b7454e8c4a8a9967fa753a3596a06652c41b673766ed1d430953b806117d4f"
+BotToken = ""
 
 # community ID where the bot will be assigned
 CommunityID = ["187254286"]
