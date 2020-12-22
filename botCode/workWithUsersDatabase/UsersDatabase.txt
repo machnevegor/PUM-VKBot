@@ -1,5 +1,4 @@
 ﻿# Authors of the project:
-# Authors of the project:
 # 1-MachnevEgor_https://vk.com/machnev_egor
 # 2-SchalimovDmitriy_https://vk.com/astronaut_without_spaceship
 # 3-ArsenyKarimov_https://vk.com/id222338543
@@ -93,3 +92,5 @@ Belofastov Alex | id447944268 | 8class | М-8-1-2, Ф-8-1 | ['A', 'B', 'D', 'E',
 Прaвдухин Степан | id89455138 | GUESTS | ГОСТЬ | ['A', 'B', 'D', 'E', 'F'] | 0
 Kapranova Liza | id200771062 | 11class | М1, Ф1, М-1-1, Р-1-4, Л3 | ['A', 'B', 'D', 'E', 'F'] | 1
 Ефанова Роза | id473478969 | 11class | М1, Ф1, М-1-1, Р-1-4, Л3 | ['A', 'B', 'D', 'E', 'F'] | 1
+Mamchyts Anton | id182791585 | GUESTS | ГОСТЬ | ['A', 'B', 'D', 'E', 'F'] | 0
+Yampolskiy Konstantin | id518949373 | 10class | М-10-2, А-10-2 | ['A', 'B', 'D', 'E', 'F'] | 1
