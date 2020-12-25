@@ -45,6 +45,13 @@ about_bot = [
 # call schedule for all classes
 unified_schedule_calls = "🧾Расписание звонков:\n ┣ 1. 9:00 - 9:45 | 5 минут\n ┣ 2. 9:50 - 10:35 | 10 минут\n ┣ 3. 10:45 - 11:30 | 20 минут\n ┣ 4. 11:50 - 12:35 | 10 минут\n ┣ 5. 12:45 - 13:30 | 10 минут\n ┣ 6. 13:40 - 14:25 | 20 минут\n ┣ 7. 14:45 - 15:30 | 10 минут\n ┣ 8. 15:40 - 16:25 | 5 минут\n ┣ 9. 16:30 - 17:15 | 5 минут\n ┗ 10. 17:20 - 18:05"
 
+# links to all Zoom tables
+links_to_zoom = ["https://docs.google.com/spreadsheets/d/1Mn9NvgjTzuV_58nuDSwYktbGjh0VrvmooraagtNZoPE/edit?usp=sharing",
+                 "https://docs.google.com/spreadsheets/d/1AIsQ3kxxL8RjX1Gdx8UaiAZ0-mtl6-WvZ-UOm7kLJNM/edit?usp=sharing",
+                 "https://docs.google.com/spreadsheets/d/14zsNfFTtXy4GrHBOFS7NZL7zyee8ERTjZtxsOcAdiyk/edit?usp=sharing",
+                 "https://docs.google.com/spreadsheets/d/1BZvU8OxUxdVae4cmRayTC32cQ3YvvbZRjo5JkmWpWvA/edit?usp=sharing",
+                 "https://docs.google.com/spreadsheets/d/1xKeun8QuUR3HViN6kpXOC9AP7HJWyMUwddzEXm4wSyU/edit?usp=sharing"]
+
 ########################################################################################################################
 
 # EVERYTHING FOR GETTING DATA FROM NEWS SITES
