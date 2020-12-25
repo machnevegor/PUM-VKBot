@@ -432,6 +432,32 @@ def bot_processing():
                         else:
                             write_msg(user_id=event.object.peer_id, keyboard=main_keyboard,
                                       message=f"Ого - похоже ты хочешь изменить группу! Напиши в беседу, прикреплённую к сообществу, чтобы мы редактировали твои данные✍\nhttps://vk.me/join/FhSVyJp7fYT0fM805_KTHNWPctDNa79JGsI=")
+                # links to Zoom tables depending on the class number
+                elif event.object.text.lower() in ["zoom", "зум", "ссылки"]:
+                    UserSearcher.searching_user_in_database(database_source="workWithUsersDatabase/UsersDatabase.txt",
+                                                            user_id=f"id{event.object.peer_id}")
+                    if UserSearcher.presence_user == []:
+                        write_msg(user_id=event.object.peer_id, keyboard=main_keyboard,
+                                  message="Такс, тебя же нет в базе. Нажми на плитку -Регистрация- в главном меню, чтобы занести свои данные для выдачи расписания📖")
+                    else:
+                        if UserSearcher.presence_user[3] in list_of_groups_in_the_class("8class"):
+                            write_msg(user_id=event.object.peer_id, keyboard=main_keyboard,
+                                      message=f"Страйся не отключать камеру с микрофоном на уроке, ведь это не даёт учителю ощущения, что он разговаривает только сам с собой🤪\n{BotConfig.links_to_zoom[0]}")
+                        elif UserSearcher.presence_user[3] in list_of_groups_in_the_class("9class"):
+                            write_msg(user_id=event.object.peer_id, keyboard=main_keyboard,
+                                      message=f"Страйся не отключать камеру с микрофоном на уроке, ведь это не даёт учителю ощущения, что он разговаривает только сам с собой🤪\n{BotConfig.links_to_zoom[1]}")
+                        elif UserSearcher.presence_user[3] in list_of_groups_in_the_class("10class"):
+                            write_msg(user_id=event.object.peer_id, keyboard=main_keyboard,
+                                      message=f"Страйся не отключать камеру с микрофоном на уроке, ведь это не даёт учителю ощущения, что он разговаривает только сам с собой🤪\n{BotConfig.links_to_zoom[2]}")
+                        elif UserSearcher.presence_user[3] in list_of_groups_in_the_class("11class"):
+                            write_msg(user_id=event.object.peer_id, keyboard=main_keyboard,
+                                      message=f"Страйся не отключать камеру с микрофоном на уроке, ведь это не даёт учителю ощущения, что он разговаривает только сам с собой🤪\n{BotConfig.links_to_zoom[3]}")
+                        elif UserSearcher.presence_user[3] in list_of_groups_in_the_class("GUESTS"):
+                            write_msg(user_id=event.object.peer_id, keyboard=main_keyboard,
+                                      message=f"Прости, но у тебя нет доступа к таблице со школьными ссылками на платформу Zoom🙄")
+                        elif UserSearcher.presence_user[3] in list_of_groups_in_the_class("TEACHERS"):
+                            write_msg(user_id=event.object.peer_id, keyboard=main_keyboard,
+                                      message=f"Вот ссылка на полную таблицу со всеми ссылками, хороших и продуктивных уроков🙂\n{BotConfig.links_to_zoom[4]}")
                 # get your data from the database
                 elif event.object.text.lower() in ["я", "кто я", "хто я", "мои данные"]:
                     UserSearcher.searching_user_in_database(database_source="workWithUsersDatabase/UsersDatabase.txt",
