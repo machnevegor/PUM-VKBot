@@ -55,7 +55,7 @@ def adding_user_in_database(database_source, full_name, user_id, source_for_user
     # closing the database
     data_memory.close()
     print("".join(
-        f"New user: {all_users_data[user_data_cell][0]} - {all_users_data[user_data_cell][1]} [{all_users_data[user_data_cell][2]}, {all_users_data[user_data_cell][3]}, {all_users_data[user_data_cell][4]}, {all_users_data[user_data_cell][5]}] {all_users_data[user_data_cell][6]}, {all_users_data[user_data_cell][7]}".split(
+        f"New user: {full_name} - {user_id} [{source_for_user}, {sheet_name}, {columns_for_user}, {extra_cells}] {daily_schedule}, {telegram_alerts}".split(
             "\n")))
 
 
