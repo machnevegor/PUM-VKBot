@@ -298,10 +298,10 @@ def work_of_the_main_VK_bot():
                                                           telegram_alerts=(0 if presence_user[7] != 0 else 1))
                     sending_and_reserving_database(conversation_id=event.object.from_id,
                                                    database_source="workWithUsersDatabase/UsersDatabase.txt",
-                                                   message=f"#DUMP {presence_user[0]} (id{event.object.peer_id}) внёс некоторые изменения в своих настройках, подробнее:\nПосты от администрации из Telegram были успешно {'отключены' if presence_user[6] != 0 else 'включены'}⚙")
+                                                   message=f"#DUMP {presence_user[0]} (id{event.object.peer_id}) внёс некоторые изменения в своих настройках, подробнее:\nПосты от администрации из Telegram были успешно {'отключены' if presence_user[7] != 0 else 'включены'}⚙")
                     write_msg(user_id=event.object.peer_id,
                               keyboard=create_settings_keyboard(keyboard_user_id=f"id{event.object.peer_id}"),
-                              message=f"Параметр был успешно {'выключен' if presence_user[6] != 0 else 'включен'}. Не забывай, что его в любой момент можно здесь {'включить' if presence_user[6] != 0 else 'выключить'}😀")
+                              message=f"Параметр был успешно {'выключен' if presence_user[7] != 0 else 'включен'}. Не забывай, что его в любой момент можно здесь {'включить' if presence_user[7] != 0 else 'выключить'}😀")
                 else:
                     write_msg(user_id=event.object.peer_id, keyboard=main_keyboard,
                               message="Такс, тебя же нет в базе. Нажми на плитку -Регистрация- в главном меню, чтобы занести свои данные для выдачи расписания📖")
