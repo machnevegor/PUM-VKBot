@@ -590,7 +590,7 @@ def work_of_the_main_VK_bot():
                     write_msg(user_id=event.object.peer_id, keyboard=main_keyboard,
                               message="Такс, тебя же нет в базе. Нажми на плитку -Регистрация- в главном меню, чтобы занести свои данные для выдачи расписания📖")
             # output of data that the user entered during registration
-            elif event.object.text.lower() in ["я", "кто я", "хто я", "мои данные"]:
+            elif event.object.text.lower() in ["я", "кто я", "хто я", "данные", "мои данные"]:
                 presence_user = UserSearcher.searching_user_in_database(
                     database_source="workWithUsersDatabase/UsersDatabase.txt", user_id=f"id{event.object.peer_id}")
                 if presence_user != []:
