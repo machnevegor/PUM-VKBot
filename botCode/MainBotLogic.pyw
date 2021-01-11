@@ -362,7 +362,7 @@ def work_of_the_main_VK_bot():
                                                                         columns=presence_user[4],
                                                                         extra_cells=presence_user[5],
                                                                         start_data="Понедельник", end_data="None")
-                    write_msg(user_id=event.object.peer_id, keyboard=main_keyboard, message=f"\n{user_schedule}")
+                    write_msg(user_id=event.object.peer_id, keyboard=main_keyboard, message=user_schedule)
                 else:
                     write_msg(user_id=event.object.peer_id, keyboard=main_keyboard,
                               message="Такс, тебя же нет в базе. Нажми на плитку -Регистрация- в главном меню, чтобы занести свои данные для выдачи расписания📖")
@@ -378,7 +378,7 @@ def work_of_the_main_VK_bot():
                                                                         columns=presence_user[4],
                                                                         extra_cells=presence_user[5],
                                                                         start_data="Вторник", end_data="None")
-                    write_msg(user_id=event.object.peer_id, keyboard=main_keyboard, message=f"\n{user_schedule}")
+                    write_msg(user_id=event.object.peer_id, keyboard=main_keyboard, message=user_schedule)
                 else:
                     write_msg(user_id=event.object.peer_id, keyboard=main_keyboard,
                               message="Такс, тебя же нет в базе. Нажми на плитку -Регистрация- в главном меню, чтобы занести свои данные для выдачи расписания📖")
@@ -394,7 +394,7 @@ def work_of_the_main_VK_bot():
                                                                         columns=presence_user[4],
                                                                         extra_cells=presence_user[5],
                                                                         start_data="Среда", end_data="None")
-                    write_msg(user_id=event.object.peer_id, keyboard=main_keyboard, message=f"\n{user_schedule}")
+                    write_msg(user_id=event.object.peer_id, keyboard=main_keyboard, message=user_schedule)
                 else:
                     write_msg(user_id=event.object.peer_id, keyboard=main_keyboard,
                               message="Такс, тебя же нет в базе. Нажми на плитку -Регистрация- в главном меню, чтобы занести свои данные для выдачи расписания📖")
@@ -410,7 +410,7 @@ def work_of_the_main_VK_bot():
                                                                         columns=presence_user[4],
                                                                         extra_cells=presence_user[5],
                                                                         start_data="Четверг", end_data="None")
-                    write_msg(user_id=event.object.peer_id, keyboard=main_keyboard, message=f"\n{user_schedule}")
+                    write_msg(user_id=event.object.peer_id, keyboard=main_keyboard, message=user_schedule)
                 else:
                     write_msg(user_id=event.object.peer_id, keyboard=main_keyboard,
                               message="Такс, тебя же нет в базе. Нажми на плитку -Регистрация- в главном меню, чтобы занести свои данные для выдачи расписания📖")
@@ -426,7 +426,7 @@ def work_of_the_main_VK_bot():
                                                                         columns=presence_user[4],
                                                                         extra_cells=presence_user[5],
                                                                         start_data="Пятница", end_data="None")
-                    write_msg(user_id=event.object.peer_id, keyboard=main_keyboard, message=f"\n{user_schedule}")
+                    write_msg(user_id=event.object.peer_id, keyboard=main_keyboard, message=user_schedule)
                 else:
                     write_msg(user_id=event.object.peer_id, keyboard=main_keyboard,
                               message="Такс, тебя же нет в базе. Нажми на плитку -Регистрация- в главном меню, чтобы занести свои данные для выдачи расписания📖")
@@ -442,7 +442,7 @@ def work_of_the_main_VK_bot():
                                                                         columns=presence_user[4],
                                                                         extra_cells=presence_user[5],
                                                                         start_data="Суббота", end_data="None")
-                    write_msg(user_id=event.object.peer_id, keyboard=main_keyboard, message=f"\n{user_schedule}")
+                    write_msg(user_id=event.object.peer_id, keyboard=main_keyboard, message=user_schedule)
                 else:
                     write_msg(user_id=event.object.peer_id, keyboard=main_keyboard,
                               message="Такс, тебя же нет в базе. Нажми на плитку -Регистрация- в главном меню, чтобы занести свои данные для выдачи расписания📖")
