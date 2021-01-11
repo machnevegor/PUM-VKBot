@@ -44,10 +44,10 @@ def sending_out_a_daily_schedule(time_of_mailing, users_data_for_mailing_schedul
                                                                       "keyboard": None, "sticker_id": None,
                                                                       "attachment": None,
                                                                       "random_id": randint(1, 100000000)})
-            vk_session_for_mailing_schedules.method("messages.send",
-                                                    {"peer_id": user_data[0], "message": f"\n{user_schedule}",
-                                                     "keyboard": None, "sticker_id": None, "attachment": None,
-                                                     "random_id": randint(1, 100000000)})
+            vk_session_for_mailing_schedules.method("messages.send", {"peer_id": user_data[0], "message": user_schedule,
+                                                                      "keyboard": None, "sticker_id": None,
+                                                                      "attachment": None,
+                                                                      "random_id": randint(1, 100000000)})
             vk_session_for_mailing_schedules.method("messages.send", {"peer_id": user_data[0],
                                                                       "message": BotConfig.unified_schedule_calls[0],
                                                                       "keyboard": None, "sticker_id": None,
