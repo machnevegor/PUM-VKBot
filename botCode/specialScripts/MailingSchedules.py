@@ -35,12 +35,12 @@ def sending_out_a_daily_schedule(time_of_mailing, users_data_for_mailing_schedul
                                                                                                datetime.datetime.today().weekday() + (
                                                                                            0 if 0 <= int("".join(
                                                                                                time_of_mailing.split(
-                                                                                                   ":"))) <= 1200 else 1)) % 7],
+                                                                                                   ":"))) < 1200 else 1)) % 7],
                                                                 end_data="None",
                                                                 importance_of_the_error=BotConfig.error_checking_switch)
             # generating a response and sending the received data
             vk_session_for_mailing_schedules.method("messages.send", {"peer_id": user_data[0],
-                                                                      "message": f"🔔Ку, сейчас {time_of_mailing}, а {'сегодня уже' if 0 <= int(''.join(time_of_mailing.split(':'))) <= 1200 else 'уже скоро'} {['понедельник', 'вторник', 'среда', 'четверг', 'пятница', 'суббота'][(datetime.datetime.today().weekday() + (0 if 0 <= int(''.join(time_of_mailing.split(':'))) <= 1200 else 1)) % 7]} - начинаю поиск актуального расписания для тебя на {'текущий день' if 0 <= int(''.join(time_of_mailing.split(':'))) <= 1200 else 'завтра'}",
+                                                                      "message": f"🔔Ку, сейчас {time_of_mailing}, а {'сегодня уже' if 0 <= int(''.join(time_of_mailing.split(':'))) < 1200 else 'уже скоро'} {['понедельник', 'вторник', 'среда', 'четверг', 'пятница', 'суббота'][(datetime.datetime.today().weekday() + (0 if 0 <= int(''.join(time_of_mailing.split(':'))) < 1200 else 1)) % 7]} - начинаю поиск актуального расписания для тебя на {'текущий день' if 0 <= int(''.join(time_of_mailing.split(':'))) < 1200 else 'завтра'}",
                                                                       "keyboard": None, "sticker_id": None,
                                                                       "attachment": None,
                                                                       "random_id": randint(1, 100000000)})
@@ -71,10 +71,10 @@ def daily_mailing_time_handler():
         for time_of_mailing in users_data_for_mailing_schedules.keys():
             # analysis for the relevance of the time period
             if int("".join(time_of_mailing.split(":")) + "00") <= int(
-                    "".join(str(datetime.datetime.today().time()).split(":"))[:6]) <= int(
-                "".join(time_of_mailing.split(":")) + str(BotConfig.reboot_time % 100 // 10) + str(
-                    BotConfig.reboot_time % 100 % 10)) and (datetime.datetime.today().weekday() + (
-                    0 if 0 <= int("".join(time_of_mailing.split(":"))) <= 1200 else 1)) % 7 != 6:
+                    "".join(str(datetime.datetime.today().time()).split(":"))[:6]) < int(
+                    "".join(time_of_mailing.split(":")) + str(BotConfig.reboot_time % 100 // 10) + str(
+                            BotConfig.reboot_time % 100 % 10)) and (datetime.datetime.today().weekday() + (
+            0 if 0 <= int("".join(time_of_mailing.split(":"))) < 1200 else 1)) % 7 != 6:
                 # start of distribution by parallel execution
                 Thread(target=sending_out_a_daily_schedule,
                        args=(time_of_mailing, users_data_for_mailing_schedules[time_of_mailing])).start()
