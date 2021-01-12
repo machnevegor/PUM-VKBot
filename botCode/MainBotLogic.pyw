@@ -676,7 +676,7 @@ def work_of_the_main_VK_bot():
                 write_msg(user_id=event.object.peer_id, keyboard=main_keyboard,
                           message="Ничего себе, ещё одна пасхалка?! Приступим, мы нашли очень интересную фотокарточку из семейного архива Жака Фреско. Задача заключается в нахождении и расшифровании спрятанного кода в этой картинке (при получении ответа - отпишись в общую беседу сообщества)",
                           attachment=update_attachment_id(
-                              file_source="riddlesByJacquesFresco/photo_from_the_family_archive.jpg"))
+                              file_source="riddlesByJacquesFresco/PhotoFromTheFamilyArchive.jpg"))
             # checking for new updates in the bot (technical problems or expectations keyboard)
             elif event.object.text.lower() == "проверить обновления":
                 write_msg(user_id=event.object.peer_id, keyboard=main_keyboard,
@@ -686,7 +686,7 @@ def work_of_the_main_VK_bot():
                   ["ура", "спасибо", "благодарю", "благодарствую", "молодец", "молодцы", "красав", "круто", "прикольно",
                    "классно", "норм", "найс", "изумительно"] if word_of_thanks in event.object.text.lower()] != []:
                 write_msg(user_id=event.object.peer_id, keyboard=main_keyboard, message="",
-                          attachment=update_attachment_id(file_source="thanksToTheBot.gif"))
+                          attachment=update_attachment_id(file_source="ThanksToTheBot.gif"))
             # if not one of the commands was not found with the message
             else:
                 write_msg(user_id=event.object.peer_id, keyboard=main_keyboard,
@@ -731,4 +731,3 @@ if __name__ == "__main__":
 # 2-dmitriy-shalimov@yandex.ru
 # 3-arseny.karimov@gmail.com
 # 4-mihailmarkov2004@gmail.com
-
