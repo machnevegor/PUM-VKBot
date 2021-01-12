@@ -308,10 +308,10 @@ def work_of_the_main_VK_bot():
                                                               telegram_alerts=presence_user[8])
                         sending_and_reserving_database(conversation_id=event.object.from_id,
                                                        database_source="workWithUsersDatabase/UsersDatabase.txt",
-                                                       message=f"#DUMP {presence_user[0]} (id{event.object.peer_id}) - внесены некоторые изменения в настройках, подробнее:\nВремя автоматической рассылки расписания было успешно изменено с {presence_user[7]} на {event.object.text.lower()}⚙")
+                                                       message=f"#DUMP {presence_user[0]} (id{event.object.peer_id}) - внесены некоторые изменения в настройках, подробнее:\nВремя автоматической рассылки расписания было успешно изменено с {presence_user[7]} на {event.object.text if len(event.object.text) != 4 else f'0{event.object.text}'}⚙")
                         write_msg(user_id=event.object.peer_id,
                                   keyboard=create_settings_keyboard(keyboard_user_id=f"id{event.object.peer_id}"),
-                                  message=f"Aвтоматическая рассылка расписания была успешно изменена с {presence_user[7]} на {event.object.text.lower()}🤔")
+                                  message=f"Aвтоматическая рассылка расписания была успешно изменена с {presence_user[7]} на {event.object.text if len(event.object.text) != 4 else f'0{event.object.text}'}🤔")
                     else:
                         write_msg(user_id=event.object.peer_id,
                                   keyboard=create_settings_keyboard(keyboard_user_id=f"id{event.object.peer_id}"),
