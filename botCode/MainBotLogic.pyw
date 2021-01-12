@@ -289,8 +289,8 @@ def work_of_the_main_VK_bot():
                 else:
                     write_msg(user_id=event.object.peer_id, keyboard=main_keyboard,
                               message="Такс, тебя же нет в базе. Нажми на плитку -Регистрация- в главном меню, чтобы занести свои данные для выдачи расписания📖")
-            elif event.object.text.lower() in [f"{hour // 10}{hour % 10}:{minute // 10}{minute % 10}" for hour in
-                                               range(24) for minute in range(60)]:
+            elif (event.object.text if len(event.object.text) != 4 else f"0{event.object.text}") in [
+                f"{hour // 10}{hour % 10}:{minute // 10}{minute % 10}" for hour in range(24) for minute in range(60)]:
                 presence_user = UserSearcher.searching_user_in_database(
                     database_source="workWithUsersDatabase/UsersDatabase.txt", user_id=f"id{event.object.peer_id}")
                 if presence_user != []:
@@ -303,8 +303,8 @@ def work_of_the_main_VK_bot():
                                                               sheet_name=presence_user[3],
                                                               columns_for_user=presence_user[4],
                                                               extra_cells=presence_user[5],
-                                                              daily_schedule=presence_user[6],
-                                                              time_of_mailing=event.object.text.lower(),
+                                                              daily_schedule=presence_user[6], time_of_mailing=(
+                                event.object.text if len(event.object.text) != 4 else f"0{event.object.text}"),
                                                               telegram_alerts=presence_user[8])
                         sending_and_reserving_database(conversation_id=event.object.from_id,
                                                        database_source="workWithUsersDatabase/UsersDatabase.txt",
