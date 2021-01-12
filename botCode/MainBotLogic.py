@@ -65,6 +65,7 @@ def work_of_the_main_VK_bot():
                 [get_button(label="Посты от администрации из Telegram",
                             color=("positive" if presence_user[8] != 0 else "negative"))],
                 [get_button(label="Назад", color="secondary"),
+                 get_button(label="Перерегистрация", color="secondary"),
                  get_button(label="Помощь", color="secondary")]
             ]
         }
@@ -281,7 +282,7 @@ def work_of_the_main_VK_bot():
                                                           telegram_alerts=presence_user[8])
                     sending_and_reserving_database(conversation_id=event.object.from_id,
                                                    database_source="workWithUsersDatabase/UsersDatabase.txt",
-                                                   message=f"#DUMP {presence_user[0]} (id{event.object.peer_id}) внёс некоторые изменения в своих настройках, подробнее:\nAвтоматическая рассылка расписания была успешно {'отключена' if presence_user[6] != 0 else 'включена'}⚙")
+                                                   message=f"#DUMP {presence_user[0]} (id{event.object.peer_id}) - внесены некоторые изменения в настройках, подробнее:\nAвтоматическая рассылка расписания была успешно {'отключена' if presence_user[6] != 0 else 'включена'}⚙")
                     write_msg(user_id=event.object.peer_id,
                               keyboard=create_settings_keyboard(keyboard_user_id=f"id{event.object.peer_id}"),
                               message=f"Параметр был успешно {'выключен' if presence_user[6] != 0 else 'включен'}. Не забывай, что его в любой момент можно здесь {'включить' if presence_user[6] != 0 else 'выключить'}🤔")
@@ -307,7 +308,7 @@ def work_of_the_main_VK_bot():
                                                               telegram_alerts=presence_user[8])
                         sending_and_reserving_database(conversation_id=event.object.from_id,
                                                        database_source="workWithUsersDatabase/UsersDatabase.txt",
-                                                       message=f"#DUMP {presence_user[0]} (id{event.object.peer_id}) внёс некоторые изменения в своих настройках, подробнее:\nВремя автоматической рассылки расписания было успешно изменено с {presence_user[7]} на {event.object.text.lower()}⚙")
+                                                       message=f"#DUMP {presence_user[0]} (id{event.object.peer_id}) - внесены некоторые изменения в настройках, подробнее:\nВремя автоматической рассылки расписания было успешно изменено с {presence_user[7]} на {event.object.text.lower()}⚙")
                         write_msg(user_id=event.object.peer_id,
                                   keyboard=create_settings_keyboard(keyboard_user_id=f"id{event.object.peer_id}"),
                                   message=f"Aвтоматическая рассылка расписания была успешно изменена с {presence_user[7]} на {event.object.text.lower()}🤔")
@@ -332,7 +333,7 @@ def work_of_the_main_VK_bot():
                                                           telegram_alerts=(0 if presence_user[8] != 0 else 1))
                     sending_and_reserving_database(conversation_id=event.object.from_id,
                                                    database_source="workWithUsersDatabase/UsersDatabase.txt",
-                                                   message=f"#DUMP {presence_user[0]} (id{event.object.peer_id}) внёс некоторые изменения в своих настройках, подробнее:\nПосты от администрации из Telegram были успешно {'отключены' if presence_user[8] != 0 else 'включены'}⚙")
+                                                   message=f"#DUMP {presence_user[0]} (id{event.object.peer_id}) - внесены некоторые изменения в настройках, подробнее:\nПосты от администрации из Telegram были успешно {'отключены' if presence_user[8] != 0 else 'включены'}⚙")
                     write_msg(user_id=event.object.peer_id,
                               keyboard=create_settings_keyboard(keyboard_user_id=f"id{event.object.peer_id}"),
                               message=f"Параметр был успешно {'выключен' if presence_user[8] != 0 else 'включен'}. Не забывай, что его в любой момент можно здесь {'включить' if presence_user[8] != 0 else 'выключить'}🤔")
@@ -447,13 +448,14 @@ def work_of_the_main_VK_bot():
                     write_msg(user_id=event.object.peer_id, keyboard=main_keyboard,
                               message="Такс, тебя же нет в базе. Нажми на плитку -Регистрация- в главном меню, чтобы занести свои данные для выдачи расписания📖")
 
-            # registering new users in the bot's main database
-            elif event.object.text.lower() == "регистрация":
+            # register new users in the main bot database or edit old ones
+            elif event.object.text.lower() in ["регистрация", "перерегистрация"]:
                 presence_user = UserSearcher.searching_user_in_database(
                     database_source="workWithUsersDatabase/UsersDatabase.txt", user_id=f"id{event.object.peer_id}")
                 if presence_user != []:
-                    write_msg(user_id=event.object.peer_id, keyboard=main_keyboard,
-                              message=f"Ты уже зарегистрирован - если всё работает отлично, то ты также можешь продолжать пользоваться ботом. Если же у тебя есть какие-либо вопросы или ты сменил группу, то пиши в беседу, прикреплённую к сообществу⚙\nhttps://vk.me/join/FhSVyJp7fYT0fM805_KTHNWPctDNa79JGsI=")
+                    write_msg(user_id=event.object.peer_id,
+                              keyboard=create_settings_keyboard(keyboard_user_id=f"id{event.object.peer_id}"),
+                              message=f"Здесь ты сможешь изменить выдаваемое расписание - для этого введи название новой группы русскими символами (если не получиться с первого раза - попробуй ещё раз)😜\nВот список всех существующих групп в Предуниверсарии МАИ:\n8️⃣Класс: {'; '.join(list_of_groups_in_the_class('8class'))}\n9️⃣Класс: {'; '.join(list_of_groups_in_the_class('9class'))}\n1️⃣0️⃣Класс: {'; '.join(list_of_groups_in_the_class('10class'))}\n1️⃣1️⃣Класс: {'; '.join(list_of_groups_in_the_class('11class'))}\nЕсли ты не можешь найти нужную себе группу или тебе нужна помощь, то пиши в беседу, прикреплённую к сообществу:\nhttps://vk.me/join/FhSVyJp7fYT0fM805_KTHNWPctDNa79JGsI=")
                 else:
                     write_msg(user_id=event.object.peer_id, keyboard=main_keyboard,
                               message=f"Теперь регистрацию можно осуществить прямо тут - для этого введи название своей группы русскими символами (если не получиться с первого раза - попробуй ещё раз)😜\nВот список всех существующих групп в Предуниверсарии МАИ:\n8️⃣Класс: {'; '.join(list_of_groups_in_the_class('8class'))}\n9️⃣Класс: {'; '.join(list_of_groups_in_the_class('9class'))}\n1️⃣0️⃣Класс: {'; '.join(list_of_groups_in_the_class('10class'))}\n1️⃣1️⃣Класс: {'; '.join(list_of_groups_in_the_class('11class'))}\nЕсли ты не можешь найти свою группу или тебе нужна помощь, то пиши в беседу, прикреплённую к сообществу:\nhttps://vk.me/join/FhSVyJp7fYT0fM805_KTHNWPctDNa79JGsI=")
@@ -470,12 +472,82 @@ def work_of_the_main_VK_bot():
                 presence_user = UserSearcher.searching_user_in_database(
                     database_source="workWithUsersDatabase/UsersDatabase.txt", user_id=f"id{event.object.peer_id}")
                 if presence_user != []:
-                    if event.object.text.upper() == presence_user[3]:
-                        write_msg(user_id=event.object.peer_id, keyboard=main_keyboard,
-                                  message="Да-да, всё внесено верно - ты есть в базе. Если есть какие-то вопросы, то пиши в беседу, прикреплённую к сообществу🗿\nhttps://vk.me/join/FhSVyJp7fYT0fM805_KTHNWPctDNa79JGsI=")
+                    if event.object.text.upper() != presence_user[3]:
+                        if event.object.text.upper() in list_of_groups_in_the_class("8class"):
+                            UserSearcher.editing_user_in_database(
+                                database_source="workWithUsersDatabase/UsersDatabase.txt", full_name=presence_user[0],
+                                user_id=presence_user[1], source_for_user="8class",
+                                sheet_name=event.object.text.upper(), columns_for_user=['A', 'B', 'D', 'E', 'F'],
+                                extra_cells=1, daily_schedule=presence_user[6], time_of_mailing=presence_user[7],
+                                telegram_alerts=presence_user[8])
+                            sending_and_reserving_database(conversation_id=event.object.from_id,
+                                                           database_source="workWithUsersDatabase/UsersDatabase.txt",
+                                                           message=f"#DUMP {presence_user[0]} (id{event.object.peer_id}) - внесены некоторые изменения в настройках, подробнее:\nПользователь сменил группу индивидуального расписания с {presence_user[3]} ({presence_user[2]}) на {event.object.text.upper()} (8class)⚙")
+                            write_msg(user_id=event.object.peer_id, keyboard=main_keyboard,
+                                      message="Поздравляю! Смена группы индивидуального расписания прошла успешно✅")
+                        elif event.object.text.upper() in list_of_groups_in_the_class("9class"):
+                            UserSearcher.editing_user_in_database(
+                                database_source="workWithUsersDatabase/UsersDatabase.txt", full_name=presence_user[0],
+                                user_id=presence_user[1], source_for_user="9class",
+                                sheet_name=event.object.text.upper(), columns_for_user=['A', 'B', 'D', 'E', 'F'],
+                                extra_cells=1, daily_schedule=presence_user[6], time_of_mailing=presence_user[7],
+                                telegram_alerts=presence_user[8])
+                            sending_and_reserving_database(conversation_id=event.object.from_id,
+                                                           database_source="workWithUsersDatabase/UsersDatabase.txt",
+                                                           message=f"#DUMP {presence_user[0]} (id{event.object.peer_id}) - внесены некоторые изменения в настройках, подробнее:\nПользователь сменил группу индивидуального расписания с {presence_user[3]} ({presence_user[2]}) на {event.object.text.upper()} (9class)⚙")
+                            write_msg(user_id=event.object.peer_id, keyboard=main_keyboard,
+                                      message="Поздравляю! Смена группы индивидуального расписания прошла успешно✅")
+                        elif event.object.text.upper() in list_of_groups_in_the_class("10class"):
+                            UserSearcher.editing_user_in_database(
+                                database_source="workWithUsersDatabase/UsersDatabase.txt", full_name=presence_user[0],
+                                user_id=presence_user[1], source_for_user="10class",
+                                sheet_name=event.object.text.upper(), columns_for_user=['A', 'B', 'D', 'E', 'F'],
+                                extra_cells=1, daily_schedule=presence_user[6], time_of_mailing=presence_user[7],
+                                telegram_alerts=presence_user[8])
+                            sending_and_reserving_database(conversation_id=event.object.from_id,
+                                                           database_source="workWithUsersDatabase/UsersDatabase.txt",
+                                                           message=f"#DUMP {presence_user[0]} (id{event.object.peer_id}) - внесены некоторые изменения в настройках, подробнее:\nПользователь сменил группу индивидуального расписания с {presence_user[3]} ({presence_user[2]}) на {event.object.text.upper()} (10class)⚙")
+                            write_msg(user_id=event.object.peer_id, keyboard=main_keyboard,
+                                      message="Поздравляю! Смена группы индивидуального расписания прошла успешно✅")
+                        elif event.object.text.upper() in list_of_groups_in_the_class("11class"):
+                            UserSearcher.editing_user_in_database(
+                                database_source="workWithUsersDatabase/UsersDatabase.txt", full_name=presence_user[0],
+                                user_id=presence_user[1], source_for_user="11class",
+                                sheet_name=event.object.text.upper(), columns_for_user=['A', 'B', 'D', 'E', 'F'],
+                                extra_cells=1, daily_schedule=presence_user[6], time_of_mailing=presence_user[7],
+                                telegram_alerts=presence_user[8])
+                            sending_and_reserving_database(conversation_id=event.object.from_id,
+                                                           database_source="workWithUsersDatabase/UsersDatabase.txt",
+                                                           message=f"#DUMP {presence_user[0]} (id{event.object.peer_id}) - внесены некоторые изменения в настройках, подробнее:\nПользователь сменил группу индивидуального расписания с {presence_user[3]} ({presence_user[2]}) на {event.object.text.upper()} (11class)⚙")
+                            write_msg(user_id=event.object.peer_id, keyboard=main_keyboard,
+                                      message="Поздравляю! Смена группы индивидуального расписания прошла успешно✅")
+                        elif event.object.text in ["ГОСТЬ", "ТЕСТ", "GUEST", "TEST"]:
+                            UserSearcher.editing_user_in_database(
+                                database_source="workWithUsersDatabase/UsersDatabase.txt", full_name=presence_user[0],
+                                user_id=presence_user[1], source_for_user="GUESTS", sheet_name="ГОСТЬ",
+                                columns_for_user=['A', 'B', 'D', 'E', 'F'], extra_cells=1,
+                                daily_schedule=presence_user[6], time_of_mailing=presence_user[7],
+                                telegram_alerts=presence_user[8])
+                            sending_and_reserving_database(conversation_id=event.object.from_id,
+                                                           database_source="workWithUsersDatabase/UsersDatabase.txt",
+                                                           message=f"#DUMP {presence_user[0]} (id{event.object.peer_id}) - внесены некоторые изменения в настройках, подробнее:\nПользователь сменил группу индивидуального расписания с {presence_user[3]} ({presence_user[2]}) на ГОСТЬ (GUESTS)⚙")
+                            write_msg(user_id=event.object.peer_id, keyboard=main_keyboard,
+                                      message="Поздравляю! Смена группы индивидуального расписания прошла успешно✅")
+                        elif event.object.text in list_of_groups_in_the_class("TEACHERS"):
+                            UserSearcher.editing_user_in_database(
+                                database_source="workWithUsersDatabase/UsersDatabase.txt", full_name=presence_user[0],
+                                user_id=presence_user[1], source_for_user="TEACHERS", sheet_name=event.object.text,
+                                columns_for_user=['A', 'B', 'C', 'D', 'F'], extra_cells=0,
+                                daily_schedule=presence_user[6], time_of_mailing=presence_user[7],
+                                telegram_alerts=presence_user[8])
+                            sending_and_reserving_database(conversation_id=event.object.from_id,
+                                                           database_source="workWithUsersDatabase/UsersDatabase.txt",
+                                                           message=f"#DUMP {presence_user[0]} (id{event.object.peer_id}) - внесены некоторые изменения в настройках, подробнее:\nПользователь сменил группу индивидуального расписания с {presence_user[3]} ({presence_user[2]}) на {event.object.text} (TEACHERS)⚙")
+                            write_msg(user_id=event.object.peer_id, keyboard=main_keyboard,
+                                      message="Поздравляю! Смена группы индивидуального расписания прошла успешно✅")
                     else:
                         write_msg(user_id=event.object.peer_id, keyboard=main_keyboard,
-                                  message=f"Ого - похоже ты хочешь изменить группу! Напиши в беседу, прикреплённую к сообществу, чтобы мы редактировали твои данные✍\nhttps://vk.me/join/FhSVyJp7fYT0fM805_KTHNWPctDNa79JGsI=")
+                                  message="Да-да, всё внесено верно - ты есть в базе. Если есть какие-то вопросы, то пиши в беседу, прикреплённую к сообществу🗿\nhttps://vk.me/join/FhSVyJp7fYT0fM805_KTHNWPctDNa79JGsI=")
                 else:
                     if event.object.text.upper() in list_of_groups_in_the_class("8class"):
                         UserSearcher.adding_user_in_database(database_source="workWithUsersDatabase/UsersDatabase.txt",
@@ -552,8 +624,7 @@ def work_of_the_main_VK_bot():
                         UserSearcher.adding_user_in_database(database_source="workWithUsersDatabase/UsersDatabase.txt",
                                                              full_name=f"{get_last_name} {get_first_name}",
                                                              user_id=f"id{event.object.peer_id}",
-                                                             source_for_user="TEACHERS",
-                                                             sheet_name=event.object.text.upper(),
+                                                             source_for_user="TEACHERS", sheet_name=event.object.text,
                                                              columns_for_user=['A', 'B', 'C', 'D', 'F'], extra_cells=0,
                                                              daily_schedule=1, time_of_mailing="19:00",
                                                              telegram_alerts=1)
