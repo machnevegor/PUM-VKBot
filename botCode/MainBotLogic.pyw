@@ -613,7 +613,7 @@ def work_of_the_main_VK_bot():
             # expression of gratitude to the developers, cute gif
             elif [word_of_thanks for word_of_thanks in
                   ["ура", "спасибо", "благодарю", "благодарствую", "молодец", "молодцы", "красав", "круто", "прикольно",
-                   "классно", "норм", "изумительно"] if word_of_thanks in event.object.text.lower()] != []:
+                   "классно", "норм", "найс", "изумительно"] if word_of_thanks in event.object.text.lower()] != []:
                 write_msg(user_id=event.object.peer_id, keyboard=main_keyboard, message="",
                           attachment=update_attachment_id(file_source="thanksToTheBot.gif"))
             # if not one of the commands was not found with the message
