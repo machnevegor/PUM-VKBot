@@ -294,9 +294,9 @@ def work_of_the_main_VK_bot():
                 presence_user = UserSearcher.searching_user_in_database(
                     database_source="workWithUsersDatabase/UsersDatabase.txt", user_id=f"id{event.object.peer_id}")
                 if presence_user != []:
-                    if event.object.text.lower() != presence_user[7]:
-                        main_vk_session.method("messages.setActivity",
-                                               {"peer_id": event.object.peer_id, "type": "typing"})
+                    main_vk_session.method("messages.setActivity", {"peer_id": event.object.peer_id, "type": "typing"})
+                    if (event.object.text if len(event.object.text) != 4 else f"0{event.object.text}") != presence_user[
+                        7]:
                         UserSearcher.editing_user_in_database(database_source="workWithUsersDatabase/UsersDatabase.txt",
                                                               full_name=presence_user[0], user_id=presence_user[1],
                                                               source_for_user=presence_user[2],
