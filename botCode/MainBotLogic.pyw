@@ -547,7 +547,7 @@ def work_of_the_main_VK_bot():
                                       message=f"Поздравляю! Смена группы индивидуального расписания с {presence_user[3]} ({presence_user[2]}) на {event.object.text} (TEACHERS) прошла успешно✅")
                     else:
                         write_msg(user_id=event.object.peer_id, keyboard=main_keyboard,
-                                  message="Да-да, всё внесено верно - ты есть в базе. Если есть какие-то вопросы, то пиши в беседу, прикреплённую к сообществу🗿\nhttps://vk.me/join/FhSVyJp7fYT0fM805_KTHNWPctDNa79JGsI=")
+                                  message="Да-да, всё внесено верно - ты уже и так записан с такими же данными в базе. Если есть какие-то вопросы, то пиши в беседу, прикреплённую к сообществу🗿\nhttps://vk.me/join/FhSVyJp7fYT0fM805_KTHNWPctDNa79JGsI=")
                 else:
                     if event.object.text.upper() in list_of_groups_in_the_class("8class"):
                         UserSearcher.adding_user_in_database(database_source="workWithUsersDatabase/UsersDatabase.txt",
