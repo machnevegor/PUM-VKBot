@@ -312,7 +312,8 @@ def work_of_the_main_VK_bot():
                                   keyboard=create_settings_keyboard(keyboard_user_id=f"id{event.object.peer_id}"),
                                   message=f"Aвтоматическая рассылка расписания была успешно изменена с {presence_user[7]} на {event.object.text if len(event.object.text) != 4 else f'0{event.object.text}'}🤔")
                     else:
-                        write_msg(user_id=event.object.peer_id, keyboard=None,
+                        write_msg(user_id=event.object.peer_id,
+                                  keyboard=create_settings_keyboard(keyboard_user_id=f"id{event.object.peer_id}"),
                                   message=f"Ты указал то же самое время, что и было раньше🤔")
                 else:
                     write_msg(user_id=event.object.peer_id, keyboard=main_keyboard,
@@ -451,7 +452,8 @@ def work_of_the_main_VK_bot():
                 presence_user = UserSearcher.searching_user_in_database(
                     database_source="workWithUsersDatabase/UsersDatabase.txt", user_id=f"id{event.object.peer_id}")
                 if presence_user != []:
-                    write_msg(user_id=event.object.peer_id, keyboard=main_keyboard,
+                    write_msg(user_id=event.object.peer_id,
+                              keyboard=create_settings_keyboard(keyboard_user_id=f"id{event.object.peer_id}"),
                               message=f"Изменить группу можно прямо здесь, введя название новой русскими символами (если не получиться с первого раза - проверь правильность написания ещё раз)😜\nВот список всех существующих групп в Предуниверсарии МАИ:\n8️⃣Класс: {'; '.join(list_of_groups_in_the_class('8class'))}\n9️⃣Класс: {'; '.join(list_of_groups_in_the_class('9class'))}\n1️⃣0️⃣Класс: {'; '.join(list_of_groups_in_the_class('10class'))}\n1️⃣1️⃣Класс: {'; '.join(list_of_groups_in_the_class('11class'))}\nЕсли ты не можешь найти нужную группу или тебе нужна помощь, то пиши в беседу, прикреплённую к сообществу:\nhttps://vk.me/join/FhSVyJp7fYT0fM805_KTHNWPctDNa79JGsI=")
                 else:
                     write_msg(user_id=event.object.peer_id, keyboard=main_keyboard,
