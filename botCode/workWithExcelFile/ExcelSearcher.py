@@ -10,7 +10,7 @@
 # 4-mihailmarkov2004@gmail.com
 
 # import of the main module for further work with tables
-import openpyxl
+import openpyxl as openpyxl
 
 
 # the main function for analyzing the user's schedule
