@@ -463,7 +463,7 @@ def work_of_the_main_VK_bot():
                     write_msg(user_id=event.object.peer_id, keyboard=None,
                               message=f"Ого, похоже, что я нашёл {'твои группы' if len(ExcelSearcher.user_and_his_groups_groups(user_name=vk_full_user_name)) != 1 else 'твою группу'}, потому что на данный момент фамилия и имя из твоего ВК числятся в {'некоторых таблицах' if len(ExcelSearcher.user_and_his_groups_groups(user_name=vk_full_user_name)) != 1 else 'одной из таблиц'} с расписанием📑")
                     for user_group in ExcelSearcher.user_and_his_groups_groups(user_name=vk_full_user_name):
-                        write_msg(user_id=event.object.peer_id, keyboard=main_keyboard, message=user_group)
+                        write_msg(user_id=event.object.peer_id, keyboard=None, message=user_group)
                 else:
                     write_msg(user_id=event.object.peer_id, keyboard=None,
                               message="Ты можешь попробовать ввести своё полное ФИО - если оно будет упомянуто в какой-то из таблиц с расписанием, то я тебе скажу в какой из📑")
@@ -647,7 +647,7 @@ def work_of_the_main_VK_bot():
                 write_msg(user_id=event.object.peer_id, keyboard=main_keyboard,
                           message=f"Да, данный учащийся Предуниверсария МАИ упоминается у меня в {'некоторых таблицах' if len(ExcelSearcher.user_and_his_groups_groups(user_name=event.object.text.lower().title())) != 1 else 'одной из таблиц'} с расписанием📑")
                 for user_group in ExcelSearcher.user_and_his_groups_groups(user_name=event.object.text.lower().title()):
-                    write_msg(user_id=event.object.peer_id, keyboard=main_keyboard, message=user_group)
+                    write_msg(user_id=event.object.peer_id, keyboard=None, message=user_group)
             # links to Zoom tables depending on the class number and other parameters
             elif event.object.text.lower() in ["zoom", "зум",
                                                "ссылки"] and BotConfig.permission_to_distribute_links != False:
