@@ -10,7 +10,9 @@
 # 4-mihailmarkov2004@gmail.com
 
 # import of the main module for further work with tables
+import os as os
 import openpyxl as openpyxl
+import pickle as pickle
 
 
 # the main function for analyzing the user's schedule
@@ -137,6 +139,52 @@ def selective_data_search(excel_source, columns, extra_cells, sheet_name, start_
         user_schedule = "Очень странно - ты есть в базе, но некоторые данные неправильные. Напиши в основную беседу, прикреплённую к сообществу - там тебе помогут решить данную проблему😬\nhttps://vk.me/join/FhSVyJp7fYT0fM805_KTHNWPctDNa79JGsI="
     # returning the final result
     return user_schedule
+
+
+# function for getting a dictionary with all groups and their users
+def dictionary_of_groups_and_their_users(exception_words=["ФИО"], exception_folders=["GUESTS", "TEACHERS"],
+                                         database_source="workWithExcelFile/excelDatabase",
+                                         dump_source="workWithExcelFile/UsersAndTheirGroupsDump.txt"):
+    try:
+        # check the old dump on the integrity of the dictionary, returning the dictionary if all is well
+        return pickle.load(open(dump_source, "rb+"))
+    # if the database is broken, reset the data, collect new ones
+    except Exception as E:
+        # the generation of paths to each file with a table
+        groups_and_their_users = dict()
+        for file_source in [f"{database_source}/{folder_name}/{file_name}" for folder_name in
+                            os.listdir(database_source) for file_name in os.listdir(f"{database_source}/{folder_name}")
+                            if folder_name not in exception_folders and "xlsx" in file_name.split(".")]:
+            # opening a new table and then collecting data by column
+            excel_document = openpyxl.load_workbook(file_source)
+            sheet = excel_document.get_sheet_by_name(file_source.split("/")[-1][:-5])
+            content_in_the_table = dict()
+            for letter in "ABCDEFGHIJKLMNOPQRSTUVWXYZ":
+                content_in_the_table.update(dict({letter: []}))
+                for row in sheet[f"{letter}1":f"{letter}{sheet.max_row}"]:
+                    for cell in row:
+                        if cell.value != None and cell.value not in exception_words:
+                            content_in_the_table[letter].append(cell.value)
+            # search for the last column where the users that the group belongs to are stored
+            last_content_column = "A"
+            for letter_number in range(len(list(content_in_the_table.keys()))):
+                if content_in_the_table[list(content_in_the_table.keys())[letter_number]] == [] and \
+                        content_in_the_table[
+                            list(content_in_the_table.keys())[letter_number - 1]] != []:
+                    last_content_column = list(content_in_the_table.keys())[letter_number - 1]
+            # assigning each group to its students, filling the dictionary
+            groups_and_their_users.update(dict({file_source.split("/")[-1][:-5]: []}))
+            for user in content_in_the_table[last_content_column]:
+                groups_and_their_users[file_source.split("/")[-1][:-5]].append(user)
+        # saving a new dictionary in the database
+        pickle.dump(groups_and_their_users, open(dump_source, "rb+"))
+        # returning a new dictionary that was reassembled
+        return groups_and_their_users
+
+
+# function for creating an array that stores all the groups in which the user is listed
+def user_and_his_groups_groups(user_name, dump_with_groups=dictionary_of_groups_and_their_users()):
+        return [group_name for group_name in dump_with_groups.keys() for group_users in dump_with_groups[group_name] if user_name in group_users]
 
 # Authors of the project:
 # 1-MachnevEgor_https://vk.com/machnev_egor
