@@ -458,6 +458,15 @@ def work_of_the_main_VK_bot():
                 else:
                     write_msg(user_id=event.object.peer_id, keyboard=main_keyboard,
                               message=f"Теперь регистрацию можно осуществить прямо тут - для этого введи название своей группы русскими символами (если не получиться с первого раза - проверь правильность написания ещё раз)😜\nВот список всех существующих групп в Предуниверсарии МАИ:\n8️⃣Класс: {'; '.join(list_of_groups_in_the_class('8class'))}\n9️⃣Класс: {'; '.join(list_of_groups_in_the_class('9class'))}\n1️⃣0️⃣Класс: {'; '.join(list_of_groups_in_the_class('10class'))}\n1️⃣1️⃣Класс: {'; '.join(list_of_groups_in_the_class('11class'))}\nЕсли ты не можешь найти свою группу или тебе нужна помощь, то пиши в беседу, прикреплённую к сообществу:\nhttps://vk.me/join/FhSVyJp7fYT0fM805_KTHNWPctDNa79JGsI=")
+                vk_full_user_name = f"{main_vk_session.method('users.get', {'user_ids': event.object.peer_id})[0]['last_name']} {main_vk_session.method('users.get', {'user_ids': event.object.peer_id})[0]['first_name']}".lower().title()
+                if ExcelSearcher.user_and_his_groups_groups(user_name=vk_full_user_name) != []:
+                    write_msg(user_id=event.object.peer_id, keyboard=None,
+                              message=f"Ого, похоже, что я нашёл {'твои группы' if len(ExcelSearcher.user_and_his_groups_groups(user_name=vk_full_user_name)) != 1 else 'твою группу'}, потому что на данный момент фамилия и имя из твоего ВК числятся в {'некоторых таблицах' if len(ExcelSearcher.user_and_his_groups_groups(user_name=vk_full_user_name)) != 1 else 'одной из таблиц'} с расписанием📑")
+                    for user_group in ExcelSearcher.user_and_his_groups_groups(user_name=vk_full_user_name):
+                        write_msg(user_id=event.object.peer_id, keyboard=main_keyboard, message=user_group)
+                else:
+                    write_msg(user_id=event.object.peer_id, keyboard=None,
+                              message="Ты можешь попробовать ввести своё полное ФИО - если оно будет упомянуто в какой-то из таблиц с расписанием, то я тебе скажу в какой из📑")
             elif (event.object.text.upper() in list_of_groups_in_the_class("8class")) or (
                     event.object.text.upper() in list_of_groups_in_the_class("9class")) or (
                     event.object.text.upper() in list_of_groups_in_the_class("10class")) or (
@@ -632,6 +641,13 @@ def work_of_the_main_VK_bot():
                                                        message=f"#DUMP К нам присоединился новый педагог - {get_last_name} {get_first_name}(id{event.object.peer_id} | TEACHERS | {event.object.text.upper()})🎓")
                         write_msg(user_id=event.object.peer_id, keyboard=main_keyboard,
                                   message="Поздравляю! Регистрация прошла успешно✅")
+            # search for all groups that the user is linked to
+            elif ExcelSearcher.user_and_his_groups_groups(user_name=event.object.text.lower().title()) != [] and len(
+                    event.object.text.split()) >= 2:
+                write_msg(user_id=event.object.peer_id, keyboard=main_keyboard,
+                          message=f"Да, данный учащийся Предуниверсария МАИ упоминается у меня в {'некоторых таблицах' if len(ExcelSearcher.user_and_his_groups_groups(user_name=event.object.text.lower().title())) != 1 else 'одной из таблиц'} с расписанием📑")
+                for user_group in ExcelSearcher.user_and_his_groups_groups(user_name=event.object.text.lower().title()):
+                    write_msg(user_id=event.object.peer_id, keyboard=main_keyboard, message=user_group)
             # links to Zoom tables depending on the class number and other parameters
             elif event.object.text.lower() in ["zoom", "зум",
                                                "ссылки"] and BotConfig.permission_to_distribute_links != False:
@@ -676,10 +692,6 @@ def work_of_the_main_VK_bot():
                           message="Ничего себе, ещё одна пасхалка?! Приступим, мы нашли очень интересную фотокарточку из семейного архива Жака Фреско. Задача заключается в нахождении и расшифровании спрятанного кода в этой картинке (при получении ответа - отпишись в общую беседу сообщества)",
                           attachment=update_attachment_id(
                               file_source="riddlesByJacquesFresco/PhotoFromTheFamilyArchive.jpg"))
-            # checking for new updates in the bot (technical problems or expectations keyboard)
-            elif event.object.text.lower() == "проверить обновления":
-                write_msg(user_id=event.object.peer_id, keyboard=main_keyboard,
-                          message="Оооу да - а вот и долгожданное обновление! Мы славно поработали и надеемся, что тебе всё понравится😎")
             # expression of gratitude to the developers, cute gif
             elif [word_of_thanks for word_of_thanks in
                   ["ура", "спасибо", "благодарю", "благодарствую", "молодец", "молодцы", "красав", "круто", "прикольно",
