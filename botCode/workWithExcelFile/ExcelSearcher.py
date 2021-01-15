@@ -150,6 +150,8 @@ def dictionary_of_groups_and_their_users(exception_words=["ФИО"], exception_f
         return pickle.load(open(dump_source, "rb+"))
     # if the database is broken, reset the data, collect new ones
     except Exception as E:
+        # sending data to the terminal about a broken dump
+        print(f"!!! ERROR: Broken dump with groups and their users (scan and write new data) !!!")
         # the generation of paths to each file with a table
         groups_and_their_users = dict()
         for file_source in [f"{database_source}/{folder_name}/{file_name}" for folder_name in
@@ -176,15 +178,15 @@ def dictionary_of_groups_and_their_users(exception_words=["ФИО"], exception_f
             groups_and_their_users.update(dict({file_source.split("/")[-1][:-5]: []}))
             for user in content_in_the_table[last_content_column]:
                 groups_and_their_users[file_source.split("/")[-1][:-5]].append(user)
-        # saving a new dictionary in the database
+        # saving a new dictionary in the database and returning a new dictionary that was reassembled
         pickle.dump(groups_and_their_users, open(dump_source, "rb+"))
-        # returning a new dictionary that was reassembled
         return groups_and_their_users
 
 
 # function for creating an array that stores all the groups in which the user is listed
 def user_and_his_groups_groups(user_name, dump_with_groups=dictionary_of_groups_and_their_users()):
-        return [group_name for group_name in dump_with_groups.keys() for group_users in dump_with_groups[group_name] if user_name in group_users]
+    return [group_name for group_name in dump_with_groups.keys() for group_users in dump_with_groups[group_name] if
+            user_name in group_users]
 
 # Authors of the project:
 # 1-MachnevEgor_https://vk.com/machnev_egor
