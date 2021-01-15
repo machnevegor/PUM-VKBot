@@ -144,7 +144,7 @@ def selective_data_search(excel_source, columns, extra_cells, sheet_name, start_
 # function for getting a dictionary with all groups and their users
 def dictionary_of_groups_and_their_users(exception_words=["ФИО"], exception_folders=["GUESTS", "TEACHERS"],
                                          database_source="workWithExcelFile/excelDatabase",
-                                         dump_source="workWithExcelFile/UsersAndTheirGroupsDump.txt"):
+                                         dump_source="workWithExcelFile/DictionaryDump.txt"):
     try:
         # check the old dump on the integrity of the dictionary, returning the dictionary if all is well
         return pickle.load(open(dump_source, "rb+"))
