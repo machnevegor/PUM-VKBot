@@ -56,8 +56,7 @@ def work_of_the_main_VK_bot():
         registration_keyboard = {
             "one_time": False,
             "buttons": [
-                [get_button(label=group_name, color="positive") for group_name in
-                 (user_groups if len(user_groups) <= 3 else user_groups[:3])],
+                [get_button(label=group_name, color="positive") for group_name in user_groups],
                 [get_button(label="Назад", color="secondary"),
                  get_button(label="Все группы", color="secondary")]
             ]
