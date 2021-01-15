@@ -42,10 +42,10 @@ def working_with_messages_from_users(message):
 def posts_from_channels(message):
     if str(message.chat.id) in BotConfig.AllowedChannelIDs.keys():
         # formatting of the post that was received by the bot
-        formatted_text = ("\n— " + "\n— ".join([paragraph_in_text for paragraph_in_text in "".join(
+        formatted_text = ("— " + "\n— ".join([paragraph_in_text for paragraph_in_text in "".join(
             [str(message.text)[character_in_text] for character_in_text in range(len(str(message.text))) if
              character_in_text < 200]).split("\n") if
-                                                paragraph_in_text != ""]) + "..." if message.text != None else "📺Рекомендуется полный просмотр контента")
+                                              paragraph_in_text != ""]) + "..." if message.text != None else "📺Рекомендуется полный просмотр контента")
         # work with each user individually to create the right content
         for user_id_from_shared_database in UserSearcher.get_all_user_IDs_from_database(
                 database_source="workWithUsersDatabase/UsersDatabase.txt"):
