@@ -51,8 +51,21 @@ def work_of_the_main_VK_bot():
             "color": color
         }
 
+    # creating a dynamic keyboard with selecting the registration method for the user
+    def create_registration_keyboard(user_groups):
+        registration_keyboard = {
+            "one_time": False,
+            "buttons": [
+                [get_button(label=group_name, color="positive") for group_name in user_groups],
+                [get_button(label="Назад", color="secondary"),
+                 get_button(label="Все группы", color="secondary")]
+            ]
+        }
+        return str(json.dumps(registration_keyboard, ensure_ascii=False).encode("utf-8").decode("utf-8"))
+
     # creating a dynamic keyboard with settings for the user
     def create_settings_keyboard(keyboard_user_id):
+        print(1)
         presence_user = UserSearcher.searching_user_in_database(
             database_source="workWithUsersDatabase/UsersDatabase.txt", user_id=keyboard_user_id)
         settings_keyboard = {
@@ -449,24 +462,37 @@ def work_of_the_main_VK_bot():
 
             # register new users in the main bot database or edit old ones
             elif event.object.text.lower() in ["регистрация", "сменить группу"]:
-                presence_user = UserSearcher.searching_user_in_database(
-                    database_source="workWithUsersDatabase/UsersDatabase.txt", user_id=f"id{event.object.peer_id}")
-                if presence_user != []:
+                main_vk_session.method("messages.setActivity", {"peer_id": event.object.peer_id, "type": "typing"})
+                vk_full_user_name = f"{main_vk_session.method('users.get', {'user_ids': event.object.peer_id})[0]['last_name']} {main_vk_session.method('users.get', {'user_ids': event.object.peer_id})[0]['first_name']}".lower().title()
+                if ExcelSearcher.user_and_his_groups_groups(user_name=vk_full_user_name) != []:
+                    write_msg(user_id=event.object.peer_id,
+                              keyboard=create_registration_keyboard(
+                                  user_groups=ExcelSearcher.user_and_his_groups_groups(user_name=vk_full_user_name)),
+                              message=f"Ого, похоже, что я нашёл {'твои группы' if len(ExcelSearcher.user_and_his_groups_groups(user_name=vk_full_user_name)) != 1 else 'твою группу'}, потому что на данный момент фамилия и имя из твоего ВК числятся в {'некоторых таблицах' if len(ExcelSearcher.user_and_his_groups_groups(user_name=vk_full_user_name)) != 1 else 'одной из таблиц'} с расписанием📑")
+                    for user_group in ExcelSearcher.user_and_his_groups_groups(user_name=vk_full_user_name):
+                        write_msg(user_id=event.object.peer_id, keyboard=None, message=user_group)
+                else:
+                    if UserSearcher.searching_user_in_database(
+                            database_source="workWithUsersDatabase/UsersDatabase.txt",
+                            user_id=f"id{event.object.peer_id}") != []:
+                        write_msg(user_id=event.object.peer_id,
+                                  keyboard=create_settings_keyboard(keyboard_user_id=f"id{event.object.peer_id}"),
+                                  message=f"Изменить группу можно прямо здесь, введя название новой русскими символами (если не получиться с первого раза - проверь правильность написания ещё раз)😜\nВот список всех существующих групп в Предуниверсарии МАИ:\n8️⃣Класс: {'; '.join(list_of_groups_in_the_class('8class'))}\n9️⃣Класс: {'; '.join(list_of_groups_in_the_class('9class'))}\n1️⃣0️⃣Класс: {'; '.join(list_of_groups_in_the_class('10class'))}\n1️⃣1️⃣Класс: {'; '.join(list_of_groups_in_the_class('11class'))}\nЕсли ты не можешь найти нужную группу или тебе нужна помощь, то пиши в беседу, прикреплённую к сообществу:\nhttps://vk.me/join/FhSVyJp7fYT0fM805_KTHNWPctDNa79JGsI=")
+                    else:
+                        write_msg(user_id=event.object.peer_id, keyboard=main_keyboard,
+                                  message=f"Теперь регистрацию можно осуществить прямо тут - для этого введи название своей группы русскими символами (если не получиться с первого раза - проверь правильность написания ещё раз)😜\nВот список всех существующих групп в Предуниверсарии МАИ:\n8️⃣Класс: {'; '.join(list_of_groups_in_the_class('8class'))}\n9️⃣Класс: {'; '.join(list_of_groups_in_the_class('9class'))}\n1️⃣0️⃣Класс: {'; '.join(list_of_groups_in_the_class('10class'))}\n1️⃣1️⃣Класс: {'; '.join(list_of_groups_in_the_class('11class'))}\nЕсли ты не можешь найти свою группу или тебе нужна помощь, то пиши в беседу, прикреплённую к сообществу:\nhttps://vk.me/join/FhSVyJp7fYT0fM805_KTHNWPctDNa79JGsI=")
+                    write_msg(user_id=event.object.peer_id, keyboard=None,
+                              message="Ты можешь попробовать ввести своё полное ФИО - если оно будет упомянуто в какой-то из таблиц с расписанием, то я тебе скажу в какой из📑")
+            elif event.object.text.lower() == "все группы":
+                if UserSearcher.searching_user_in_database(
+                        database_source="workWithUsersDatabase/UsersDatabase.txt",
+                        user_id=f"id{event.object.peer_id}") != []:
                     write_msg(user_id=event.object.peer_id,
                               keyboard=create_settings_keyboard(keyboard_user_id=f"id{event.object.peer_id}"),
                               message=f"Изменить группу можно прямо здесь, введя название новой русскими символами (если не получиться с первого раза - проверь правильность написания ещё раз)😜\nВот список всех существующих групп в Предуниверсарии МАИ:\n8️⃣Класс: {'; '.join(list_of_groups_in_the_class('8class'))}\n9️⃣Класс: {'; '.join(list_of_groups_in_the_class('9class'))}\n1️⃣0️⃣Класс: {'; '.join(list_of_groups_in_the_class('10class'))}\n1️⃣1️⃣Класс: {'; '.join(list_of_groups_in_the_class('11class'))}\nЕсли ты не можешь найти нужную группу или тебе нужна помощь, то пиши в беседу, прикреплённую к сообществу:\nhttps://vk.me/join/FhSVyJp7fYT0fM805_KTHNWPctDNa79JGsI=")
                 else:
                     write_msg(user_id=event.object.peer_id, keyboard=main_keyboard,
                               message=f"Теперь регистрацию можно осуществить прямо тут - для этого введи название своей группы русскими символами (если не получиться с первого раза - проверь правильность написания ещё раз)😜\nВот список всех существующих групп в Предуниверсарии МАИ:\n8️⃣Класс: {'; '.join(list_of_groups_in_the_class('8class'))}\n9️⃣Класс: {'; '.join(list_of_groups_in_the_class('9class'))}\n1️⃣0️⃣Класс: {'; '.join(list_of_groups_in_the_class('10class'))}\n1️⃣1️⃣Класс: {'; '.join(list_of_groups_in_the_class('11class'))}\nЕсли ты не можешь найти свою группу или тебе нужна помощь, то пиши в беседу, прикреплённую к сообществу:\nhttps://vk.me/join/FhSVyJp7fYT0fM805_KTHNWPctDNa79JGsI=")
-                vk_full_user_name = f"{main_vk_session.method('users.get', {'user_ids': event.object.peer_id})[0]['last_name']} {main_vk_session.method('users.get', {'user_ids': event.object.peer_id})[0]['first_name']}".lower().title()
-                if ExcelSearcher.user_and_his_groups_groups(user_name=vk_full_user_name) != []:
-                    write_msg(user_id=event.object.peer_id, keyboard=None,
-                              message=f"Ого, похоже, что я нашёл {'твои группы' if len(ExcelSearcher.user_and_his_groups_groups(user_name=vk_full_user_name)) != 1 else 'твою группу'}, потому что на данный момент фамилия и имя из твоего ВК числятся в {'некоторых таблицах' if len(ExcelSearcher.user_and_his_groups_groups(user_name=vk_full_user_name)) != 1 else 'одной из таблиц'} с расписанием📑")
-                    for user_group in ExcelSearcher.user_and_his_groups_groups(user_name=vk_full_user_name):
-                        write_msg(user_id=event.object.peer_id, keyboard=None, message=user_group)
-                else:
-                    write_msg(user_id=event.object.peer_id, keyboard=None,
-                              message="Ты можешь попробовать ввести своё полное ФИО - если оно будет упомянуто в какой-то из таблиц с расписанием, то я тебе скажу в какой из📑")
             elif (event.object.text.upper() in list_of_groups_in_the_class("8class")) or (
                     event.object.text.upper() in list_of_groups_in_the_class("9class")) or (
                     event.object.text.upper() in list_of_groups_in_the_class("10class")) or (
@@ -474,9 +500,7 @@ def work_of_the_main_VK_bot():
                     event.object.text in ["ГОСТЬ", "ТЕСТ", "GUEST", "TEST"]) or (
                     event.object.text in list_of_groups_in_the_class("TEACHERS")):
                 main_vk_session.method("messages.setActivity", {"peer_id": event.object.peer_id, "type": "typing"})
-                get_last_name = main_vk_session.method("users.get", {"user_ids": event.object.peer_id})[0]["last_name"]
-                get_first_name = main_vk_session.method("users.get", {"user_ids": event.object.peer_id})[0][
-                    "first_name"]
+                vk_full_user_name = f"{main_vk_session.method('users.get', {'user_ids': event.object.peer_id})[0]['last_name']} {main_vk_session.method('users.get', {'user_ids': event.object.peer_id})[0]['first_name']}".lower().title()
                 presence_user = UserSearcher.searching_user_in_database(
                     database_source="workWithUsersDatabase/UsersDatabase.txt", user_id=f"id{event.object.peer_id}")
                 if presence_user != []:
@@ -559,7 +583,7 @@ def work_of_the_main_VK_bot():
                 else:
                     if event.object.text.upper() in list_of_groups_in_the_class("8class"):
                         UserSearcher.adding_user_in_database(database_source="workWithUsersDatabase/UsersDatabase.txt",
-                                                             full_name=f"{get_last_name} {get_first_name}",
+                                                             full_name=vk_full_user_name,
                                                              user_id=f"id{event.object.peer_id}",
                                                              source_for_user="8class",
                                                              sheet_name=event.object.text.upper(),
@@ -568,12 +592,12 @@ def work_of_the_main_VK_bot():
                                                              telegram_alerts=1)
                         sending_and_reserving_database(conversation_id=event.object.from_id,
                                                        database_source="workWithUsersDatabase/UsersDatabase.txt",
-                                                       message=f"#DUMP К нам присоединился новый пользователь - {get_last_name} {get_first_name}(id{event.object.peer_id} | 8class | {event.object.text.upper()})🚀")
+                                                       message=f"#DUMP К нам присоединился новый пользователь - {vk_full_user_name} (id{event.object.peer_id} | 8class | {event.object.text.upper()})🚀")
                         write_msg(user_id=event.object.peer_id, keyboard=main_keyboard,
                                   message="Поздравляю! Регистрация прошла успешно✅")
                     elif event.object.text.upper() in list_of_groups_in_the_class("9class"):
                         UserSearcher.adding_user_in_database(database_source="workWithUsersDatabase/UsersDatabase.txt",
-                                                             full_name=f"{get_last_name} {get_first_name}",
+                                                             full_name=vk_full_user_name,
                                                              user_id=f"id{event.object.peer_id}",
                                                              source_for_user="9class",
                                                              sheet_name=event.object.text.upper(),
@@ -582,12 +606,12 @@ def work_of_the_main_VK_bot():
                                                              telegram_alerts=1)
                         sending_and_reserving_database(conversation_id=event.object.from_id,
                                                        database_source="workWithUsersDatabase/UsersDatabase.txt",
-                                                       message=f"#DUMP К нам присоединился новый пользователь - {get_last_name} {get_first_name}(id{event.object.peer_id} | 9class | {event.object.text.upper()})🚀")
+                                                       message=f"#DUMP К нам присоединился новый пользователь - {vk_full_user_name} (id{event.object.peer_id} | 9class | {event.object.text.upper()})🚀")
                         write_msg(user_id=event.object.peer_id, keyboard=main_keyboard,
                                   message="Поздравляю! Регистрация прошла успешно✅")
                     elif event.object.text.upper() in list_of_groups_in_the_class("10class"):
                         UserSearcher.adding_user_in_database(database_source="workWithUsersDatabase/UsersDatabase.txt",
-                                                             full_name=f"{get_last_name} {get_first_name}",
+                                                             full_name=vk_full_user_name,
                                                              user_id=f"id{event.object.peer_id}",
                                                              source_for_user="10class",
                                                              sheet_name=event.object.text.upper(),
@@ -596,12 +620,12 @@ def work_of_the_main_VK_bot():
                                                              telegram_alerts=1)
                         sending_and_reserving_database(conversation_id=event.object.from_id,
                                                        database_source="workWithUsersDatabase/UsersDatabase.txt",
-                                                       message=f"#DUMP К нам присоединился новый пользователь - {get_last_name} {get_first_name}(id{event.object.peer_id} | 10class | {event.object.text.upper()})🚀")
+                                                       message=f"#DUMP К нам присоединился новый пользователь - {vk_full_user_name} (id{event.object.peer_id} | 10class | {event.object.text.upper()})🚀")
                         write_msg(user_id=event.object.peer_id, keyboard=main_keyboard,
                                   message="Поздравляю! Регистрация прошла успешно✅")
                     elif event.object.text.upper() in list_of_groups_in_the_class("11class"):
                         UserSearcher.adding_user_in_database(database_source="workWithUsersDatabase/UsersDatabase.txt",
-                                                             full_name=f"{get_last_name} {get_first_name}",
+                                                             full_name=vk_full_user_name,
                                                              user_id=f"id{event.object.peer_id}",
                                                              source_for_user="11class",
                                                              sheet_name=event.object.text.upper(),
@@ -610,12 +634,12 @@ def work_of_the_main_VK_bot():
                                                              telegram_alerts=1)
                         sending_and_reserving_database(conversation_id=event.object.from_id,
                                                        database_source="workWithUsersDatabase/UsersDatabase.txt",
-                                                       message=f"#DUMP К нам присоединился новый пользователь - {get_last_name} {get_first_name}(id{event.object.peer_id} | 11class | {event.object.text.upper()})🚀")
+                                                       message=f"#DUMP К нам присоединился новый пользователь - {vk_full_user_name} (id{event.object.peer_id} | 11class | {event.object.text.upper()})🚀")
                         write_msg(user_id=event.object.peer_id, keyboard=main_keyboard,
                                   message="Поздравляю! Регистрация прошла успешно✅")
                     elif event.object.text in ["ГОСТЬ", "ТЕСТ", "GUEST", "TEST"]:
                         UserSearcher.adding_user_in_database(database_source="workWithUsersDatabase/UsersDatabase.txt",
-                                                             full_name=f"{get_last_name} {get_first_name}",
+                                                             full_name=vk_full_user_name,
                                                              user_id=f"id{event.object.peer_id}",
                                                              source_for_user="GUESTS", sheet_name="ГОСТЬ",
                                                              columns_for_user=['A', 'B', 'D', 'E', 'F'], extra_cells=0,
@@ -623,14 +647,14 @@ def work_of_the_main_VK_bot():
                                                              telegram_alerts=1)
                         sending_and_reserving_database(conversation_id=event.object.from_id,
                                                        database_source="workWithUsersDatabase/UsersDatabase.txt",
-                                                       message=f"#DUMP Кто-то захотел протестировать бота - {get_last_name} {get_first_name}(id{event.object.peer_id} | GUESTS | ГОСТЬ)🔭")
+                                                       message=f"#DUMP Кто-то захотел протестировать бота - {vk_full_user_name} (id{event.object.peer_id} | GUESTS | ГОСТЬ)🔭")
                         write_msg(user_id=event.object.peer_id, keyboard=main_keyboard,
                                   message="Поздравляем! Регистрация прошла успешно✅")
                         write_msg(user_id=event.object.peer_id, keyboard=main_keyboard,
                                   message="Теперь ты имеешь абсолютно все возможности, чтобы полноценно протестировать нашего бота🎳")
                     elif event.object.text in list_of_groups_in_the_class("TEACHERS"):
                         UserSearcher.adding_user_in_database(database_source="workWithUsersDatabase/UsersDatabase.txt",
-                                                             full_name=f"{get_last_name} {get_first_name}",
+                                                             full_name=vk_full_user_name,
                                                              user_id=f"id{event.object.peer_id}",
                                                              source_for_user="TEACHERS", sheet_name=event.object.text,
                                                              columns_for_user=['A', 'B', 'C', 'D', 'F'], extra_cells=0,
@@ -638,13 +662,15 @@ def work_of_the_main_VK_bot():
                                                              telegram_alerts=1)
                         sending_and_reserving_database(conversation_id=event.object.from_id,
                                                        database_source="workWithUsersDatabase/UsersDatabase.txt",
-                                                       message=f"#DUMP К нам присоединился новый педагог - {get_last_name} {get_first_name}(id{event.object.peer_id} | TEACHERS | {event.object.text.upper()})🎓")
+                                                       message=f"#DUMP К нам присоединился новый педагог - {vk_full_user_name} (id{event.object.peer_id} | TEACHERS | {event.object.text.upper()})🎓")
                         write_msg(user_id=event.object.peer_id, keyboard=main_keyboard,
                                   message="Поздравляю! Регистрация прошла успешно✅")
             # search for all groups that the user is linked to
             elif ExcelSearcher.user_and_his_groups_groups(user_name=event.object.text.lower().title()) != [] and len(
                     event.object.text.split()) >= 2:
-                write_msg(user_id=event.object.peer_id, keyboard=main_keyboard,
+                main_vk_session.method("messages.setActivity", {"peer_id": event.object.peer_id, "type": "typing"})
+                write_msg(user_id=event.object.peer_id, keyboard=create_registration_keyboard(
+                    user_groups=ExcelSearcher.user_and_his_groups_groups(user_name=event.object.text.lower().title())),
                           message=f"Да, данный учащийся Предуниверсария МАИ упоминается у меня в {'некоторых таблицах' if len(ExcelSearcher.user_and_his_groups_groups(user_name=event.object.text.lower().title())) != 1 else 'одной из таблиц'} с расписанием📑")
                 for user_group in ExcelSearcher.user_and_his_groups_groups(user_name=event.object.text.lower().title()):
                     write_msg(user_id=event.object.peer_id, keyboard=None, message=user_group)
