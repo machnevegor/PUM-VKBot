@@ -32,7 +32,7 @@ def working_with_messages_from_users(message):
         bot.send_message(message.chat.id,
                          "Я ещё не умею общаться с людьми на таком странном языке, как «Телеграм», но ты всегда мне можешь написать в ВК - там я тебя всегда пойму и смогу сразу ответить👅",
                          parse_mode="html", reply_markup=types.InlineKeyboardMarkup().add(
-                types.InlineKeyboardButton(text="Начать поиск расписания🔎", url="https://vk.com/pumvkbot")))
+                types.InlineKeyboardButton(text="Начать поиск расписания🔎", url="vk.com/pumvkbot")))
 
 
 # sending notifications about new entries in telegram channels
