@@ -1,5 +1,5 @@
 # PUM-VKBot
-Bot with a schedule and ebooks for PUM
+Bot with a schedule and e-books for the MAI pre-University
 
 The SM_TECHNOLOGY community created VK-bot for PUM. 
 Now you don't need to worry about your schedule and carry textbooks with you - our bot will do it for you🗿
