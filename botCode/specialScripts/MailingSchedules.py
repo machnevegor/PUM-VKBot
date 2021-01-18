@@ -39,7 +39,7 @@ def sending_out_a_daily_schedule(time_of_mailing, users_data_for_mailing_schedul
                                                                 end_data="None",
                                                                 importance_of_the_error=BotConfig.error_checking_switch)
             # analysis of the need for sending, generating a response and sending the received data
-            if user_schedule not in ["Кажись в этот день технопарк🙃", "В этот день нет занятий✨"]:
+            if user_schedule not in ["Кажись, в этот день технопарк🙃", "В этот день нет занятий✨"]:
                 vk_session_for_mailing_schedules.method("messages.send", {"peer_id": user_data[0],
                                                                           "message": f"🔔Ку, сейчас {time_of_mailing}, а {'сегодня уже' if 0 <= int(''.join(time_of_mailing.split(':'))) < 1200 else 'уже скоро'} {['понедельник', 'вторник', 'среда', 'четверг', 'пятница', 'суббота'][(datetime.datetime.today().weekday() + (0 if 0 <= int(''.join(time_of_mailing.split(':'))) < 1200 else 1)) % 7]} - начинаю поиск актуального расписания для тебя на {'текущий день' if 0 <= int(''.join(time_of_mailing.split(':'))) < 1200 else 'завтра'}",
                                                                           "keyboard": None, "sticker_id": None,
