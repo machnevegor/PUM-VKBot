@@ -125,7 +125,7 @@ def selective_data_search(excel_source, columns, extra_cells, sheet_name, start_
         # answer if there is nothing on this day
         if user_schedule == ["Расписание на заданный день:"]:
             if excel_source != teacher_key:
-                user_schedule = "Кажись в этот день технопарк🙃"
+                user_schedule = "Кажись, в этот день технопарк🙃"
             else:
                 user_schedule = "В этот день нет занятий✨"
         else:
